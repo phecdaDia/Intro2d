@@ -48,7 +48,7 @@ namespace Intro2DGame.Game
 				// return texture if the texture was loaded successfully. 
 				return texture;
 			}
-			catch (Exception ex)
+			catch (Exception /*ex*/)
 			{
 				// Teture could not be loaded. Returning null. 
 				return null;
