@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Intro2DGame.Game;
+using System;
 
-namespace _2DGame
+namespace Intro2DGame
 {
     /// <summary>
     /// The main class.
