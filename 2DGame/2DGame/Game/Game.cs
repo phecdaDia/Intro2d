@@ -37,6 +37,11 @@ namespace Intro2DGame.Game
         /// </summary>
         protected override void LoadContent()
         {
+			// Load any required music here
+
+			// 
+
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
