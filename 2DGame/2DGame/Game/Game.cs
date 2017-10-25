@@ -16,6 +16,11 @@ namespace Intro2DGame.Game
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // Changing the window size
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+            
         }
 
         /// <summary>
