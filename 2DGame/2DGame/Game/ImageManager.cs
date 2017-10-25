@@ -13,12 +13,19 @@ namespace Intro2DGame.Game
 		// Making the ImageManager a singleton
 		private static ImageManager Instance;
 
+		// Dictionary for the Textures, so we only have to load them once.
+		// Loading will be done via LoadTexture(String): Texture2D in the class that needs the texture
 		private Dictionary<string, Texture2D> TextureDictionary;
 
+		// Instance of the ContentPipeline
 		private ContentManager Content;
 
+		// Creating the ImageManager
 		public ImageManager(ContentManager content)
 		{
+			// ImageManager is a singleton. If there already is an instance, we don't want to create another one.
+			if (Instance != null) return;
+
 			// Setting the singleton instance
 			Instance = this;
 
