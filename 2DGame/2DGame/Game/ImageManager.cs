@@ -64,7 +64,8 @@ namespace Intro2DGame.Game
 
 		public Texture2D GetTexture2D(String key)
 		{
-			this.TextureDictionary.TryGetValue(key, out Texture2D output);
+            Texture2D output;
+			this.TextureDictionary.TryGetValue(key, out output);
 
 			// output is null when the image wasn't loaded yet.
 			if (output == null)
