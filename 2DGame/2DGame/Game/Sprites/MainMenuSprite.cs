@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Intro2DGame.Game.Fonts;
+using Intro2DGame.Game.Scenes;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -19,11 +21,24 @@ namespace Intro2DGame.Game.Sprites
 
         private readonly int timeoutDelay = 60;
 
+		private List<Texture2D> menuEntries;
+
         public MainMenuSprite() : base(new Vector2())
         {
             this.pressedKeys = new Dictionary<Keys, int>();
             this.selectedIndex = 0;
-        }
+
+			menuEntries = new List<Texture2D>();
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #1"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #2"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #3"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #4"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #5"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #6"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #7"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #8"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #9"));
+		}
 
         public override void Update(GameTime gameTime)
         {
@@ -43,6 +58,11 @@ namespace Intro2DGame.Game.Sprites
     //        {
 				//pressedKeys.
     //        }
+
+			if (ks.IsKeyDown(Keys.Enter))
+			{
+				SceneManager.SetCurrentScene("example");
+			}
 
             // Getting index down
             if (ks.IsKeyDown(Keys.W) && pressedKeys[Keys.W] == 0 || ks.IsKeyDown(Keys.Up) && pressedKeys[Keys.Up] == 0)
@@ -77,11 +97,11 @@ namespace Intro2DGame.Game.Sprites
 
             spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"), new Vector2(50, 50 + selectedIndex * 50), Color.White);
 
-            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 50), Color.White);
-            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 100), Color.White);
-            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 150), Color.White);
-            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 200), Color.White);
-            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 250), Color.White);
+			int idx = 0;
+			foreach (Texture2D menuItem in menuEntries)
+			{
+				spriteBatch.Draw(menuItem, new Vector2(100, 50 + idx++ * 50), Color.White);
+			}
 
 
             spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);

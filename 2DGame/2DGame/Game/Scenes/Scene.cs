@@ -20,14 +20,14 @@ namespace Intro2DGame.Game.Scenes
             this.sceneKey = key;
 
             // Registering the scene in the SceneManager
-            SceneManager.GetInstance().RegisterScene(key, this);
+            SceneManager.RegisterScene(key, this);
 
             CreateScene();
         }
 
         // This is used to spawn all objects
         protected abstract void CreateScene();
-        protected abstract void ResetScene();
+        public abstract void ResetScene();
 
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);

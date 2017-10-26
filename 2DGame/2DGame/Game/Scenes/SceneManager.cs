@@ -36,13 +36,21 @@ namespace Intro2DGame.Game.Scenes
             this.currentScene = new MainMenuScene();
         }
 
-        public Scene GetCurrentScene()
+        public static Scene GetCurrentScene()
         {
-            return this.currentScene;
+            return GetInstance().currentScene;
         }
 
+		public static void SetCurrentScene(String key)
+		{
+			SceneManager sm = GetInstance();
+			sm.currentScene.ResetScene();
+
+			if (sm.scenes.ContainsKey(key)) sm.currentScene = sm.scenes[key];
+		}
+
         // Getting the Singleton instance
-        public static SceneManager GetInstance()
+        private static SceneManager GetInstance()
         {
             if (sceneManager == null) sceneManager = new SceneManager();
             return sceneManager;
@@ -50,9 +58,9 @@ namespace Intro2DGame.Game.Scenes
 
         // Allows registering a scene,
         // Scene.cs registers here. You don't have to do this again.
-        public void RegisterScene(string key, Scene scene)
+        public static void RegisterScene(string key, Scene scene)
         {
-            this.scenes.Add(key, scene);
+            GetInstance().scenes.Add(key, scene);
         }
     }
 }

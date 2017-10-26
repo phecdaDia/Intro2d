@@ -26,9 +26,9 @@ namespace Intro2DGame.Game.Scenes
         {
             this.mainMenuSprite.Draw(spriteBatch);
 
-			spriteBatch.Draw(this.fontTest, new Vector2(400, 400), Color.Wheat);
+			//spriteBatch.Draw(this.fontTest, new Vector2(400, 400), Color.Wheat);
 			//spriteBatch.Draw(ImageManager.GetTexture2D("test/profile"), new Vector2(500, 400), Color.White);
-			Console.WriteLine("fontTest is: " + this.fontTest.Width + " - " + this.fontTest.Height);
+			//Console.WriteLine("fontTest is: " + this.fontTest.Width + " - " + this.fontTest.Height);
         }
 
         public override void Update(GameTime gameTime)
@@ -41,7 +41,7 @@ namespace Intro2DGame.Game.Scenes
             this.mainMenuSprite = new MainMenuSprite();
         }
 
-        protected override void ResetScene()
+        public override void ResetScene()
         {
             
         }

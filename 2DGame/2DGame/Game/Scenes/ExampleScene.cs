@@ -33,7 +33,7 @@ namespace Intro2DGame.Game.Scenes
             this.player = new PlayerSprite(new Vector2(100, 50));
         }
 
-        protected override void ResetScene()
+        public override void ResetScene()
         {
             CreateScene();
         }

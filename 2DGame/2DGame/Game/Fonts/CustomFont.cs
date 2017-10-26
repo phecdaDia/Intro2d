@@ -57,13 +57,18 @@ namespace Intro2DGame.Game.Fonts
 				{
 					if (symbolPosition.ContainsKey(c))
 					{
-						Console.WriteLine("symbols contains " + c);
 						Color[] colorData = new Color[totalPixelAmount];
 						// move the rectangle
 						this.rectangle.Location = symbolPosition[c];
 
 						ImageManager.GetTexture2D(textureKey).GetData<Color>(0, rectangle, colorData, 0, totalPixelAmount);
 
+						this.rectangle.Location = new Point(character * ((int)symbolSize.X), line * ((int)symbolSize.Y));
+						result.SetData<Color>(0, rectangle, colorData, 0, totalPixelAmount);
+					}
+					else
+					{
+						Color[] colorData = new Color[totalPixelAmount];
 						this.rectangle.Location = new Point(character * ((int)symbolSize.X), line * ((int)symbolSize.Y));
 						result.SetData<Color>(0, rectangle, colorData, 0, totalPixelAmount);
 					}

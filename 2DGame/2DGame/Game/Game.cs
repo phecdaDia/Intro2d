@@ -55,9 +55,6 @@ namespace Intro2DGame.Game
             ImageManager.SetContentManager(Content);
 			FontManager.SetContentManager(Content);
 
-            // Calling SceneManager once to generate all necessary data.
-            SceneManager.GetInstance();
-
 			FontManager.GetInstance();
 
             base.Initialize();
@@ -97,7 +94,7 @@ namespace Intro2DGame.Game
                 Exit();
 
             // This updates the current scene.
-            SceneManager.GetInstance().GetCurrentScene().Update(gameTime);
+            SceneManager.GetCurrentScene().Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -114,7 +111,7 @@ namespace Intro2DGame.Game
             spriteBatch.Begin();
 
             // Drawing the current Scene.
-            SceneManager.GetInstance().GetCurrentScene().Draw(spriteBatch);
+            SceneManager.GetCurrentScene().Draw(spriteBatch);
 
             // Only add something here if it affects the game globally!
 
