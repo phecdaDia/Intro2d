@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Intro2DGame</RootNamespace>
     <AssemblyName>2DGame</AssemblyName>
@@ -41,7 +41,13 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Game\Fonts\CustomFont.cs" />
+    <Compile Include="Game\Fonts\ExampleFont.cs" />
+    <Compile Include="Game\Fonts\FontManager.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\Scenes\ExampleScene.cs" />

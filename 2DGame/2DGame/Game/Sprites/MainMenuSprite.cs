@@ -36,10 +36,13 @@ namespace Intro2DGame.Game.Sprites
             }
 
             // decreasing the timeout by a frame
-            foreach (Keys k in pressedKeys.Keys)
-            {
-                if (pressedKeys[k] > 0) pressedKeys[k] = pressedKeys[k] - 1;
-            }
+
+			// TODO: Currently broken. 
+
+    //        foreach ()
+    //        {
+				//pressedKeys.
+    //        }
 
             // Getting index down
             if (ks.IsKeyDown(Keys.W) && pressedKeys[Keys.W] == 0 || ks.IsKeyDown(Keys.Up) && pressedKeys[Keys.Up] == 0)
@@ -72,13 +75,13 @@ namespace Intro2DGame.Game.Sprites
         {
             // TODO:
 
-            spriteBatch.Draw(ImageManager.GetInstance().GetTexture2D("MenuItem/arrow"), new Vector2(50, 50 + selectedIndex * 50), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"), new Vector2(50, 50 + selectedIndex * 50), Color.White);
 
-            spriteBatch.Draw(ImageManager.GetInstance().GetTexture2D("MenuItem/test"), new Vector2(100, 50), Color.White);
-            spriteBatch.Draw(ImageManager.GetInstance().GetTexture2D("MenuItem/test"), new Vector2(100, 100), Color.White);
-            spriteBatch.Draw(ImageManager.GetInstance().GetTexture2D("MenuItem/test"), new Vector2(100, 150), Color.White);
-            spriteBatch.Draw(ImageManager.GetInstance().GetTexture2D("MenuItem/test"), new Vector2(100, 200), Color.White);
-            spriteBatch.Draw(ImageManager.GetInstance().GetTexture2D("MenuItem/test"), new Vector2(100, 250), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 50), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 100), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 150), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 200), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/test"), new Vector2(100, 250), Color.White);
 
 
             spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);

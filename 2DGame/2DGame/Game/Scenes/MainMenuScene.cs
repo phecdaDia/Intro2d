@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Intro2DGame.Game.Sprites;
+using Intro2DGame.Game.Fonts;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -13,12 +14,21 @@ namespace Intro2DGame.Game.Scenes
     {
         private MainMenuSprite mainMenuSprite;
 
-        public MainMenuScene() : base("mainmenu") { }
+		private Texture2D fontTest;
+
+        public MainMenuScene() : base("mainmenu")
+		{
+			this.fontTest = FontManager.CreateFontString("example", "this is an", "example!a");
+		}
 
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             this.mainMenuSprite.Draw(spriteBatch);
+
+			spriteBatch.Draw(this.fontTest, new Vector2(400, 400), Color.Wheat);
+			//spriteBatch.Draw(ImageManager.GetTexture2D("test/profile"), new Vector2(500, 400), Color.White);
+			Console.WriteLine("fontTest is: " + this.fontTest.Width + " - " + this.fontTest.Height);
         }
 
         public override void Update(GameTime gameTime)

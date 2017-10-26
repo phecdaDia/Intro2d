@@ -39,7 +39,7 @@ namespace Intro2DGame.Game
         }
 
 		// Get the singleton instance
-		public static ImageManager GetInstance()
+		private static ImageManager GetInstance()
 		{
             if (content == null) return null;
 
@@ -67,25 +67,27 @@ namespace Intro2DGame.Game
 			}
 		}
 
-		public Texture2D GetTexture2D(String key)
+		public static Texture2D GetTexture2D(String key)
 		{
+
+			// TODO: Probably redo this function
 
             // We have to create "output" here. CSharp 2015 doesn't like it in the out.
             Texture2D output;
-			this.textureDictionary.TryGetValue(key, out output);
+			GetInstance().textureDictionary.TryGetValue(key, out output);
 
 			// output is null when the image wasn't loaded yet.
 			if (output == null)
 			{
 				// Loading the texture from the pipeline
-				output = LoadTexture(key);
+				output = GetInstance().LoadTexture(key);
 				if (output == null)
 				{
 					// Image was not found in content pipeline
 					// Fallback image is used
 					Console.WriteLine("[ImageManager] Texture2D could not be loaded: {0}", key);
 					Console.WriteLine("\tUsing fallback texture");
-					this.textureDictionary.TryGetValue("fallback", out output);
+					GetInstance().textureDictionary.TryGetValue("fallback", out output);
 
 					// returning fallback
 					return output;

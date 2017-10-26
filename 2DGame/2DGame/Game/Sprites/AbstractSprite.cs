@@ -18,7 +18,7 @@ namespace Intro2DGame.Game.Sprites
         public AbstractSprite(String textureKey, Vector2 Position)
         {
             // Setting important things
-            this.texture = ImageManager.GetInstance().GetTexture2D(textureKey);
+            this.texture = ImageManager.GetTexture2D(textureKey);
             this.position = Position;
         }
 

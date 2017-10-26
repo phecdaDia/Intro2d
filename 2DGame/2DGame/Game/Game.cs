@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Intro2DGame.Game.Scenes;
+using Intro2DGame.Game.Fonts;
 
 namespace Intro2DGame.Game
 {
@@ -12,6 +13,8 @@ namespace Intro2DGame.Game
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
+		private static Game game;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
@@ -19,6 +22,8 @@ namespace Intro2DGame.Game
 
         public Game()
         {
+			game = this;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
@@ -27,6 +32,16 @@ namespace Intro2DGame.Game
             graphics.PreferredBackBufferWidth = 800;
             
         }
+
+		public static Game GetInstance()
+		{
+			return game;
+		}
+
+		public GraphicsDeviceManager GetGraphicsDeviceManager()
+		{
+			return graphics;
+		}
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -38,12 +53,12 @@ namespace Intro2DGame.Game
         {
             // TODO: Add your initialization logic here
             ImageManager.SetContentManager(Content);
-
-            // Calling ImageManager once to generate all necessary data.
-            ImageManager.GetInstance();
+			FontManager.SetContentManager(Content);
 
             // Calling SceneManager once to generate all necessary data.
             SceneManager.GetInstance();
+
+			FontManager.GetInstance();
 
             base.Initialize();
         }
