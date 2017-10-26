@@ -44,6 +44,11 @@
   <ItemGroup>
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ImageManager.cs" />
+    <Compile Include="Game\Scenes\ExampleScene.cs" />
+    <Compile Include="Game\Scenes\Scene.cs" />
+    <Compile Include="Game\Scenes\SceneManager.cs" />
+    <Compile Include="Game\Sprites\AbstractSprite.cs" />
+    <Compile Include="Game\Sprites\PlayerSprite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

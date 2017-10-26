@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Intro2DGame.Game.Scenes;
 
 namespace Intro2DGame.Game
 {
@@ -9,9 +12,9 @@ namespace Intro2DGame.Game
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,6 +35,13 @@ namespace Intro2DGame.Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ImageManager.SetContentManager(Content);
+
+            // Calling ImageManager once to generate all necessary data.
+            ImageManager.GetInstance();
+
+            // Calling SceneManager once to generate all necessary data.
+            SceneManager.GetInstance();
 
             base.Initialize();
         }
@@ -72,6 +82,8 @@ namespace Intro2DGame.Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
+            SceneManager.GetInstance().GetCurrentScene().Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -86,6 +98,11 @@ namespace Intro2DGame.Game
             GraphicsDevice.Clear(new Color(0, 128, 255));
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            SceneManager.GetInstance().GetCurrentScene().Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
