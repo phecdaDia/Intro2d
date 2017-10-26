@@ -15,6 +15,8 @@ namespace Intro2DGame.Game
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        public static SpriteFont FontArial;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -52,15 +54,12 @@ namespace Intro2DGame.Game
         /// </summary>
         protected override void LoadContent()
         {
-			// Load any required music here
-
-			// 
-
+            FontArial = Content.Load<SpriteFont>("Fonts/Arial");
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            
+            // Images are loaded when needed. Don't load them here! We use the ImageManager.
         }
 
         /// <summary>
@@ -82,9 +81,8 @@ namespace Intro2DGame.Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
+            // This updates the current scene.
             SceneManager.GetInstance().GetCurrentScene().Update(gameTime);
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -100,7 +98,10 @@ namespace Intro2DGame.Game
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            // Drawing the current Scene.
             SceneManager.GetInstance().GetCurrentScene().Draw(spriteBatch);
+
+            // Only add something here if it affects the game globally!
 
             spriteBatch.End();
 

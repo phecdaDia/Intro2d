@@ -19,16 +19,21 @@ namespace Intro2DGame.Game.Scenes
 
         public SceneManager()
         {
+            // Sets the Singleton instance
             sceneManager = this;
 
+            // Creates the Scenes Dictionary
             this.scenes = new Dictionary<string, Scene>();
 
+            // Creates all scenes. 
             CreateScenes();
         }
 
         private void CreateScenes()
         {
-            this.currentScene = new ExampleScene();
+            // Just do new SomethingScene(); to add a scene. They will register themself. 
+            new ExampleScene();
+            this.currentScene = new MainMenuScene();
         }
 
         public Scene GetCurrentScene()
