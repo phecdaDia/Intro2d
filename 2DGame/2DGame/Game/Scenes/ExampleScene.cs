@@ -13,6 +13,7 @@ namespace Intro2DGame.Game.Scenes
     {
         private PlayerSprite player;
 		private AnimationTestSprite ats;
+		private RandomSpawnerSprite<AnimationTestSprite> rss;
 
         public ExampleScene() : base("example")
         {
@@ -23,6 +24,7 @@ namespace Intro2DGame.Game.Scenes
         {
 			this.player.Draw(spriteBatch);
 			this.ats.Draw(spriteBatch);
+			this.rss.Draw(spriteBatch);
 
 		}
 
@@ -30,12 +32,14 @@ namespace Intro2DGame.Game.Scenes
         {
             this.player.Update(gameTime);
 			this.ats.Update(gameTime);
+			this.rss.Update(gameTime);
         }
 
         protected override void CreateScene()
         {
             this.player = new PlayerSprite(new Vector2(100, 50));
 			this.ats = new AnimationTestSprite(new Vector2(200, 200));
+			this.rss = new RandomSpawnerSprite<AnimationTestSprite>(ats);
         }
 
         public override void ResetScene()
