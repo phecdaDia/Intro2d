@@ -81,6 +81,7 @@ namespace Intro2DGame.Game.Sprites
             if (ks.IsKeyDown(Keys.S) && pressedKeys[Keys.S] == 0 || ks.IsKeyDown(Keys.Down) && pressedKeys[Keys.Down] == 0)
             {
                 selectedIndex++;
+                if (selectedIndex >= menuEntries.Count) selectedIndex = 0;
                 pressedKeys[Keys.S] = timeoutDelay;
                 pressedKeys[Keys.Down] = timeoutDelay;
             }
