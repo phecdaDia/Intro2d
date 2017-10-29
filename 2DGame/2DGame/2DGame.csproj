@@ -58,6 +58,7 @@
     <Compile Include="Game\Sprites\AbstractAnimatedSprite.cs" />
     <Compile Include="Game\Sprites\AbstractSprite.cs" />
     <Compile Include="Game\Sprites\AnimationTestSprite.cs" />
+    <Compile Include="Game\Sprites\ImageSprite.cs" />
     <Compile Include="Game\Sprites\MainMenuSprite.cs" />
     <Compile Include="Game\Sprites\PlayerSprite.cs" />
     <Compile Include="Program.cs" />

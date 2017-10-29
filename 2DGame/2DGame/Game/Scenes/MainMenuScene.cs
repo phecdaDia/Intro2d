@@ -13,18 +13,19 @@ namespace Intro2DGame.Game.Scenes
     public class MainMenuScene : Scene
     {
         private MainMenuSprite mainMenuSprite;
+		private ImageSprite titleTextSprite;
 
 		private Texture2D fontTest;
 
         public MainMenuScene() : base("mainmenu")
 		{
-			this.fontTest = FontManager.CreateFontString("example", "this is an", "example!a");
 		}
 
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             this.mainMenuSprite.Draw(spriteBatch);
+			this.titleTextSprite.Draw(spriteBatch);
 
 			//spriteBatch.Draw(this.fontTest, new Vector2(400, 400), Color.Wheat);
 			//spriteBatch.Draw(ImageManager.GetTexture2D("test/profile"), new Vector2(500, 400), Color.White);
@@ -39,6 +40,7 @@ namespace Intro2DGame.Game.Scenes
         protected override void CreateScene()
         {
             this.mainMenuSprite = new MainMenuSprite();
+			this.titleTextSprite = new ImageSprite("title", new Vector2(400, 40));
         }
 
         public override void ResetScene()

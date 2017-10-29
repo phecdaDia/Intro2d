@@ -29,15 +29,16 @@ namespace Intro2DGame.Game.Sprites
             this.selectedIndex = 0;
 
 			menuEntries = new List<Texture2D>();
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #1"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #2"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #3"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #4"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #5"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #6"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #7"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #8"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene! #9"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #1"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #2"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #3"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #4"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #5"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #6"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #7"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #8"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #9"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene!"));
 		}
 
         public override void Update(GameTime gameTime)
@@ -50,15 +51,6 @@ namespace Intro2DGame.Game.Sprites
                 if (!pressedKeys.ContainsKey(k)) pressedKeys.Add(k, 0);
             }
 
-            // decreasing the timeout by a frame
-
-			// TODO: Currently broken. 
-
-    //        foreach ()
-    //        {
-				//pressedKeys.
-    //        }
-
 			if (ks.IsKeyDown(Keys.Enter))
 			{
 				SceneManager.SetCurrentScene("example");
@@ -68,6 +60,7 @@ namespace Intro2DGame.Game.Sprites
             if (ks.IsKeyDown(Keys.W) && pressedKeys[Keys.W] == 0 || ks.IsKeyDown(Keys.Up) && pressedKeys[Keys.Up] == 0)
             {
                 selectedIndex--;
+				if (selectedIndex < 0) selectedIndex += menuEntries.Count;
                 pressedKeys[Keys.W] = timeoutDelay;
                 pressedKeys[Keys.Up] = timeoutDelay;
             }
@@ -96,16 +89,16 @@ namespace Intro2DGame.Game.Sprites
         {
             // TODO:
 
-            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"), new Vector2(50, 50 + selectedIndex * 50), Color.White);
+            spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"), new Vector2(50, 85 + selectedIndex * 50), Color.White);
 
 			int idx = 0;
 			foreach (Texture2D menuItem in menuEntries)
 			{
-				spriteBatch.Draw(menuItem, new Vector2(100, 50 + idx++ * 50), Color.White);
+				spriteBatch.Draw(menuItem, new Vector2(100, 85 + idx++ * 50), Color.White);
 			}
 
 
-            spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
+            //spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
         }
     }
 }
