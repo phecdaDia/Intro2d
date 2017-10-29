@@ -54,7 +54,9 @@
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Scenes\Scene.cs" />
     <Compile Include="Game\Scenes\SceneManager.cs" />
+    <Compile Include="Game\Sprites\AbstractAnimatedSprite.cs" />
     <Compile Include="Game\Sprites\AbstractSprite.cs" />
+    <Compile Include="Game\Sprites\AnimationTestSprite.cs" />
     <Compile Include="Game\Sprites\MainMenuSprite.cs" />
     <Compile Include="Game\Sprites\PlayerSprite.cs" />
     <Compile Include="Program.cs" />

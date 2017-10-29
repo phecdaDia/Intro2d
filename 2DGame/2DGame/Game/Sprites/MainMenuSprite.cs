@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Sprites
 
 		private List<Texture2D> menuEntries;
 
-        public MainMenuSprite() : base(new Vector2())
+        public MainMenuSprite() : base()
         {
             this.pressedKeys = new Dictionary<Keys, int>();
             this.selectedIndex = 0;

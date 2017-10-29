@@ -11,9 +11,11 @@ namespace Intro2DGame.Game.Sprites
     public abstract class AbstractSprite
     {
         // Our texture. Might be replaced by a String. We would then just use the ImageManager
-        private Texture2D texture;
+        protected Texture2D texture;
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 position;
+
+		public AbstractSprite() { }
 
         public AbstractSprite(String textureKey, Vector2 Position)
         {
@@ -22,10 +24,10 @@ namespace Intro2DGame.Game.Sprites
             this.position = Position;
         }
 
-        public AbstractSprite(Vector2 Position)
-        {
-            this.position = Position;
-        }
+        public AbstractSprite(String textureKey)
+		{
+			this.texture = ImageManager.GetTexture2D(textureKey);
+		}
 
         // Updates the Sprite Logic
         public abstract void Update(GameTime gameTime);
