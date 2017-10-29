@@ -9,7 +9,7 @@ namespace Intro2DGame.Game.Sprites
 {
 	public class AnimationTestSprite : AbstractAnimatedSprite
 	{
-		public AnimationTestSprite(Vector2 pos) : base("test/Coin", pos, 32, 4)
+		public AnimationTestSprite(Vector2 pos) : base("test/Coin", pos, 24, 4)
 		{
 			
 		}
