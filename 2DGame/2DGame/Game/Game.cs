@@ -19,12 +19,11 @@ namespace Intro2DGame.Game
         private SpriteBatch spriteBatch;
 
         public static SpriteFont FontArial;
-        private static Vector2 GraphicsArea2;
-        public static Vector2 GraphicsArea
-        {
-            get { return GraphicsArea2;}
-            set { GraphicsArea2 = value; }
-        }
+		public static Vector2 GraphicsArea
+		{
+			get;
+			private set;
+		}
 
         public Game()
         {
@@ -36,7 +35,7 @@ namespace Intro2DGame.Game
             // Changing the window size
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
-            GraphicsArea2 = new Vector2(graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight);
+            GraphicsArea = new Vector2(graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight);
         }
 
 		public static Game GetInstance()

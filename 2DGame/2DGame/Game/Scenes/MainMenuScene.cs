@@ -15,8 +15,6 @@ namespace Intro2DGame.Game.Scenes
         private MainMenuSprite mainMenuSprite;
 		private ImageSprite titleTextSprite;
 
-		private Texture2D fontTest;
-
         public MainMenuScene() : base("mainmenu")
 		{
 		}
