@@ -53,7 +53,20 @@ namespace Intro2DGame.Game.Sprites
 
 			if (ks.IsKeyDown(Keys.Enter))
 			{
-				SceneManager.SetCurrentScene("example");
+				switch (selectedIndex)
+				{
+					case 0: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 1: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 2: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 3: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 4: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 5: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 6: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 7: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 8: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 9: SceneManager.SetCurrentScene("example"); break;
+				}
+				
 			}
 
             // Getting index down

@@ -95,8 +95,8 @@ namespace Intro2DGame.Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+				SceneManager.SetCurrentScene("mainmenu");
 
             // This updates the current scene.
             SceneManager.GetCurrentScene().Update(gameTime);
