@@ -37,11 +37,14 @@ namespace Intro2DGame.Game.Scenes
             this.currentScene = new MainMenuScene();
         }
 
+		// Returns the current scene
         public static Scene GetCurrentScene()
         {
             return GetInstance().currentScene;
         }
 
+		// Sets the current scene. 
+		// If the scene is the same we just return;
 		public static void SetCurrentScene(String key)
 		{
 			SceneManager sm = GetInstance();

@@ -17,6 +17,7 @@ namespace Intro2DGame.Game.Scenes
 
         }
 
+		// Temporary to spawn a second player. 
 		private bool s = false;
 		public override void Update(GameTime gameTime)
 		{

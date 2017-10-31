@@ -10,6 +10,9 @@ namespace Intro2DGame.Game.Sprites
 {
 	public class OrbSprite : AbstractSprite
 	{
+		// I'll just use this sprite to test things for now.
+
+
 		public OrbSprite(Vector2 position) : base("orb", position)
 		{
 			Random r = new Random();
@@ -31,9 +34,15 @@ namespace Intro2DGame.Game.Sprites
 				bufferedMovement += (dist / (float)Math.Pow(dist.Length(), 1.5));
 			}
 
-			//bufferedMovement *= 0.9992f; // Basically drag
+			bufferedMovement *= 0.9992f; // Basically drag
 			lastMovement += bufferedMovement;
 			this.position += lastMovement;
+			
+			// Prevents player from leaving the screen
+			if ((this.position.X + this.Texture.Width / 2) > Game.GraphicsArea.X) this.position.X = Game.GraphicsArea.X - this.Texture.Width / 2;
+			if ((this.position.Y + this.Texture.Height / 2) > Game.GraphicsArea.Y) this.position.Y = Game.GraphicsArea.Y - this.Texture.Height / 2;
+			if ((this.position.X - this.Texture.Width / 2) < 0) this.position.X = this.Texture.Width / 2;
+			if ((this.position.Y - this.Texture.Height / 2) < 0) this.position.Y = this.Texture.Height / 2;
 
 		}
 	}
