@@ -12,7 +12,8 @@ namespace Intro2DGame.Game.Sprites
 	{
 		public OrbSprite(Vector2 position) : base("orb", position)
 		{
-
+			Random r = new Random();
+			this.Hue = new Color(r.Next(0xFF), r.Next(0xFF), r.Next(0xFF));
 		}
 
 		public override void Update(GameTime gameTime)
@@ -24,7 +25,7 @@ namespace Intro2DGame.Game.Sprites
 			}
 
 			if (bufferedMovement.LengthSquared() > 0) bufferedMovement.Normalize();
-			this.position += bufferedMovement;
+			this.position += 0.1f * bufferedMovement;
 
 		}
 	}

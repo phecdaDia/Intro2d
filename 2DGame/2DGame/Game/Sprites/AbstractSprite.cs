@@ -18,6 +18,8 @@ namespace Intro2DGame.Game.Sprites
 			get { return textureDictionary.ContainsKey(this.GetType()) ? textureDictionary[this.GetType()] : null; }
 			set { textureDictionary[this.GetType()] = value; }
 		}
+
+		protected Color Hue;
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 position;
 
@@ -25,6 +27,8 @@ namespace Intro2DGame.Game.Sprites
 		{
 			// Check if the dictionary already exists.
 			if (textureDictionary == null) textureDictionary = new Dictionary<Type, Texture2D>();
+
+			this.Hue = Color.White;
 		}
 
         public AbstractSprite(String textureKey, Vector2 Position) : this()
@@ -50,7 +54,7 @@ namespace Intro2DGame.Game.Sprites
         // Draws a Sprite. 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Color.White);
+            spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
         }
     }
 }

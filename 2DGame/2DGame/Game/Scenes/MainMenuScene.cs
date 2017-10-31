@@ -22,10 +22,5 @@ namespace Intro2DGame.Game.Scenes
             this.AddSprite(new MainMenuSprite());
 			this.AddSprite(new ImageSprite("title", new Vector2(400, 40)));
         }
-
-        public override void ResetScene()
-        {
-            
-        }
     }
 }

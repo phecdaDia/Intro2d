@@ -22,10 +22,5 @@ namespace Intro2DGame.Game.Scenes
 			this.AddSprite(new AnimationTestSprite(new Vector2(200, 200)));
 			this.AddSprite(new RandomSpawnerSprite<OrbSprite>());
         }
-
-        public override void ResetScene()
-        {
-            CreateScene();
-        }
     }
 }

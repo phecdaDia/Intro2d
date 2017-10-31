@@ -50,6 +50,7 @@
     <Compile Include="Game\Fonts\FontManager.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ImageManager.cs" />
+    <Compile Include="Game\ObjectCloner.cs" />
     <Compile Include="Game\Scenes\ExampleScene.cs" />
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Sprites\OrbSprite.cs" />

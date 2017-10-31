@@ -45,9 +45,10 @@ namespace Intro2DGame.Game.Scenes
 		public static void SetCurrentScene(String key)
 		{
 			SceneManager sm = GetInstance();
-			sm.currentScene.ResetScene();
 
 			if (sm.scenes.ContainsKey(key)) sm.currentScene = sm.scenes[key];
+
+			sm.currentScene.ResetScene();
 		}
 
         // Getting the Singleton instance
