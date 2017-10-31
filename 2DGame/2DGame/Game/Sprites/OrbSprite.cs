@@ -23,6 +23,11 @@ namespace Intro2DGame.Game.Sprites
 			List<PlayerSprite> playerList = SceneManager.GetSprites<PlayerSprite>();
 			foreach (PlayerSprite ps in playerList) {
 				Vector2 dist = (ps.GetPosition() - this.position);
+
+				if (dist.Length() < 30)
+				{
+					this.Delete();
+				}
 				bufferedMovement += (dist / (float)Math.Pow(dist.Length(), 1.5));
 			}
 

@@ -19,6 +19,8 @@ namespace Intro2DGame.Game.Sprites
 			set { textureDictionary[this.GetType()] = value; }
 		}
 
+		private Boolean deleted;
+
 		protected Color Hue;
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 position;
@@ -46,6 +48,16 @@ namespace Intro2DGame.Game.Sprites
 		public Vector2 GetPosition()
 		{
 			return this.position;
+		}
+
+		public void Delete()
+		{
+			this.deleted = true;
+		}
+
+		public Boolean IsDeleted()
+		{
+			return this.deleted;
 		}
 
         // Updates the Sprite Logic

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Intro2DGame.Game.Scenes;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -14,16 +15,12 @@ namespace Intro2DGame.Game.Sprites
 		private Type objectReference;
 		private Random random;
 
-		private List<T> list;
-
 		private int MaxAmount = -1;
 
 		public RandomSpawnerSprite() : base()
 		{
 			this.objectReference = typeof(T);
 			this.random = new Random();
-
-			this.list = new List<T>();
 		}
 		public RandomSpawnerSprite(int max) : this()
 		{
@@ -33,6 +30,8 @@ namespace Intro2DGame.Game.Sprites
 		int i = 0;
 		public override void Update(GameTime gameTime)
 		{
+			List<T> list = SceneManager.GetSprites<T>();
+
 			if (this.MaxAmount > 0 && list.Count < this.MaxAmount)
 			{
 				i++;
@@ -40,7 +39,7 @@ namespace Intro2DGame.Game.Sprites
 				{
 					i %= 1;
 					T o = (T)Activator.CreateInstance(objectReference, new Vector2(random.Next(800), random.Next(500)));
-					list.Add(o);
+					SceneManager.GetCurrentScene().AddSprite(o);
 
 				}
 			}
@@ -53,9 +52,8 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			foreach (T o in list) o.Draw(spriteBatch);
 
-			spriteBatch.DrawString(Game.FontArial, "" + list.Count, new Vector2(100, 500), Color.Black);
+			spriteBatch.DrawString(Game.FontArial, "" + SceneManager.GetSprites<T>().Count, new Vector2(100, 500), Color.Black);
 		}
 	}
 }
