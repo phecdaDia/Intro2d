@@ -16,6 +16,8 @@ namespace Intro2DGame.Game.Sprites
 
 		private List<T> list;
 
+		private int MaxAmount = -1;
+
 		public RandomSpawnerSprite() : base()
 		{
 			this.objectReference = typeof(T);
@@ -23,17 +25,24 @@ namespace Intro2DGame.Game.Sprites
 
 			this.list = new List<T>();
 		}
+		public RandomSpawnerSprite(int max) : this()
+		{
+			this.MaxAmount = max;
+		}
 
 		int i = 0;
 		public override void Update(GameTime gameTime)
 		{
-			i++;
-			if (i >= 1)
+			if (this.MaxAmount > 0 && list.Count < this.MaxAmount)
 			{
-				i %= 1;
-				T o = (T)Activator.CreateInstance(objectReference, new Vector2(random.Next(800), random.Next(500)));
-				list.Add(o);
+				i++;
+				if (i >= 1)
+				{
+					i %= 1;
+					T o = (T)Activator.CreateInstance(objectReference, new Vector2(random.Next(800), random.Next(500)));
+					list.Add(o);
 
+				}
 			}
 
 			foreach (T o in list)

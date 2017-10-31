@@ -46,6 +46,8 @@ namespace Intro2DGame.Game.Scenes
 		{
 			SceneManager sm = GetInstance();
 
+			if (sm.currentScene.SceneKey == key) return;
+
 			if (sm.scenes.ContainsKey(key)) sm.currentScene = sm.scenes[key];
 
 			sm.currentScene.ResetScene();

@@ -11,7 +11,10 @@ using System.Threading.Tasks;
 
 namespace Intro2DGame.Game.Scenes
 {
-    // This is the individual level
+	/*
+		This is the basic level logic.
+		This allows us to change scenes and update/draw sprites.
+	*/
     public abstract class Scene
     {
         public String SceneKey
@@ -20,6 +23,11 @@ namespace Intro2DGame.Game.Scenes
 			private set;
 		}
 
+		// Dictionary of all sprites. 
+		// This has to be a Dict<TypeA, Dict<TypeB, IList>>
+		// TypeA is the scene type
+		// TypeB is the sprite type
+		// The list contains all sprites of TypeB
 		private static Dictionary<Type, Dictionary<Type, IList>> SpriteDictionary;
 		
 
@@ -38,6 +46,8 @@ namespace Intro2DGame.Game.Scenes
             CreateScene();
         }
 
+		// Tries to get all Sprites of T
+		// GetSprite<PlayerSprite>() would result in all players.
 		public List<T> GetSprites<T>()
 		{
 			if (SpriteDictionary[this.GetType()].ContainsKey(typeof(T))) return (List<T>) SpriteDictionary[this.GetType()][typeof(T)];
@@ -65,6 +75,7 @@ namespace Intro2DGame.Game.Scenes
 			}
 		}
 
+		// This returns all Sprites of the current scene
 		public Dictionary<Type, IList> GetAllSprites()
 		{
 			return SpriteDictionary[this.GetType()];
@@ -78,8 +89,10 @@ namespace Intro2DGame.Game.Scenes
 			CreateScene();
 		}
 
-		public void Update(GameTime gameTime)
+		// Updates all registered Sprites
+		public virtual void Update(GameTime gameTime)
 		{
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 			foreach (IList l in SpriteDictionary[this.GetType()].Values)
 			{
 				foreach (AbstractSprite c in l)
@@ -89,8 +102,10 @@ namespace Intro2DGame.Game.Scenes
 			}
 		}
 
-        public void Draw(SpriteBatch spriteBatch)
+		// Draws all registered Sprites
+        public virtual void Draw(SpriteBatch spriteBatch)
 		{
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 			foreach (IList l in SpriteDictionary[this.GetType()].Values)
 			{
 				foreach (AbstractSprite c in l) c.Draw(spriteBatch);

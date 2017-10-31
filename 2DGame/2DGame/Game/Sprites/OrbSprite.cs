@@ -16,16 +16,19 @@ namespace Intro2DGame.Game.Sprites
 			this.Hue = new Color(r.Next(0xFF), r.Next(0xFF), r.Next(0xFF));
 		}
 
+		private Vector2 lastMovement = new Vector2();
 		public override void Update(GameTime gameTime)
 		{
 			Vector2 bufferedMovement = new Vector2();
 			List<PlayerSprite> playerList = SceneManager.GetSprites<PlayerSprite>();
 			foreach (PlayerSprite ps in playerList) {
-				bufferedMovement += ps.GetPosition() - this.position;
+				Vector2 dist = (ps.GetPosition() - this.position);
+				bufferedMovement += (dist / (float)Math.Pow(dist.Length(), 1.5));
 			}
 
-			if (bufferedMovement.LengthSquared() > 0) bufferedMovement.Normalize();
-			this.position += 0.1f * bufferedMovement;
+			//bufferedMovement *= 0.9992f; // Basically drag
+			lastMovement += bufferedMovement;
+			this.position += lastMovement;
 
 		}
 	}
