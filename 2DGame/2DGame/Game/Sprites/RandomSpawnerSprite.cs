@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Intro2DGame.Game.Scenes
+namespace Intro2DGame.Game.Sprites
 {
 	public class RandomSpawnerSprite<T> : AbstractSprite where T : AbstractSprite
 	{
@@ -16,9 +16,9 @@ namespace Intro2DGame.Game.Scenes
 
 		private List<T> list;
 
-		public RandomSpawnerSprite(T b) : base()
+		public RandomSpawnerSprite() : base()
 		{
-			this.objectReference = b.GetType();
+			this.objectReference = typeof(T);
 			this.random = new Random();
 
 			this.list = new List<T>();

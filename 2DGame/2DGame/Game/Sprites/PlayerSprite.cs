@@ -33,10 +33,10 @@ namespace Intro2DGame.Game.Sprites
             this.position += Movement * 5f;
 
 			// Prevents player from leaving the screen
-            if ((this.position.X + this.texture.Width / 2) > Area.X) this.position.X = Area.X - this.texture.Width / 2;
-            if ((this.position.Y + this.texture.Height / 2) > Area.Y) this.position.Y = Area.Y - this.texture.Height / 2;
-            if ((this.position.X - this.texture.Width / 2) < 0) this.position.X = this.texture.Width / 2;
-            if ((this.position.Y - this.texture.Height / 2) < 0) this.position.Y = this.texture.Height / 2;
+            if ((this.position.X + this.Texture.Width / 2) > Area.X) this.position.X = Area.X - this.Texture.Width / 2;
+            if ((this.position.Y + this.Texture.Height / 2) > Area.Y) this.position.Y = Area.Y - this.Texture.Height / 2;
+            if ((this.position.X - this.Texture.Width / 2) < 0) this.position.X = this.Texture.Width / 2;
+            if ((this.position.Y - this.Texture.Height / 2) < 0) this.position.Y = this.Texture.Height / 2;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Intro2DGame.Game.Sprites
         // Our textures
         private static Dictionary<Type, Texture2D> textureDictionary;
 
-		protected Texture2D texture
+		protected Texture2D Texture
 		{
 			get { return textureDictionary.ContainsKey(this.GetType()) ? textureDictionary[this.GetType()] : null; }
 			set { textureDictionary[this.GetType()] = value; }
@@ -21,7 +21,7 @@ namespace Intro2DGame.Game.Sprites
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 position;
 
-		public AbstractSprite()
+		protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
 			if (textureDictionary == null) textureDictionary = new Dictionary<Type, Texture2D>();
@@ -30,13 +30,18 @@ namespace Intro2DGame.Game.Sprites
         public AbstractSprite(String textureKey, Vector2 Position) : this()
         {
             // Setting important things
-            this.texture = ImageManager.GetTexture2D(textureKey);
+            this.Texture = ImageManager.GetTexture2D(textureKey);
             this.position = Position;
         }
 
         public AbstractSprite(String textureKey) : this()
 		{
-			this.texture = ImageManager.GetTexture2D(textureKey);
+			this.Texture = ImageManager.GetTexture2D(textureKey);
+		}
+
+		public Vector2 GetPosition()
+		{
+			return this.position;
 		}
 
         // Updates the Sprite Logic
@@ -45,7 +50,7 @@ namespace Intro2DGame.Game.Sprites
         // Draws a Sprite. 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position - (new Vector2(texture.Width, texture.Height) * 0.5f), Color.White);
+            spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Color.White);
         }
     }
 }

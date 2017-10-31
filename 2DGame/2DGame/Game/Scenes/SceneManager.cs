@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,5 +63,15 @@ namespace Intro2DGame.Game.Scenes
         {
             GetInstance().scenes.Add(key, scene);
         }
+
+		public static List<T> GetSprites<T>()
+		{
+			return GetCurrentScene().GetSprites<T>();
+		}
+
+		public static Dictionary<Type, IList> GetAllSprites()
+		{
+			return GetCurrentScene().GetAllSprites();
+		}
     }
 }

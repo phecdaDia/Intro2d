@@ -11,7 +11,7 @@ namespace Intro2DGame.Game.Sprites
 	{
 		public ImageSprite(String key, Vector2 position) : base()
 		{
-			this.texture = ImageManager.GetTexture2D(key);
+			this.Texture = ImageManager.GetTexture2D(key);
 			this.position = position;
 		}
 

@@ -12,30 +12,15 @@ namespace Intro2DGame.Game.Scenes
 {
     public class MainMenuScene : Scene
     {
-        private MainMenuSprite mainMenuSprite;
-		private ImageSprite titleTextSprite;
 
-        public MainMenuScene() : base("mainmenu")
+		public MainMenuScene() : base("mainmenu")
 		{
 		}
 
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            this.mainMenuSprite.Draw(spriteBatch);
-			this.titleTextSprite.Draw(spriteBatch);
-			
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            this.mainMenuSprite.Update(gameTime);
-        }
-
         protected override void CreateScene()
         {
-            this.mainMenuSprite = new MainMenuSprite();
-			this.titleTextSprite = new ImageSprite("title", new Vector2(400, 40));
+            this.AddSprite(new MainMenuSprite());
+			this.AddSprite(new ImageSprite("title", new Vector2(400, 40)));
         }
 
         public override void ResetScene()
