@@ -13,7 +13,8 @@ namespace Intro2DGame.Game.Sprites
     {
         public PlayerSprite(Vector2 Position) : base("player", Position)
         {
-            this.SetLayerDepth(0);
+            this.SetLayerDepth(1);
+            
         }
 
         public override void Update(GameTime gameTime)

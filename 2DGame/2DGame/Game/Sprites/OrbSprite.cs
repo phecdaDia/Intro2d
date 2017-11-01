@@ -27,10 +27,10 @@ namespace Intro2DGame.Game.Sprites
 			foreach (PlayerSprite ps in playerList) {
 				Vector2 dist = (ps.GetPosition() - this.Position);
 
-				if (dist.Length() < 30)
-				{
-					this.Delete();
-				}
+				//if (dist.Length() < 30)
+				//{
+				//	this.Delete();
+				//}
 				bufferedMovement += (dist / (float)Math.Pow(dist.Length(), 1.5));
 			}
 

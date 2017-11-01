@@ -114,7 +114,7 @@ namespace Intro2DGame.Game
             GraphicsDevice.Clear(new Color(0, 128, 255));
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.BackToFront);
+            spriteBatch.Begin();
 
             // Drawing the current Scene.
             SceneManager.GetCurrentScene().Draw(spriteBatch);

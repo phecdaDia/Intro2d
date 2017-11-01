@@ -24,7 +24,8 @@ namespace Intro2DGame.Game.Sprites
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 Position;
 
-        private float LayerDepth = 1;
+        // Decides the draw order. Higher LayerDepth will draw later.
+        private int LayerDepth = 0;
 
 		protected AbstractSprite()
 		{
@@ -51,22 +52,26 @@ namespace Intro2DGame.Game.Sprites
 			return this.Position;
 		}
 
+        // Marks this sprite as deleted
 		public void Delete()
 		{
 			this.Deleted = true;
 		}
 
+        // Returns if the sprite is marked as deleted
 		public Boolean IsDeleted()
 		{
 			return this.Deleted;
 		}
 
-        protected void SetLayerDepth(float layerDepth)
+        // Sets the current Layer Depth
+        protected void SetLayerDepth(int layerDepth)
         {
             this.LayerDepth = layerDepth;
         }
-
-        protected float GetLayerDepth()
+        
+        // Returns the current Layer Depth of the sprite
+        public int GetLayerDepth()
         {
             return this.LayerDepth;
         }
