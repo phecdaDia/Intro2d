@@ -31,7 +31,8 @@ namespace Intro2DGame.Game.Scenes
 		private static Dictionary<Type, Dictionary<Type, IList>> SpriteDictionary;
 
 		// We have to do it this way, otherwise Sprites can't spawn other sprites. 
-		private static Dictionary<Type, Dictionary<Type, IList>> BufferedSpriteDictionary;
+		//private static Dictionary<Type, Dictionary<Type, IList>> BufferedSpriteDictionary;
+        private static Dictionary<Type, List<AbstractSprite>> BufferedSpriteDictionary;
 		
 
         public Scene(String key)
@@ -41,11 +42,11 @@ namespace Intro2DGame.Game.Scenes
 
 			// Checks if the Dictionaries already exist.
 			if (SpriteDictionary == null) SpriteDictionary = new Dictionary<Type, Dictionary<Type, IList>>();
-			if (BufferedSpriteDictionary == null) BufferedSpriteDictionary = new Dictionary<Type, Dictionary<Type, IList>>();
+			if (BufferedSpriteDictionary == null) BufferedSpriteDictionary = new Dictionary<Type, List<AbstractSprite>>();
 
 			// Checks if the scene is in the Dictionary. 
 			if (!SpriteDictionary.ContainsKey(this.GetType())) SpriteDictionary[this.GetType()] = new Dictionary<Type, IList>();
-			if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new Dictionary<Type, IList>();
+            //if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
 
 			// Registering the scene in the SceneManager
 			SceneManager.RegisterScene(key, this);
@@ -65,23 +66,29 @@ namespace Intro2DGame.Game.Scenes
 
 		public void AddSprite(AbstractSprite s)
 		{
-			Type type = s.GetType();
-			
-			if (!BufferedSpriteDictionary[this.GetType()].ContainsKey(type))
-			{
-				//List<dynamic> l = new List<dynamic>();
-				//l.Add(s);
-				//this.SpriteDictionary[s.GetType()] = l;
+			if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) {
 
-				Type listType = typeof(List<>).MakeGenericType(new[] { type });
-				IList list = (IList)Activator.CreateInstance(listType);
-				list.Add(s);
-				BufferedSpriteDictionary[this.GetType()][type] = list;
-			}
-			else
-			{
-				BufferedSpriteDictionary[this.GetType()][type].Add(s);
-			}
+                BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
+                
+            }
+            BufferedSpriteDictionary[this.GetType()].Add(s);
+
+
+			//if (!BufferedSpriteDictionary[this.GetType()].ContainsKey(type))
+			//{
+			//	//List<dynamic> l = new List<dynamic>();
+			//	//l.Add(s);
+			//	//this.SpriteDictionary[s.GetType()] = l;
+
+			//	Type listType = typeof(List<>).MakeGenericType(new[] { type });
+			//	IList list = (IList)Activator.CreateInstance(listType);
+			//	list.Add(s);
+			//	BufferedSpriteDictionary[this.GetType()][type] = list;
+			//}
+			//else
+			//{
+			//	BufferedSpriteDictionary[this.GetType()][type].Add(s);
+			//}
 		}
 
 		// This returns all Sprites of the current scene
@@ -122,31 +129,50 @@ namespace Intro2DGame.Game.Scenes
 
 			// foreach scene go through each sprite type and add them to the SpriteDictionary
 
-			foreach (Type t in BufferedSpriteDictionary.Keys)
-			{
-				foreach (Type k in BufferedSpriteDictionary[t].Keys)
-				{
-					// If the scene doesn't exist in the SpriteDictionary, we'll have to create it
-					if (!SpriteDictionary.ContainsKey(t)) SpriteDictionary[t] = new Dictionary<Type, IList>();
+            foreach (Type t in BufferedSpriteDictionary.Keys)
+            {
+                foreach (AbstractSprite c in BufferedSpriteDictionary[t])
+                {
+                    if (!SpriteDictionary[t].ContainsKey(c.GetType()))
+                    {
+                        Type listType = typeof(List<>).MakeGenericType(new[] { c.GetType() });
+                        IList list = (IList)Activator.CreateInstance(listType);
+                        SpriteDictionary[t][c.GetType()] = list;
+                    }
 
-					// If the sprite doesn't exist in the SpriteDictionary, we'll have to create it
-					if (!SpriteDictionary[t].ContainsKey(k))
-					{
-						Type listType = typeof(List<>).MakeGenericType(new[] { k });
-						IList list = (IList)Activator.CreateInstance(listType);
-						SpriteDictionary[t][k] = list;
-					}
+                    //Console.WriteLine("Adding Sprite of Type {0}", c.GetType());
+                    SpriteDictionary[t][c.GetType()].Add(c);
+                }
 
-					// Add members to the SpriteDictionary
-					foreach (var c in BufferedSpriteDictionary[t][k])
-					{
-						SpriteDictionary[t][k].Add(c);
-					}
-				}
+                BufferedSpriteDictionary[t].Clear();
+            }
 
-				// Clear Scene in the BSD
-				BufferedSpriteDictionary[t].Clear();
-			}
+
+			//foreach (Type t in BufferedSpriteDictionary.Keys)
+			//{
+			//	foreach (Type k in BufferedSpriteDictionary[t].Keys)
+			//	{
+			//		// If the scene doesn't exist in the SpriteDictionary, we'll have to create it
+			//		if (!SpriteDictionary.ContainsKey(t)) SpriteDictionary[t] = new Dictionary<Type, IList>();
+
+			//		// If the sprite doesn't exist in the SpriteDictionary, we'll have to create it
+			//		if (!SpriteDictionary[t].ContainsKey(k))
+			//		{
+			//			Type listType = typeof(List<>).MakeGenericType(new[] { k });
+			//			IList list = (IList)Activator.CreateInstance(listType);
+			//			SpriteDictionary[t][k] = list;
+			//		}
+
+			//		// Add members to the SpriteDictionary
+			//		foreach (var c in BufferedSpriteDictionary[t][k])
+			//		{
+			//			SpriteDictionary[t][k].Add(c);
+			//		}
+			//	}
+
+			//	// Clear Scene in the BSD
+			//	BufferedSpriteDictionary[t].Clear();
+			//}
 		}
 
 		// Draws all registered Sprites
