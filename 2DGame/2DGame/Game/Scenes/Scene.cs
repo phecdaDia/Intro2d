@@ -156,10 +156,10 @@ namespace Intro2DGame.Game.Scenes
             
             foreach (int v in priorityDictionary.Keys)
             {
-                Console.WriteLine("Drawing Layer #{0}", v);
+                //Console.WriteLine("Drawing Layer #{0}", v);
                 foreach (AbstractSprite a in priorityDictionary[v])
                 {
-                    Console.WriteLine("\t{0}", a.GetType());
+                    //Console.WriteLine("\t{0}", a.GetType());
                     a.Draw(spriteBatch);
                 }
             }

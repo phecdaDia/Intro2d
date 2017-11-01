@@ -83,7 +83,7 @@ namespace Intro2DGame.Game.Sprites
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
-            spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), null, Hue, 0, new Vector2(), 1f, SpriteEffects.None, this.LayerDepth);
+            spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
         }
     }
 }
