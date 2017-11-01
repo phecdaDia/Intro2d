@@ -33,15 +33,12 @@ namespace Intro2DGame.Game.Sprites
             this.UpShowIndex = 0;
 
 			menuEntries = new List<Texture2D>();
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #1"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #2"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #3"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #4"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #5"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Introductions"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Knockout Round"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Round 1"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Round 2"));
+			menuEntries.Add(FontManager.CreateFontString("example", "Finals"));
 			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #6"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #7"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #8"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #9"));
 			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene!"));
             menuEntries.Add(FontManager.CreateFontString("example", "Exit"));
 
@@ -67,11 +64,8 @@ namespace Intro2DGame.Game.Sprites
 					case 3: SceneManager.SetCurrentScene("mainmenu"); break;
 					case 4: SceneManager.SetCurrentScene("mainmenu"); break;
 					case 5: SceneManager.SetCurrentScene("mainmenu"); break;
-					case 6: SceneManager.SetCurrentScene("mainmenu"); break;
-					case 7: SceneManager.SetCurrentScene("mainmenu"); break;
-					case 8: SceneManager.SetCurrentScene("mainmenu"); break;
-					case 9: SceneManager.SetCurrentScene("example"); break;
-					case 10: Game.ExitGame(); break;
+					case 6: SceneManager.SetCurrentScene("example"); break;
+					case 7: Game.ExitGame(); break;
 				}
 				
 			}
@@ -84,6 +78,7 @@ namespace Intro2DGame.Game.Sprites
                 if (SelectedIndex < 0)
                 {
                     UpShowIndex = menuEntries.Count - MAX_MENU_ENTRIES;
+					if (UpShowIndex < 0) UpShowIndex = 0;
                     SelectedIndex += menuEntries.Count;
                 }
                 pressedKeys[Keys.W] = timeoutDelay;
@@ -126,7 +121,7 @@ namespace Intro2DGame.Game.Sprites
 			int d = (this.menuEntries.Count > MAX_MENU_ENTRIES) ? MAX_MENU_ENTRIES : this.menuEntries.Count;
 
 			int idx = 0;
-            if(menuEntries.Count<= MAX_MENU_ENTRIES)
+            if(menuEntries.Count <= MAX_MENU_ENTRIES)
             {
                 foreach (Texture2D menuItem in menuEntries)
                 {
