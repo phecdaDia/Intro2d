@@ -36,6 +36,7 @@ namespace Intro2DGame.Game
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
             GraphicsArea = new Vector2(graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight);
+            
         }
 
 		public static Game GetInstance()
@@ -113,7 +114,7 @@ namespace Intro2DGame.Game
             GraphicsDevice.Clear(new Color(0, 128, 255));
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront);
 
             // Drawing the current Scene.
             SceneManager.GetCurrentScene().Draw(spriteBatch);

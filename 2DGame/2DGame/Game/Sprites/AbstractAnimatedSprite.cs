@@ -64,7 +64,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public AbstractAnimatedSprite(String key, Vector2 position, int spriteSize, int delay) : this(key, spriteSize, delay)
 		{
-			this.position = position;
+			this.Position = position;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

@@ -25,7 +25,7 @@ namespace Intro2DGame.Game.Sprites
 			Vector2 bufferedMovement = new Vector2();
 			List<PlayerSprite> playerList = SceneManager.GetSprites<PlayerSprite>();
 			foreach (PlayerSprite ps in playerList) {
-				Vector2 dist = (ps.GetPosition() - this.position);
+				Vector2 dist = (ps.GetPosition() - this.Position);
 
 				if (dist.Length() < 30)
 				{
@@ -36,13 +36,13 @@ namespace Intro2DGame.Game.Sprites
 
 			bufferedMovement *= 0.9992f; // Basically drag
 			lastMovement += bufferedMovement;
-			this.position += lastMovement;
+			this.Position += lastMovement;
 			
 			// Prevents player from leaving the screen
-			if ((this.position.X + this.Texture.Width / 2) > Game.GraphicsArea.X) this.position.X = Game.GraphicsArea.X - this.Texture.Width / 2;
-			if ((this.position.Y + this.Texture.Height / 2) > Game.GraphicsArea.Y) this.position.Y = Game.GraphicsArea.Y - this.Texture.Height / 2;
-			if ((this.position.X - this.Texture.Width / 2) < 0) this.position.X = this.Texture.Width / 2;
-			if ((this.position.Y - this.Texture.Height / 2) < 0) this.position.Y = this.Texture.Height / 2;
+			if ((this.Position.X + this.Texture.Width / 2) > Game.GraphicsArea.X) this.Position.X = Game.GraphicsArea.X - this.Texture.Width / 2;
+			if ((this.Position.Y + this.Texture.Height / 2) > Game.GraphicsArea.Y) this.Position.Y = Game.GraphicsArea.Y - this.Texture.Height / 2;
+			if ((this.Position.X - this.Texture.Width / 2) < 0) this.Position.X = this.Texture.Width / 2;
+			if ((this.Position.Y - this.Texture.Height / 2) < 0) this.Position.Y = this.Texture.Height / 2;
 
 		}
 	}

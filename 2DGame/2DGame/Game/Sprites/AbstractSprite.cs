@@ -11,24 +11,25 @@ namespace Intro2DGame.Game.Sprites
     public abstract class AbstractSprite
     {
         // Our textures
-        private static Dictionary<Type, Texture2D> textureDictionary;
-
+        private static Dictionary<Type, Texture2D> TextureDictionary;
 		protected Texture2D Texture
 		{
-			get { return textureDictionary.ContainsKey(this.GetType()) ? textureDictionary[this.GetType()] : null; }
-			set { textureDictionary[this.GetType()] = value; }
+			get { return TextureDictionary.ContainsKey(this.GetType()) ? TextureDictionary[this.GetType()] : null; }
+			set { TextureDictionary[this.GetType()] = value; }
 		}
 
-		private Boolean deleted;
+		private Boolean Deleted;
 
 		protected Color Hue;
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
-        protected Vector2 position;
+        protected Vector2 Position;
+
+        private float LayerDepth = 1;
 
 		protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
-			if (textureDictionary == null) textureDictionary = new Dictionary<Type, Texture2D>();
+			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();
 
 			this.Hue = Color.White;
 		}
@@ -37,7 +38,7 @@ namespace Intro2DGame.Game.Sprites
         {
             // Setting important things
             this.Texture = ImageManager.GetTexture2D(textureKey);
-            this.position = Position;
+            this.Position = Position;
         }
 
         public AbstractSprite(String textureKey) : this()
@@ -47,18 +48,28 @@ namespace Intro2DGame.Game.Sprites
 
 		public Vector2 GetPosition()
 		{
-			return this.position;
+			return this.Position;
 		}
 
 		public void Delete()
 		{
-			this.deleted = true;
+			this.Deleted = true;
 		}
 
 		public Boolean IsDeleted()
 		{
-			return this.deleted;
+			return this.Deleted;
 		}
+
+        protected void SetLayerDepth(float layerDepth)
+        {
+            this.LayerDepth = layerDepth;
+        }
+
+        protected float GetLayerDepth()
+        {
+            return this.LayerDepth;
+        }
 
         // Updates the Sprite Logic
         public abstract void Update(GameTime gameTime);
@@ -66,7 +77,8 @@ namespace Intro2DGame.Game.Sprites
         // Draws a Sprite. 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
+            //spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
+            spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), null, Hue, 0, new Vector2(), 1f, SpriteEffects.None, this.LayerDepth);
         }
     }
 }

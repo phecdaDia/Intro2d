@@ -13,7 +13,7 @@ namespace Intro2DGame.Game.Sprites
     {
         public PlayerSprite(Vector2 Position) : base("player", Position)
         {
-
+            this.SetLayerDepth(0);
         }
 
         public override void Update(GameTime gameTime)
@@ -30,13 +30,13 @@ namespace Intro2DGame.Game.Sprites
             
 			// normalizing movement
             if (Movement.LengthSquared() > 0f) Movement.Normalize();
-            this.position += Movement * 5f;
+            this.Position += Movement * 5f;
 
 			// Prevents player from leaving the screen
-            if ((this.position.X + this.Texture.Width / 2) > Area.X) this.position.X = Area.X - this.Texture.Width / 2;
-            if ((this.position.Y + this.Texture.Height / 2) > Area.Y) this.position.Y = Area.Y - this.Texture.Height / 2;
-            if ((this.position.X - this.Texture.Width / 2) < 0) this.position.X = this.Texture.Width / 2;
-            if ((this.position.Y - this.Texture.Height / 2) < 0) this.position.Y = this.Texture.Height / 2;
+            if ((this.Position.X + this.Texture.Width / 2) > Area.X) this.Position.X = Area.X - this.Texture.Width / 2;
+            if ((this.Position.Y + this.Texture.Height / 2) > Area.Y) this.Position.Y = Area.Y - this.Texture.Height / 2;
+            if ((this.Position.X - this.Texture.Width / 2) < 0) this.Position.X = this.Texture.Width / 2;
+            if ((this.Position.Y - this.Texture.Height / 2) < 0) this.Position.Y = this.Texture.Height / 2;
         }
     }
 }
