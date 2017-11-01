@@ -162,12 +162,6 @@ namespace Intro2DGame.Game.Scenes
                     //Console.WriteLine("\t{0}", a.GetType());
                     a.Draw(spriteBatch);
                 }
-#else
-                foreach (AbstractSprite a in priorityDictionary[v])
-                {
-                    a.Draw(spriteBatch);
-                }
-#endif
             }
 
         }
