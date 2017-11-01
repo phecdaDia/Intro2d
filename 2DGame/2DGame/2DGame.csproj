@@ -53,6 +53,9 @@
     <Compile Include="Game\ObjectCloner.cs" />
     <Compile Include="Game\Scenes\ExampleScene.cs" />
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
+    <Compile Include="Game\Sprites\Enemies\AbstractEnemy.cs" />
+    <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />
+    <Compile Include="Game\Sprites\Enemies\Orbs\LinearOrb.cs" />
     <Compile Include="Game\Sprites\OrbSprite.cs" />
     <Compile Include="Game\Sprites\RandomSpawnerSprite.cs" />
     <Compile Include="Game\Scenes\Scene.cs" />
