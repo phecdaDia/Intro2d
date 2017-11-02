@@ -12,8 +12,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 	{
 		public AbstractEnemy(String textureKey, Vector2 position) : base(textureKey, position)
 		{
+            this.Persistence = true;
 
-		}
+        }
 
 		protected void ShootOrb<T>(params Object[] Parameters) where T : AbstractSprite
 		{

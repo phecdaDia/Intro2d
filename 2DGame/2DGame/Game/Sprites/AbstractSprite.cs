@@ -18,8 +18,10 @@ namespace Intro2DGame.Game.Sprites
 			set { TextureDictionary[this.GetType()] = value; }
 		}
 
+        // If the sprite is marked for deleting.
 		private Boolean Deleted;
 
+        // This is for coloring monochrome sprites
 		protected Color Hue;
         // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 Position;
@@ -27,7 +29,10 @@ namespace Intro2DGame.Game.Sprites
         // Decides the draw order. Higher LayerDepth will draw later.
         private int LayerDepth = 0;
 
-		protected AbstractSprite()
+        public Boolean Persistence = false;
+
+
+        protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
 			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();

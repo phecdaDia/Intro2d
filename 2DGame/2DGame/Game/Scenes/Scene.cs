@@ -100,6 +100,12 @@ namespace Intro2DGame.Game.Scenes
 				foreach (AbstractSprite c in l)
 				{
 					c.Update(gameTime);
+
+                    if (!c.Persistence)
+                    {
+                        if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
+                        else if (c.GetPosition().X > Game.GraphicsArea.X || c.GetPosition().Y > Game.GraphicsArea.Y) c.Delete();
+                    }
 					if (c.IsDeleted()) deleted.Add(c);
 				}
 			}

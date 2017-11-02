@@ -26,6 +26,12 @@ namespace Intro2DGame.Game
 			private set;
 		}
 
+        public static Rectangle GraphicsAreaRectangle
+        {
+            get;
+            private set;
+        }
+
         public Game()
         {
 			game = this;
@@ -37,7 +43,8 @@ namespace Intro2DGame.Game
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
             GraphicsArea = new Vector2(graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight);
-            
+
+            GraphicsAreaRectangle = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
 
 		public static Game GetInstance()
