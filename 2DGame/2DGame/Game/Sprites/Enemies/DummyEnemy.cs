@@ -15,37 +15,17 @@ namespace Intro2DGame.Game.Sprites.Enemies
             this.Hue = Color.Red;
 		}
 
-
-		private float f, z = 0.0f;
         int k = 0;
-        int t = 6;
 		public override void Update(GameTime gameTime)
 		{
+            float c = 0;
+            Vector2 p = new Vector2((float)Math.Sin(c), (float)Math.Cos(c));
 
-			f += (float)(((72.5f/360f) + 0.0001f) / Math.PI);
 
-            Vector2 p = new Vector2((float)Math.Sin(f), (float)Math.Cos(f));
-            Vector2 p2 = new Vector2((float)Math.Cos(f), (float)Math.Sin(f));
-            if (++k >= t)
+            if (++k > 60)
             {
-                k %= t;
-
-                ShootOrb<LinearIncreasingOrb>(this.Position, p, 0.1f, 1.01f);
-            }
-            else if (k == t / 4)
-            {
-
-                ShootOrb<LinearIncreasingOrb>(this.Position, p2, 0.1f, 1.01f);
-            }
-            else if (k == t / 2)
-            {
-
-                ShootOrb<LinearIncreasingOrb>(this.Position, -p, 0.1f, 1.01f);
-            }
-            else if (k == 3 * t / 4)
-            {
-
-                ShootOrb<LinearIncreasingOrb>(this.Position, -p2, 0.1f, 1.01f);
+                k %= 60;
+                // Shoot something
             }
         }
 	}

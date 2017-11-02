@@ -19,8 +19,8 @@ namespace Intro2DGame.Game.Sprites.Enemies
 		protected void ShootOrb<T>(params Object[] Parameters) where T : AbstractSprite
 		{
 			T o = (T)Activator.CreateInstance(typeof(T), Parameters);
-			SceneManager.GetCurrentScene().AddSprite(o);
+            SceneManager.GetCurrentScene().AddSprite(o);
 
-		}
-	}
+        }
+    }
 }

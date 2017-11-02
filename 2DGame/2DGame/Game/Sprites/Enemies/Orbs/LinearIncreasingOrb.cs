@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
-    class LinearIncreasingOrb : AbstractSprite
+    class LinearIncreasingOrb : AbstractOrb
     {
         private Vector2 Direction;
 
@@ -22,7 +22,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
             this.Speed2 = Speed2;
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdatePosition(GameTime gameTime)
         {
             Direction *= this.Speed2;
             this.Position += Direction;

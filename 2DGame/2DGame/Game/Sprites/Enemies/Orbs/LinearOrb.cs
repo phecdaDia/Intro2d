@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
-	public class LinearOrb : AbstractSprite
+	public class LinearOrb : AbstractOrb
 	{
 		private Vector2 Direction;
 
@@ -18,7 +18,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			this.Direction *= Speed;
 		}
 
-		public override void Update(GameTime gameTime)
+		protected override void UpdatePosition(GameTime gameTime)
 		{
 			this.Position += Direction;
 		}

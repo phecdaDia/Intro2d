@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Intro2DGame.Game.Sprites.Enemies.Orbs;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -38,6 +39,17 @@ namespace Intro2DGame.Game.Sprites
             if ((this.Position.Y + this.Texture.Height / 2) > Area.Y) this.Position.Y = Area.Y - this.Texture.Height / 2;
             if ((this.Position.X - this.Texture.Width / 2) < 0) this.Position.X = this.Texture.Width / 2;
             if ((this.Position.Y - this.Texture.Height / 2) < 0) this.Position.Y = this.Texture.Height / 2;
+
+            
+
+        }
+
+        public Boolean DoesCollide(AbstractOrb orb)
+        {
+            Vector2 tp1 = this.Position + new Vector2(0, 16) - orb.GetPosition();
+            Vector2 tp2 = this.Position + new Vector2(0, -16) - orb.GetPosition();
+
+            return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
         }
     }
 }
