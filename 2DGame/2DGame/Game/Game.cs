@@ -1,5 +1,4 @@
-﻿#define DEBUG
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -45,6 +44,9 @@ namespace Intro2DGame.Game
             GraphicsArea = new Vector2(Graphics.PreferredBackBufferWidth,Graphics.PreferredBackBufferHeight);
 
             GraphicsAreaRectangle = new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+
+	        this.IsMouseVisible = true;
+
         }
 
 		public static Game GetInstance()

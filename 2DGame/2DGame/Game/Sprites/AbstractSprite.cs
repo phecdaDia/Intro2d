@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Intro2DGame.Game.Scenes;
+using Intro2DGame.Game.Sprites.Enemies.Orbs;
+using Microsoft.Xna.Framework.Content;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -20,7 +22,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
         // If the sprite is marked for deleting.
-		private Boolean Deleted;
+		private bool Deleted;
 
         // This is for coloring monochrome sprites
 		protected Color Hue;
@@ -30,7 +32,10 @@ namespace Intro2DGame.Game.Sprites
         // Decides the draw order. Higher layerDepth will draw later.
         private int LayerDepth = 0;
 
-        public Boolean Persistence = false;
+	    private int MaxHealth = 0;
+	    private int Health = -1;
+
+        public bool Persistence = false;
 	    private bool Enemy;
 
 
@@ -66,7 +71,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
         // Returns if the sprite is marked as deleted
-		public Boolean IsDeleted()
+		public bool IsDeleted()
 		{
 			return this.Deleted;
 		}
@@ -95,15 +100,36 @@ namespace Intro2DGame.Game.Sprites
             spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
 		}
 
+		// Defines if the sprite is an enemy. 
 	    protected void SetEnemy(bool isEnemy)
 	    {
 		    this.Persistence = isEnemy;
 		    this.Enemy = isEnemy;
 	    }
 
+		// returns if the sprite is an enemy. 
 	    public bool IsEnemy()
 	    {
 		    return Enemy;
+		}
+
+	    protected void SetMaxHealth(int maxHealth)
+	    {
+		    this.MaxHealth = maxHealth;
+		}
+
+	    protected void SetHealth(int health)
+	    {
+		    this.Health = health;
+	    }
+
+	    public int Damage(int amount)
+	    {
+		    if (this.MaxHealth <= 0) return -1;
+
+		    this.Health -= amount;
+
+		    return this.Health;
 	    }
 
 		protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite
@@ -112,5 +138,10 @@ namespace Intro2DGame.Game.Sprites
 			SceneManager.GetCurrentScene().AddSprite(o);
 
 		}
-	}
+
+	    public virtual bool DoesCollide(AbstractOrb orb)
+	    {
+		    return (orb.GetPosition() - this.Position).Length() < (this.Texture.Width / 2f);
+	    }
+    }
 }

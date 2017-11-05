@@ -9,12 +9,8 @@ namespace Intro2DGame.Game.Sprites
 {
 	public class ImageSprite : AbstractSprite
 	{
-		public ImageSprite(string key, Vector2 position) : base()
-		{
-			this.Texture = ImageManager.GetTexture2D(key);
-			this.Position = position;
-		}
+		public ImageSprite(string key, Vector2 position) : base(key, position) { }
 
-		public override void Update(GameTime gameTime) { }
+		public override void Update(GameTime gameTime) {}
 	}
 }

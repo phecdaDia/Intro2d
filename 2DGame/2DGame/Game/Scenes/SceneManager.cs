@@ -33,11 +33,13 @@ namespace Intro2DGame.Game.Scenes
 
         private void CreateScenes()
         {
-            // Just do new SomethingScene(); to add a scene. They will register themself. 
-            new ExampleScene();
-            this.CurrentScene = new MainMenuScene();
+            RegisterScene(new ExampleScene());
+	        RegisterScene(new MainMenuScene());
 
-			new TutorialScene();
+	        RegisterScene(new TutorialScene());
+
+
+			SetCurrentScene("mainmenu");
         }
 
 		// Returns the current scene
@@ -52,7 +54,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			SceneManager sm = GetInstance();
 
-			if (sm.CurrentScene.SceneKey == key) return;
+			if (sm.CurrentScene?.SceneKey == key) return;
 
 			if (sm.Scenes.ContainsKey(key)) sm.CurrentScene = sm.Scenes[key];
 
@@ -63,14 +65,13 @@ namespace Intro2DGame.Game.Scenes
         private static SceneManager GetInstance()
         {
 	        return Instance ?? (Instance = new SceneManager());
-        }
+		}
 
-        // Allows registering a scene,
-        // Scene.cs registers here. You don't have to do this again.
-        public static void RegisterScene(string key, Scene scene)
-        {
-            GetInstance().Scenes.Add(key, scene);
-        }
+	    // Allows registering a scene,
+	    public static void RegisterScene(Scene scene)
+	    {
+		    GetInstance().Scenes.Add(scene.SceneKey, scene);
+		}
 
 		public static List<T> GetSprites<T>()
 		{

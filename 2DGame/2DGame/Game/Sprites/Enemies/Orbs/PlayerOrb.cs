@@ -11,13 +11,13 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
 	public class PlayerOrb : LinearOrb
 	{
-		private static readonly Vector2 Direction = new Vector2(0, -1);
+		//private static readonly Vector2 Direction = new Vector2(0, -1);
 		private const float SPEED = 10f;
 
 
-		public PlayerOrb(Vector2 position) : base(position, Direction, SPEED)
+		public PlayerOrb(Vector2 position, Vector2 goal) : base(position, goal - position, SPEED)
 		{
-			this.Hue = Color.Red;
+			this.Hue = Color.Purple;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -32,9 +32,9 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 				{
 					if (!sprite.IsEnemy()) break;
 
-					if ((sprite.GetPosition() - this.Position).Length() < 20f)
+					if (sprite.DoesCollide(this))
 					{
-						// TODO: 
+						sprite.Damage(1);
 					}
 
 				}

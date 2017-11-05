@@ -12,15 +12,19 @@ namespace Intro2DGame.Game.Sprites
 {
     public class PlayerSprite : AbstractSprite
     {
+	    private const int SHOOT_DELAY = 7;
+	    private int ShootDelay = 0;
+
         public PlayerSprite(Vector2 position) : base("player", position)
         {
             this.SetLayerDepth(1);
             
         }
 
-        public override void Update(GameTime gameTime)
+		public override void Update(GameTime gameTime)
         {
-            Vector2 movement = new Vector2();
+
+			Vector2 movement = new Vector2();
             Vector2 area= Game.GraphicsArea;
 
 			// buffering movement
@@ -41,10 +45,20 @@ namespace Intro2DGame.Game.Sprites
             if ((this.Position.Y - this.Texture.Height / 2) < 0) this.Position.Y = this.Texture.Height / 2;
 
             
+			// Shoots bullets
 
+	        MouseState ms = Mouse.GetState();
+	        if (ks.IsKeyDown(Keys.E) || ms.LeftButton == ButtonState.Pressed)
+	        {
+		        if (ShootDelay-- <= 0)
+		        {
+			        ShootOrb<PlayerOrb>(this.GetPosition(), ms.Position.ToVector2());
+			        ShootDelay = SHOOT_DELAY;
+		        }
+	        }
         }
 
-        public bool DoesCollide(AbstractOrb orb)
+        public override bool DoesCollide(AbstractOrb orb)
         {
             Vector2 tp1 = this.Position + new Vector2(0, 16) - orb.GetPosition();
             Vector2 tp2 = this.Position + new Vector2(0, -16) - orb.GetPosition();
