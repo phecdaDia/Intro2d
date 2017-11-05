@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Intro2DGame.Game.Scenes;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -30,9 +31,10 @@ namespace Intro2DGame.Game.Sprites
         private int LayerDepth = 0;
 
         public Boolean Persistence = false;
+	    private bool Enemy;
 
 
-        protected AbstractSprite()
+	    protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
 			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();
@@ -88,7 +90,27 @@ namespace Intro2DGame.Game.Sprites
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
+	        if (Texture == null) return;
+
             spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
-        }
-    }
+		}
+
+	    protected void SetEnemy(bool isEnemy)
+	    {
+		    this.Persistence = isEnemy;
+		    this.Enemy = isEnemy;
+	    }
+
+	    public bool IsEnemy()
+	    {
+		    return Enemy;
+	    }
+
+		protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite
+		{
+			T o = (T)Activator.CreateInstance(typeof(T), parameters);
+			SceneManager.GetCurrentScene().AddSprite(o);
+
+		}
+	}
 }

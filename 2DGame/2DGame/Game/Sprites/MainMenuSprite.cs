@@ -60,7 +60,7 @@ namespace Intro2DGame.Game.Sprites
 			{
 				switch (SelectedIndex)
 				{
-					case 0: SceneManager.SetCurrentScene("mainmenu"); break;
+					case 0: SceneManager.SetCurrentScene("tutorial"); break;
 					case 1: SceneManager.SetCurrentScene("mainmenu"); break;
 					case 2: SceneManager.SetCurrentScene("mainmenu"); break;
 					case 3: SceneManager.SetCurrentScene("mainmenu"); break;

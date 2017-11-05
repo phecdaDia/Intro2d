@@ -8,11 +8,13 @@ using Intro2DGame.Game.Sprites.Enemies.Orbs;
 
 namespace Intro2DGame.Game.Sprites.Enemies
 {
-	public class DummyEnemy : AbstractEnemy
+	public class DummyEnemy : AbstractSprite
 	{
 		public DummyEnemy(Vector2 position) : base("orb", position)
 		{
             this.Hue = Color.Red;
+
+			this.SetEnemy(true);
 		}
 
         int k = 0;
