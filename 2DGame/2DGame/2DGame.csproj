@@ -53,6 +53,7 @@
     <Compile Include="Game\ObjectCloner.cs" />
     <Compile Include="Game\Scenes\ExampleScene.cs" />
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
+    <Compile Include="Game\Scenes\Stages\TutorialScene.cs" />
     <Compile Include="Game\Sprites\Enemies\AbstractEnemy.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\AbstractOrb.cs" />
@@ -64,7 +65,6 @@
     <Compile Include="Game\Scenes\SceneManager.cs" />
     <Compile Include="Game\Sprites\AbstractAnimatedSprite.cs" />
     <Compile Include="Game\Sprites\AbstractSprite.cs" />
-    <Compile Include="Game\Sprites\AnimationTestSprite.cs" />
     <Compile Include="Game\Sprites\ImageSprite.cs" />
     <Compile Include="Game\Sprites\MainMenuSprite.cs" />
     <Compile Include="Game\Sprites\PlayerSprite.cs" />

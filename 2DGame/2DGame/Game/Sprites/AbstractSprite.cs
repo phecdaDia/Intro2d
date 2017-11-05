@@ -23,10 +23,10 @@ namespace Intro2DGame.Game.Sprites
 
         // This is for coloring monochrome sprites
 		protected Color Hue;
-        // Position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
+        // position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
         protected Vector2 Position;
 
-        // Decides the draw order. Higher LayerDepth will draw later.
+        // Decides the draw order. Higher layerDepth will draw later.
         private int LayerDepth = 0;
 
         public Boolean Persistence = false;
@@ -40,11 +40,11 @@ namespace Intro2DGame.Game.Sprites
 			this.Hue = Color.White;
 		}
 
-        public AbstractSprite(String textureKey, Vector2 Position) : this()
+        public AbstractSprite(String textureKey, Vector2 position) : this()
         {
             // Setting important things
             this.Texture = ImageManager.GetTexture2D(textureKey);
-            this.Position = Position;
+            this.Position = position;
         }
 
         public AbstractSprite(String textureKey) : this()

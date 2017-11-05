@@ -11,29 +11,29 @@ namespace Intro2DGame.Game.Sprites
 	public abstract class AbstractAnimatedSprite : AbstractSprite
 	{
 		// Dictionary to improve performance, since we'll use many objects at once
-		private static Dictionary<Type, Texture2D[]> frameDictionary;
+		private static Dictionary<Type, Texture2D[]> FrameDictionary;
 
 		// delay until next frame
-		private int delay;
+		private readonly int Delay;
 
 		// current frame and the offset until the next frame.
-		private int currentFrame, currentOffset;
+		private int CurrentFrame, CurrentOffset;
 
-		public AbstractAnimatedSprite(String key, int spriteSize, int delay) : base(key)
+		public AbstractAnimatedSprite(string key, int spriteSize, int delay) : base(key)
 		{
 			// If the sprite is of invalid size we'll have to throw an exception
 			if (this.Texture.Width % spriteSize != 0) throw new InvalidOperationException("Invalid Sprite size");
 
 			// Check if we already created our dictionary
-			if (frameDictionary == null) frameDictionary = new Dictionary<Type, Texture2D[]>();
+			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Texture2D[]>();
 
 			// setting the delay
-			this.delay = delay;
+			this.Delay = delay;
 
 			// If this sprite already has everything loaded, just use that. 
-			if (frameDictionary.ContainsKey(this.GetType()))
+			if (FrameDictionary.ContainsKey(this.GetType()))
 			{
-				this.Texture = frameDictionary[this.GetType()][0];
+				this.Texture = FrameDictionary[this.GetType()][0];
 				return;
 
 			}
@@ -58,11 +58,11 @@ namespace Intro2DGame.Game.Sprites
 			}
 
 			// Add our frames to the dictionary
-			frameDictionary.Add(this.GetType(), frames);
+			FrameDictionary.Add(this.GetType(), frames);
 			this.Texture = frames[0];
 		}
 
-		public AbstractAnimatedSprite(String key, Vector2 position, int spriteSize, int delay) : this(key, spriteSize, delay)
+		public AbstractAnimatedSprite(string key, Vector2 position, int spriteSize, int delay) : this(key, spriteSize, delay)
 		{
 			this.Position = position;
 		}
@@ -72,13 +72,13 @@ namespace Intro2DGame.Game.Sprites
 
 			Type t = this.GetType();
 
-			if (++this.currentOffset >= this.delay)
+			if (++this.CurrentOffset >= this.Delay)
 			{
-				this.currentOffset %= this.delay;
-				if (++this.currentFrame >= frameDictionary[t].Length) this.currentFrame %= frameDictionary[t].Length;
+				this.CurrentOffset %= this.Delay;
+				if (++this.CurrentFrame >= FrameDictionary[t].Length) this.CurrentFrame %= FrameDictionary[t].Length;
 
 
-				this.Texture = frameDictionary[t][currentFrame];
+				this.Texture = FrameDictionary[t][CurrentFrame];
 			}
 
 			base.Draw(spriteBatch);

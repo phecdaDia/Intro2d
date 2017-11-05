@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Intro2DGame.Game.Scenes.Stages;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,21 @@ namespace Intro2DGame.Game.Scenes
     public class SceneManager
     {
         // Singleton instance
-        private static SceneManager sceneManager;
+        private static SceneManager Instance;
 
         // Dictionary for all scenes. Scenes don't have to be initiated. 
-        private Dictionary<String, Scene> scenes;
+        private readonly Dictionary<String, Scene> Scenes;
 
         // our current scene.
-        private Scene currentScene;
+        private Scene CurrentScene;
 
         public SceneManager()
         {
             // Sets the Singleton instance
-            sceneManager = this;
+            Instance = this;
 
             // Creates the Scenes Dictionary
-            this.scenes = new Dictionary<string, Scene>();
+            this.Scenes = new Dictionary<string, Scene>();
 
             // Creates all scenes. 
             CreateScenes();
@@ -34,40 +35,41 @@ namespace Intro2DGame.Game.Scenes
         {
             // Just do new SomethingScene(); to add a scene. They will register themself. 
             new ExampleScene();
-            this.currentScene = new MainMenuScene();
+            this.CurrentScene = new MainMenuScene();
+
+			new TutorialScene();
         }
 
 		// Returns the current scene
         public static Scene GetCurrentScene()
         {
-            return GetInstance().currentScene;
+            return GetInstance().CurrentScene;
         }
 
 		// Sets the current scene. 
 		// If the scene is the same we just return;
-		public static void SetCurrentScene(String key)
+		public static void SetCurrentScene(string key)
 		{
 			SceneManager sm = GetInstance();
 
-			if (sm.currentScene.SceneKey == key) return;
+			if (sm.CurrentScene.SceneKey == key) return;
 
-			if (sm.scenes.ContainsKey(key)) sm.currentScene = sm.scenes[key];
+			if (sm.Scenes.ContainsKey(key)) sm.CurrentScene = sm.Scenes[key];
 
-			sm.currentScene.ResetScene();
+			sm.CurrentScene.ResetScene();
 		}
 
         // Getting the Singleton instance
         private static SceneManager GetInstance()
         {
-            if (sceneManager == null) sceneManager = new SceneManager();
-            return sceneManager;
+	        return Instance ?? (Instance = new SceneManager());
         }
 
         // Allows registering a scene,
         // Scene.cs registers here. You don't have to do this again.
         public static void RegisterScene(string key, Scene scene)
         {
-            GetInstance().scenes.Add(key, scene);
+            GetInstance().Scenes.Add(key, scene);
         }
 
 		public static List<T> GetSprites<T>()

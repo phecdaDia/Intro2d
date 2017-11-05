@@ -15,34 +15,36 @@ namespace Intro2DGame.Game.Sprites
     {
         // Dictionary used so we change the index only when the key is pressed down.
         // holding down the button shouldn't change the index.
-        private Dictionary<Keys, int> pressedKeys;
+        private readonly Dictionary<Keys, int> PressedKeys;
         // the current selected Index. 
         private int SelectedIndex;
         private int UpShowIndex;
 
-        private readonly int timeoutDelay = 60;
+        private readonly int TimeoutDelay = 60;
 
-		private List<Texture2D> menuEntries;
+		private readonly List<Texture2D> MenuEntries;
 
-		private static readonly int MAX_MENU_ENTRIES = 10;
+	    private const int MAX_MENU_ENTRIES = 10;
 
-        public MainMenuSprite() : base()
+	    public MainMenuSprite() : base()
         {
-            this.pressedKeys = new Dictionary<Keys, int>();
+            this.PressedKeys = new Dictionary<Keys, int>();
             this.SelectedIndex = 0;
             this.UpShowIndex = 0;
 
-			menuEntries = new List<Texture2D>();
-			menuEntries.Add(FontManager.CreateFontString("example", "Introductions"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Knockout Round"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Round 1"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Round 2"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Finals"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Scene #6"));
-			menuEntries.Add(FontManager.CreateFontString("example", "Go to Example Scene!"));
-            menuEntries.Add(FontManager.CreateFontString("example", "Exit"));
+			MenuEntries = new List<Texture2D>
+			{
+				FontManager.CreateFontString("example", "Introductions"),
+				FontManager.CreateFontString("example", "Knockout Round"),
+				FontManager.CreateFontString("example", "Round 1"),
+				FontManager.CreateFontString("example", "Round 2"),
+				FontManager.CreateFontString("example", "Finals"),
+				FontManager.CreateFontString("example", "Go to Scene #6"),
+				FontManager.CreateFontString("example", "Go to Example Scene!"),
+				FontManager.CreateFontString("example", "Exit")
+			};
 
-        }
+		}
 
         public override void Update(GameTime gameTime)
         {
@@ -51,7 +53,7 @@ namespace Intro2DGame.Game.Sprites
             // Testing if the keys are in the dictionary to avoid any exceptions
             foreach (Keys k in ks.GetPressedKeys())
             {
-                if (!pressedKeys.ContainsKey(k)) pressedKeys.Add(k, 0);
+                if (!PressedKeys.ContainsKey(k)) PressedKeys.Add(k, 0);
             }
 
 			if (ks.IsKeyDown(Keys.Enter))
@@ -71,30 +73,30 @@ namespace Intro2DGame.Game.Sprites
 			}
 
             // Getting index down
-            if (ks.IsKeyDown(Keys.W) && pressedKeys[Keys.W] == 0 || ks.IsKeyDown(Keys.Up) && pressedKeys[Keys.Up] == 0)
+            if (ks.IsKeyDown(Keys.W) && PressedKeys[Keys.W] == 0 || ks.IsKeyDown(Keys.Up) && PressedKeys[Keys.Up] == 0)
             {
                 SelectedIndex--;
                 if (UpShowIndex > 0) UpShowIndex--;
                 if (SelectedIndex < 0)
                 {
-                    UpShowIndex = menuEntries.Count - MAX_MENU_ENTRIES;
+                    UpShowIndex = MenuEntries.Count - MAX_MENU_ENTRIES;
 					if (UpShowIndex < 0) UpShowIndex = 0;
-                    SelectedIndex += menuEntries.Count;
+                    SelectedIndex += MenuEntries.Count;
                 }
-                pressedKeys[Keys.W] = timeoutDelay;
-                pressedKeys[Keys.Up] = timeoutDelay;
+                PressedKeys[Keys.W] = TimeoutDelay;
+                PressedKeys[Keys.Up] = TimeoutDelay;
             }
             else if (ks.IsKeyUp(Keys.W) && ks.IsKeyUp(Keys.Up))
             {
-                pressedKeys[Keys.W] = 0;
-                pressedKeys[Keys.Up] = 0;
+                PressedKeys[Keys.W] = 0;
+                PressedKeys[Keys.Up] = 0;
             }
 
             // Getting the index up
-            if (ks.IsKeyDown(Keys.S) && pressedKeys[Keys.S] == 0 || ks.IsKeyDown(Keys.Down) && pressedKeys[Keys.Down] == 0)
+            if (ks.IsKeyDown(Keys.S) && PressedKeys[Keys.S] == 0 || ks.IsKeyDown(Keys.Down) && PressedKeys[Keys.Down] == 0)
             {
                 SelectedIndex++;
-                if (SelectedIndex >= menuEntries.Count)
+                if (SelectedIndex >= MenuEntries.Count)
                 {
                     SelectedIndex = 0;
                     UpShowIndex = 0;
@@ -102,13 +104,13 @@ namespace Intro2DGame.Game.Sprites
 
                 if (SelectedIndex >= UpShowIndex + MAX_MENU_ENTRIES)
 					UpShowIndex++;
-				pressedKeys[Keys.S] = timeoutDelay;
-                pressedKeys[Keys.Down] = timeoutDelay;
+				PressedKeys[Keys.S] = TimeoutDelay;
+                PressedKeys[Keys.Down] = TimeoutDelay;
             }
             else if (ks.IsKeyUp(Keys.S) && ks.IsKeyUp(Keys.Down))
             {
-                pressedKeys[Keys.S] = 0;
-                pressedKeys[Keys.Down] = 0;
+                PressedKeys[Keys.S] = 0;
+                PressedKeys[Keys.Down] = 0;
             }
         }
 
@@ -118,12 +120,12 @@ namespace Intro2DGame.Game.Sprites
 
             spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"), new Vector2(50, 85 + (SelectedIndex - UpShowIndex) * 50), Color.White);
 
-			int d = (this.menuEntries.Count > MAX_MENU_ENTRIES) ? MAX_MENU_ENTRIES : this.menuEntries.Count;
+			int d = (this.MenuEntries.Count > MAX_MENU_ENTRIES) ? MAX_MENU_ENTRIES : this.MenuEntries.Count;
 
 			int idx = 0;
-            if(menuEntries.Count <= MAX_MENU_ENTRIES)
+            if(MenuEntries.Count <= MAX_MENU_ENTRIES)
             {
-                foreach (Texture2D menuItem in menuEntries)
+                foreach (Texture2D menuItem in MenuEntries)
                 {
                     spriteBatch.Draw(menuItem, new Vector2(100, 85 + idx++ * 50), Color.White);
                 }
@@ -131,7 +133,7 @@ namespace Intro2DGame.Game.Sprites
             else
             {
                 for(int i=0;i<d;i++)
-                    spriteBatch.Draw(menuEntries[i + UpShowIndex], new Vector2(100, 85 + idx++ * 50), Color.White);
+                    spriteBatch.Draw(MenuEntries[i + UpShowIndex], new Vector2(100, 85 + idx++ * 50), Color.White);
             }
             //spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
         }

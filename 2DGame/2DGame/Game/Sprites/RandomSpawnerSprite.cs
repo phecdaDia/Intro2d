@@ -12,15 +12,15 @@ namespace Intro2DGame.Game.Sprites
 {
 	public class RandomSpawnerSprite<T> : AbstractSprite where T : AbstractSprite
 	{
-		private Type objectReference;
-		private Random random;
+		private readonly Type ObjectReference;
+		private readonly Random Random;
 
-		private int MaxAmount = -1;
+		private readonly int MaxAmount = -1;
 
 		public RandomSpawnerSprite() : base()
 		{
-			this.objectReference = typeof(T);
-			this.random = new Random();
+			this.ObjectReference = typeof(T);
+			this.Random = new Random();
 		}
 		public RandomSpawnerSprite(int max) : this()
 		{
@@ -38,7 +38,7 @@ namespace Intro2DGame.Game.Sprites
 				if (i >= 1)
 				{
 					i %= 1;
-					T o = (T)Activator.CreateInstance(objectReference, new Vector2(random.Next(800), random.Next(500)));
+					T o = (T)Activator.CreateInstance(ObjectReference, new Vector2(Random.Next(800), Random.Next(500)));
 					SceneManager.GetCurrentScene().AddSprite(o);
 
 				}

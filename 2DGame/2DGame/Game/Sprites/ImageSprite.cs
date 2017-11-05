@@ -9,7 +9,7 @@ namespace Intro2DGame.Game.Sprites
 {
 	public class ImageSprite : AbstractSprite
 	{
-		public ImageSprite(String key, Vector2 position) : base()
+		public ImageSprite(string key, Vector2 position) : base()
 		{
 			this.Texture = ImageManager.GetTexture2D(key);
 			this.Position = position;

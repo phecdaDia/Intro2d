@@ -10,44 +10,47 @@ namespace Intro2DGame.Game.Fonts
 {
 	public class FontManager
 	{
-		private static FontManager fontManager;
+		private static FontManager Instance;
 
-		private static ContentManager content;
+		private static ContentManager Content;
 
-		private Dictionary<String, CustomFont> fonts;
+		private readonly Dictionary<String, CustomFont> Fonts;
 
 		private FontManager()
 		{
-			fontManager = this;
+			Instance = this;
 
-			this.fonts = new Dictionary<string, CustomFont>();
+			this.Fonts = new Dictionary<string, CustomFont>();
 
 			new ExampleFont();
 		}
 
 		public static void SetContentManager(ContentManager contentManager)
 		{
-			content = contentManager;
+			Content = contentManager;
 		}
 
 		public static FontManager GetInstance()
 		{
-			if (content == null) return null;
-			if (fontManager == null) new FontManager();
+			if (Content == null) return null;
+			if (Instance == null) new FontManager();
 
-			return fontManager;
+			return Instance;
 		}
 
-		public void RegisterFont(String key, CustomFont font)
+		public void RegisterFont(string key, CustomFont font)
 		{
-			this.fonts.Add(key, font);
+			this.Fonts.Add(key, font);
 		}
 
-		public static Texture2D CreateFontString(String font, params String[] text)
+		public static Texture2D CreateFontString(string font, params string[] text)
 		{
-			if (!GetInstance().fonts.ContainsKey(font)) return null;
+			if (font == null) throw new ArgumentNullException(nameof(font));
+			if (text == null) throw new ArgumentNullException(nameof(text));
 
-			CustomFont cf = GetInstance().fonts[font];
+			if (!GetInstance().Fonts.ContainsKey(font)) return null;
+
+			CustomFont cf = GetInstance().Fonts[font];
 			return cf.CreateTexture(text);
 		}
 	}

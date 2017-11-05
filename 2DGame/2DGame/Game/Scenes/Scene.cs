@@ -17,7 +17,7 @@ namespace Intro2DGame.Game.Scenes
 	*/
     public abstract class Scene
     {
-        public String SceneKey
+        public string SceneKey
 		{
 			get;
 			private set;
@@ -35,7 +35,7 @@ namespace Intro2DGame.Game.Scenes
         private static Dictionary<Type, List<AbstractSprite>> BufferedSpriteDictionary;
 		
 
-        public Scene(String key)
+        public Scene(string key)
         {
             // Setting our sceneKey
             this.SceneKey = key;
