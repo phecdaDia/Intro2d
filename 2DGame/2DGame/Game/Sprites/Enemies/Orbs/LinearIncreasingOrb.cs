@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
-    class LinearIncreasingOrb : AbstractOrb
+    public class LinearIncreasingOrb : AbstractOrb
     {
         private Vector2 Direction;
 
