@@ -1,5 +1,4 @@
-﻿using Intro2DGame.Game;
-using System;
+﻿using System;
 
 namespace Intro2DGame
 {

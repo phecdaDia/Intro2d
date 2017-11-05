@@ -1,13 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
-using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -30,12 +26,12 @@ namespace Intro2DGame.Game.Sprites
         protected Vector2 Position;
 
         // Decides the draw order. Higher layerDepth will draw later.
-        private int LayerDepth = 0;
+        private int LayerDepth;
 
-	    private int MaxHealth = 0;
+	    private int MaxHealth;
 	    private int Health = -1;
 
-        public bool Persistence = false;
+        public bool Persistence;
 	    private bool Enemy;
 
 

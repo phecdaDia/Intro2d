@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Intro2DGame.Game.Scenes;
+using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -19,7 +16,7 @@ namespace Intro2DGame.Game.Sprites
 			this.Hue = new Color(r.Next(0xFF), r.Next(0xFF), r.Next(0xFF));
 		}
 
-		private Vector2 lastMovement = new Vector2();
+		private Vector2 lastMovement;
 		public override void Update(GameTime gameTime)
 		{
 			Vector2 bufferedMovement = new Vector2();

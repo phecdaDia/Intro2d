@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -51,9 +48,9 @@ namespace Intro2DGame.Game.Sprites
 				r.Location = new Point(w * spriteSize, 0);
 
 				// Getting the data.
-				this.Texture.GetData<Color>(0, r, colorData, 0, colorData.Length);
+				this.Texture.GetData(0, r, colorData, 0, colorData.Length);
 				frames[w] = new Texture2D(Game.GetInstance().GraphicsDevice, spriteSize, this.Texture.Height);
-				frames[w].SetData<Color>(colorData);
+				frames[w].SetData(colorData);
 
 			}
 

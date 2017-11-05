@@ -1,12 +1,8 @@
-using Intro2DGame.Game.Sprites;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Intro2DGame.Game.Scenes;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -17,7 +13,7 @@ namespace Intro2DGame.Game.Sprites
 
 		private readonly int MaxAmount = -1;
 
-		public RandomSpawnerSprite() : base()
+		public RandomSpawnerSprite()
 		{
 			this.ObjectReference = typeof(T);
 			this.Random = new Random();
@@ -27,7 +23,7 @@ namespace Intro2DGame.Game.Sprites
 			this.MaxAmount = max;
 		}
 
-		int i = 0;
+		int i;
 		public override void Update(GameTime gameTime)
 		{
 			List<T> list = SceneManager.GetSprites<T>();

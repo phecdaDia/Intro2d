@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Intro2DGame.Game.Fonts;
+using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Intro2DGame.Game.Fonts;
-using Intro2DGame.Game.Scenes;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -26,8 +22,8 @@ namespace Intro2DGame.Game.Sprites
 
 	    private const int MAX_MENU_ENTRIES = 10;
 
-	    public MainMenuSprite() : base()
-        {
+	    public MainMenuSprite()
+	    {
             this.PressedKeys = new Dictionary<Keys, int>();
             this.SelectedIndex = 0;
             this.UpShowIndex = 0;

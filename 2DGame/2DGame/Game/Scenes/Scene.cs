@@ -1,13 +1,9 @@
-﻿using Intro2DGame.Game.Sprites;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Intro2DGame.Game.Sprites;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -120,7 +116,7 @@ namespace Intro2DGame.Game.Scenes
                 {
                     if (!SpriteDictionary[t].ContainsKey(c.GetType()))
                     {
-                        Type listType = typeof(List<>).MakeGenericType(new[] { c.GetType() });
+                        Type listType = typeof(List<>).MakeGenericType(c.GetType());
                         IList list = (IList)Activator.CreateInstance(listType);
                         SpriteDictionary[t][c.GetType()] = list;
                     }
@@ -150,7 +146,6 @@ namespace Intro2DGame.Game.Scenes
                         if (!priorityDictionary.ContainsKey(c.GetLayerDepth())) priorityDictionary[c.GetLayerDepth()] = new List<AbstractSprite>();
 
                         priorityDictionary[c.GetLayerDepth()].Add(c);
-                        continue;
                     } else c.Draw(spriteBatch);
                 }
 			}

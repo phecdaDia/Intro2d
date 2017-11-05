@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Intro2DGame.Game.Fonts;
+using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Intro2DGame.Game.Scenes;
-using Intro2DGame.Game.Fonts;
 
 namespace Intro2DGame.Game
 {

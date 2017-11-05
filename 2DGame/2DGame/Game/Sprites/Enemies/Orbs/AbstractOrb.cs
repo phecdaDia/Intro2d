@@ -1,10 +1,6 @@
-﻿using Intro2DGame.Game.Scenes;
+﻿using System.Collections.Generic;
+using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {

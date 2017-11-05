@@ -1,13 +1,7 @@
 ﻿using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Enemies;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -19,7 +13,7 @@ namespace Intro2DGame.Game.Scenes
         }
 
 		// Temporary to spawn a second player. 
-		private bool s = false;
+		private bool s;
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);

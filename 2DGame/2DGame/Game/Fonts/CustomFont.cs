@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Fonts
 {
@@ -63,16 +60,16 @@ namespace Intro2DGame.Game.Fonts
 						// move the rectangle
 						this.Rectangle.Location = SymbolPosition[c];
 
-						ImageManager.GetTexture2D(TextureKey).GetData<Color>(0, Rectangle, colorData, 0, TotalPixelAmount);
+						ImageManager.GetTexture2D(TextureKey).GetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 
 						this.Rectangle.Location = new Point(character * ((int)SymbolSize.X), line * ((int)SymbolSize.Y));
-						result.SetData<Color>(0, Rectangle, colorData, 0, TotalPixelAmount);
+						result.SetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 					}
 					else
 					{
 						Color[] colorData = new Color[TotalPixelAmount];
 						this.Rectangle.Location = new Point(character * ((int)SymbolSize.X), line * ((int)SymbolSize.Y));
-						result.SetData<Color>(0, Rectangle, colorData, 0, TotalPixelAmount);
+						result.SetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 					}
 
 					character++;
