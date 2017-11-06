@@ -30,7 +30,7 @@ namespace Intro2DGame.Game.Sprites
 
 		    // normalizing movement
 		    if (movement.LengthSquared() > 0f) movement.Normalize();
-		    this.Position += movement * 5f;
+		    this.Position += movement * 3f;
 
 		    // Prevents player from leaving the screen
 		    if (this.Position.X + this.Texture.Width / 2f > area.X) this.Position.X = area.X - this.Texture.Width / 2f;
