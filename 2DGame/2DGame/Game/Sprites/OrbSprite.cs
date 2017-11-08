@@ -16,7 +16,7 @@ namespace Intro2DGame.Game.Sprites
 			this.Hue = new Color(r.Next(0xFF), r.Next(0xFF), r.Next(0xFF));
 		}
 
-		private Vector2 lastMovement;
+		private Vector2 LastMovement;
 		public override void Update(GameTime gameTime)
 		{
 			Vector2 bufferedMovement = new Vector2();
@@ -28,8 +28,8 @@ namespace Intro2DGame.Game.Sprites
 			}
 
 			bufferedMovement *= 0.9992f; // Basically drag
-			lastMovement += bufferedMovement;
-			this.Position += lastMovement;
+			LastMovement += bufferedMovement;
+			this.Position += LastMovement;
 			
 			// Prevents player from leaving the screen
 			if ((this.Position.X + this.Texture.Width / 2) > Game.GraphicsArea.X) this.Position.X = Game.GraphicsArea.X - this.Texture.Width / 2;

@@ -77,8 +77,8 @@ namespace Intro2DGame.Game.Scenes
 		protected abstract void CreateScene();
         public void ResetScene()
 		{
-			//SpriteDictionary[this.GetType()].Clear();
-			//CreateScene();
+			SpriteDictionary[this.GetType()].Clear();
+			CreateScene();
 		}
 
 		// Updates all registered Sprites

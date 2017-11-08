@@ -23,10 +23,10 @@ namespace Intro2DGame.Game.Sprites
 
 		    // buffering movement
 		    KeyboardState ks = Keyboard.GetState();
-		    if (ks.IsKeyDown(Keys.W)) movement += new Vector2(0, -1);
-		    if (ks.IsKeyDown(Keys.S)) movement += new Vector2(0, 1);
-		    if (ks.IsKeyDown(Keys.A)) movement += new Vector2(-1, 0);
-		    if (ks.IsKeyDown(Keys.D)) movement += new Vector2(1, 0);
+		    if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
+		    if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
+		    if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
+		    if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
 
 		    // normalizing movement
 		    if (movement.LengthSquared() > 0f) movement.Normalize();
@@ -44,10 +44,10 @@ namespace Intro2DGame.Game.Sprites
 		    MouseState ms = Mouse.GetState();
 		    if (ShootDelay-- <= 0)
 			{
-				if (ks.IsKeyDown(Keys.Space))
+				if (KeyboardManager.IsKeyPressed(Keys.Space))
 	
 				{
-					ShootOrb<PlayerOrb>(this.GetPosition(), this.Position + new Vector2(0, -1));
+					ShootOrb<PlayerOrb>(this.GetPosition(), this.Position + new Vector2(1, 0));
 					ShootDelay = SHOOT_DELAY;
 				}
 				else if (ms.LeftButton == ButtonState.Pressed)

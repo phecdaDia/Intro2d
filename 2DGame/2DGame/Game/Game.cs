@@ -31,8 +31,6 @@ namespace Intro2DGame.Game
             private set;
         }
 
-        private Dictionary<Keys, Boolean> KeyPressesDictionary;
-
         public Game()
         {
 			GameInstance = this;
@@ -48,8 +46,6 @@ namespace Intro2DGame.Game
             GraphicsAreaRectangle = new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
 
 	        this.IsMouseVisible = true;
-
-            this.KeyPressesDictionary = new Dictionary<Keys, bool>();
 
         }
 
@@ -114,25 +110,12 @@ namespace Intro2DGame.Game
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {
-            KeyboardState ks = Keyboard.GetState();
-            
-            foreach (Keys k in ks.GetPressedKeys())
-            {
-                if (!KeyPressesDictionary.ContainsKey(k))
-                    KeyPressesDictionary[k] = false;
-                
-            }
+		{
+			KeyboardManager.Update();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !KeyPressesDictionary[Keys.Escape])
+			if (KeyboardManager.IsKeyDown(Keys.Escape))
             {
                 SceneManager.CloseScene();
-                KeyPressesDictionary[Keys.Escape] = true;
-            }
-            var a = KeyPressesDictionary.Keys;
-            foreach (Keys k in a)
-            {
-                if (ks.IsKeyUp(k) && !ks.IsKeyDown(k)) KeyPressesDictionary[k] = false;
             }
 
             if (SceneManager.GetCurrentScene() == null) Exit();

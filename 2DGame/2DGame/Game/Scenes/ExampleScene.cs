@@ -12,24 +12,6 @@ namespace Intro2DGame.Game.Scenes
 
         }
 
-		// Temporary to spawn a second player. 
-		private bool s;
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
-
-			KeyboardState ks = Keyboard.GetState();
-			if (ks.IsKeyDown(Keys.Q) && s)
-			{
-				this.AddSprite(new PlayerSprite(new Vector2(100, 50)));
-				s = false;
-			}
-			else if (ks.IsKeyUp(Keys.Q))
-			{
-				s = true;
-			}
-		}
-
 		protected override void CreateScene()
         {
             this.AddSprite(new PlayerSprite(new Vector2(100, 50)));

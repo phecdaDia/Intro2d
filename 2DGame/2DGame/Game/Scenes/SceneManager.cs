@@ -64,7 +64,7 @@ namespace Intro2DGame.Game.Scenes
         {
             SceneManager sm = GetInstance();
 
-            sm.SceneStack.Pop();
+            sm.SceneStack.Pop().ResetScene();
             if (sm.SceneStack.Count > 0) sm.CurrentScene = sm.SceneStack.Peek();
             else sm.CurrentScene = null;
 
