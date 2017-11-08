@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Intro2DGame.Game.Scenes.Stages;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -15,6 +17,8 @@ namespace Intro2DGame.Game.Scenes
 
         // our current scene.
         private Scene CurrentScene;
+        private Stack<Scene> SceneStack;
+
 
         public SceneManager()
         {
@@ -23,6 +27,7 @@ namespace Intro2DGame.Game.Scenes
 
             // Creates the Scenes Dictionary
             this.Scenes = new Dictionary<string, Scene>();
+            this.SceneStack = new Stack<Scene>();
 
             // Creates all scenes. 
             CreateScenes();
@@ -36,7 +41,7 @@ namespace Intro2DGame.Game.Scenes
 	        RegisterScene(new TutorialScene());
 
 
-			SetCurrentScene("mainmenu");
+			SetScene("mainmenu");
         }
 
 		// Returns the current scene
@@ -45,18 +50,33 @@ namespace Intro2DGame.Game.Scenes
             return GetInstance().CurrentScene;
         }
 
-		// Sets the current scene. 
-		// If the scene is the same we just return;
-		public static void SetCurrentScene(string key)
+		// Clears the Stack and opens a scene
+		public static void SetScene(string key)
 		{
 			SceneManager sm = GetInstance();
 
-			if (sm.CurrentScene?.SceneKey == key) return;
-
-			if (sm.Scenes.ContainsKey(key)) sm.CurrentScene = sm.Scenes[key];
-
-			sm.CurrentScene.ResetScene();
+            sm.SceneStack.Clear();
+            sm.SceneStack.Push(sm.Scenes[key]);
+            sm.CurrentScene = sm.SceneStack.Peek();
 		}
+
+        public static void CloseScene()
+        {
+            SceneManager sm = GetInstance();
+
+            sm.SceneStack.Pop();
+            if (sm.SceneStack.Count > 0) sm.CurrentScene = sm.SceneStack.Peek();
+            else sm.CurrentScene = null;
+
+        }
+
+        public static void AddScene(string key)
+        {
+            SceneManager sm = GetInstance();
+
+            sm.SceneStack.Push(sm.Scenes[key]);
+            sm.CurrentScene = sm.SceneStack.Peek();
+        }
 
         // Getting the Singleton instance
         private static SceneManager GetInstance()
@@ -79,5 +99,20 @@ namespace Intro2DGame.Game.Scenes
 		{
 			return GetCurrentScene().GetAllSprites();
 		}
+
+        public static int GetStackSize()
+        {
+            return GetInstance().SceneStack.Count;
+        }
+
+        public static void Update(GameTime gameTime)
+        {
+            GetInstance().CurrentScene?.Update(gameTime);
+        }
+
+        public static void Draw(SpriteBatch spriteBatch)
+        {
+            GetInstance().CurrentScene?.Draw(spriteBatch);
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Intro2DGame.Game.Scenes
 			if (!SpriteDictionary.ContainsKey(this.GetType())) SpriteDictionary[this.GetType()] = new Dictionary<Type, IList>();
             //if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
 
+            CreateScene();
         }
 
 		// Tries to get all Sprites of T
@@ -76,14 +77,14 @@ namespace Intro2DGame.Game.Scenes
 		protected abstract void CreateScene();
         public void ResetScene()
 		{
-			SpriteDictionary[this.GetType()].Clear();
-			CreateScene();
+			//SpriteDictionary[this.GetType()].Clear();
+			//CreateScene();
 		}
 
 		// Updates all registered Sprites
 		public virtual void Update(GameTime gameTime)
-		{
-			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
+        {
+            if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 
 			List<AbstractSprite> deleted = new List<AbstractSprite>();
 			foreach (IList l in SpriteDictionary[this.GetType()].Values)
@@ -134,7 +135,7 @@ namespace Intro2DGame.Game.Scenes
         public virtual void Draw(SpriteBatch spriteBatch)
 		{
 			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
-
+            
             SortedDictionary<int, List<AbstractSprite>> priorityDictionary = new SortedDictionary<int, List<AbstractSprite>>();
 
 			foreach (IList l in SpriteDictionary[this.GetType()].Values)

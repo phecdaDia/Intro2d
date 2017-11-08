@@ -109,11 +109,15 @@ namespace Intro2DGame.Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-				SceneManager.SetCurrentScene("mainmenu");
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                SceneManager.CloseScene();
+
+            if (SceneManager.GetCurrentScene() == null) Exit();
 
             // This updates the current scene.
-            SceneManager.GetCurrentScene().Update(gameTime);
+
+            SceneManager.Update(gameTime);
+            //SceneManager.GetCurrentScene().Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -124,13 +128,16 @@ namespace Intro2DGame.Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            if (SceneManager.GetCurrentScene() == null) return;
+
             GraphicsDevice.Clear(new Color(0, 128, 255));
 
             // TODO: Add your drawing code here
             SpriteBatch.Begin();
 
             // Drawing the current Scene.
-            SceneManager.GetCurrentScene().Draw(SpriteBatch);
+            SceneManager.Draw(SpriteBatch);
+            //SceneManager.GetCurrentScene().Draw(SpriteBatch);
 
             // Only add something here if it affects the game globally!
 
