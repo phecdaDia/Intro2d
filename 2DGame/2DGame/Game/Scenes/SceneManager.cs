@@ -58,6 +58,7 @@ namespace Intro2DGame.Game.Scenes
             sm.SceneStack.Clear();
             sm.SceneStack.Push(sm.Scenes[key]);
             sm.CurrentScene = sm.SceneStack.Peek();
+            sm.CurrentScene.ResetScene();
 		}
 
         public static void CloseScene()
@@ -76,6 +77,7 @@ namespace Intro2DGame.Game.Scenes
 
             sm.SceneStack.Push(sm.Scenes[key]);
             sm.CurrentScene = sm.SceneStack.Peek();
+            sm.CurrentScene.ResetScene();
         }
 
         // Getting the Singleton instance
