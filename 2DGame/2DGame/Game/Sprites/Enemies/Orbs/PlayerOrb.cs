@@ -9,7 +9,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 	public class PlayerOrb : LinearOrb
 	{
 		//private static readonly Vector2 Direction = new Vector2(0, -1);
-		private const float SPEED = 10f;
+		private const float SPEED = 7.5f;
 
 
 		public PlayerOrb(Vector2 position, Vector2 goal) : base(position, goal - position, SPEED)
@@ -19,7 +19,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 		public override void Update(GameTime gameTime)
 		{
-			UpdatePosition(gameTime);
+			this.Position += UpdatePosition(gameTime);
 
 			Dictionary<Type, IList> sprites = SceneManager.GetAllSprites();
 
@@ -27,7 +27,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			{
 				foreach (AbstractSprite sprite in sprites[t])
 				{
-					if (!sprite.IsEnemy()) break;
+					if (!sprite.Enemy) break;
 
 					if (sprite.DoesCollide(this))
 					{

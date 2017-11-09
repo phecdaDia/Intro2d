@@ -4,23 +4,20 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
     public class LinearIncreasingOrb : AbstractOrb
     {
-        private Vector2 Direction;
 
         private readonly float Speed2;
 
-        public LinearIncreasingOrb(Vector2 position, Vector2 direction, float speed, float speed2) : base("orb", position)
+        public LinearIncreasingOrb(Vector2 position, Vector2 direction, float speed, float speed2) : base("orb3", position, direction)
 		{
-            this.Direction = direction;
-            this.Direction.Normalize();
             this.Direction *= speed;
 
             this.Speed2 = speed2;
         }
 
-        protected override void UpdatePosition(GameTime gameTime)
+        protected override Vector2 UpdatePosition(GameTime gameTime)
         {
             Direction *= this.Speed2;
-            this.Position += Direction;
+            return Direction;
         }
     }
 }

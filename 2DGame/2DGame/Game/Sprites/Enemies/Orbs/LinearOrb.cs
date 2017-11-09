@@ -4,19 +4,15 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
 	public class LinearOrb : AbstractOrb
 	{
-		private readonly Vector2 Direction;
 
-		public LinearOrb(Vector2 position, Vector2 direction, float speed) : base("orb", position)
+		public LinearOrb(Vector2 position, Vector2 direction, float speed) : base("orb3", position, direction)
 		{
-			direction.Normalize();
-			direction *= speed;
-
-			this.Direction = direction;
+			this.Direction *= speed;
 		}
 
-		protected override void UpdatePosition(GameTime gameTime)
+		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
-			this.Position += Direction;
+			return Direction;
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace Intro2DGame.Game.Sprites
 				if (KeyboardManager.IsKeyPressed(Keys.Space))
 	
 				{
-					ShootOrb<PlayerOrb>(this.GetPosition(), this.Position + new Vector2(1, 0));
+					ShootOrb<CurvingOrb>(this.GetPosition(), this.Position + new Vector2(1, 0));
 					ShootDelay = SHOOT_DELAY;
 				}
 				else if (ms.LeftButton == ButtonState.Pressed)

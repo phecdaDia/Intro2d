@@ -32,10 +32,12 @@ namespace Intro2DGame.Game.Sprites
 	    private int Health = -1;
 
         public bool Persistence;
-	    private bool Enemy;
+	    public bool Enemy;
 
+	    protected float Rotation = 0f;
+	    public float Scale = 1.0f;
 
-	    protected AbstractSprite()
+		protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
 			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();
@@ -93,7 +95,21 @@ namespace Intro2DGame.Game.Sprites
             //spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
 	        if (Texture == null) return;
 
+
             spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
+
+
+	        spriteBatch.Draw(
+		        this.Texture,
+		        Position,
+		        null,
+		        this.Hue,
+		        this.Rotation,
+		        new Vector2(this.Texture.Width / 2f, this.Texture.Height / 2f),
+		        new Vector2(this.Scale),
+		        SpriteEffects.None,
+		        0f
+	        );
 		}
 
 		// Defines if the sprite is an enemy. 
@@ -102,12 +118,6 @@ namespace Intro2DGame.Game.Sprites
 		    this.Persistence = isEnemy;
 		    this.Enemy = isEnemy;
 	    }
-
-		// returns if the sprite is an enemy. 
-	    public bool IsEnemy()
-	    {
-		    return Enemy;
-		}
 
 	    protected void SetMaxHealth(int maxHealth)
 	    {

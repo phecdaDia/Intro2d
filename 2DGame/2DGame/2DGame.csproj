@@ -57,6 +57,7 @@
     <Compile Include="Game\Scenes\Stages\TutorialScene.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\AbstractOrb.cs" />
+    <Compile Include="Game\Sprites\Enemies\Orbs\CurvingOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\LinearIncreasingOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\LinearOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\PlayerOrb.cs" />
