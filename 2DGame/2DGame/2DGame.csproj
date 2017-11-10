@@ -60,8 +60,6 @@
     <Compile Include="Game\Sprites\Enemies\Orbs\CurvingOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\LinearIncreasingOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\LinearOrb.cs" />
-    <Compile Include="Game\Sprites\OrbSprite.cs" />
-    <Compile Include="Game\Sprites\RandomSpawnerSprite.cs" />
     <Compile Include="Game\Scenes\Scene.cs" />
     <Compile Include="Game\Scenes\SceneManager.cs" />
     <Compile Include="Game\Sprites\AbstractAnimatedSprite.cs" />
