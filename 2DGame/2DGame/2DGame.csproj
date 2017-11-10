@@ -49,6 +49,7 @@
     <Compile Include="Game\Fonts\ExampleFont.cs" />
     <Compile Include="Game\Fonts\FontManager.cs" />
     <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
     <Compile Include="Game\ObjectCloner.cs" />

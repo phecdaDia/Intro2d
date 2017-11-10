@@ -28,33 +28,21 @@ namespace Intro2DGame.Game.Sprites
 			var movement = new Vector2();
 			var area = Game.GraphicsArea;
 
-			// buffering movement
-			var ks = Keyboard.GetState();
-			if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
-			if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
-			if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
-			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
-
-			// normalizing movement
-			if (movement.LengthSquared() > 0f) movement.Normalize();
-			Position += movement * 3f;
-
-			// Prevents player from leaving the screen
-			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
-			if (Position.Y + Texture.Height / 2f > area.Y) Position.Y = area.Y - Texture.Height / 2f;
-			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
-			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
-
 
 			// Shoots bullets
 
 			var ms = Mouse.GetState();
-			if (ShootDelay-- <= 0) {
+
+			var shot = KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed;
+
+			if (ShootDelay-- <= 0 || KeyboardManager.IsKeyDown(Keys.Space))
+			{
 				if (KeyboardManager.IsKeyPressed(Keys.Space))
 
 				{
 					ShootOrb<PlayerOrb>(GetPosition(), Position + new Vector2(1, 0));
 					ShootDelay = SHOOT_DELAY;
+
 				}
 				else if (ms.LeftButton == ButtonState.Pressed)
 				{
@@ -63,13 +51,43 @@ namespace Intro2DGame.Game.Sprites
 				}
 			}
 
+			// buffering movement
+			if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
+			if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
+			if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
+			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
+
+			// normalizing movement
+			if (movement.LengthSquared() > 0f) movement.Normalize();
+
+			movement *= new Vector2(1.1f, 1.0f);
+			Position += movement * (shot && GameConstants.IS_MOVEMENT_RESTRICTED ? 2.75f : 4.25f);
+
+			// Prevents player from leaving the screen
+			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
+			if (Position.Y + Texture.Height / 2f > area.Y) Position.Y = area.Y - Texture.Height / 2f;
+			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
+			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
+
+
+
 
 			// Debug only!
 			if (KeyboardManager.IsKeyPressed(Keys.F1)) Health += 1;
 			if (KeyboardManager.IsKeyPressed(Keys.F2)) Health -= 1;
+			if (KeyboardManager.IsKeyPressed(Keys.F4)) Health = MaxHealth;
 			// end
 
-			//Health += 1;
+			if (GameConstants.IS_AUTOREGEN_ENABLED)
+			{
+
+				if (GameConstants.IS_AUTOREGEN_RESTRICTED)
+				{
+					if (!shot) Health += 1;
+				}
+				else Health += 1;
+			}
+
 			if (Health >= MaxHealth) Health = MaxHealth;
 
 			if (Health <= 0) SceneManager.CloseScene();

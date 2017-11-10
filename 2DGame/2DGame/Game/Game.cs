@@ -1,4 +1,5 @@
-﻿using Intro2DGame.Game.Fonts;
+﻿using System;
+using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,7 @@ namespace Intro2DGame.Game
 		private readonly GraphicsDeviceManager Graphics;
 		private SpriteBatch SpriteBatch;
 
-		public Game()
+		public Game(params String[] args)
 		{
 			GameInstance = this;
 

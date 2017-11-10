@@ -11,9 +11,9 @@ namespace Intro2DGame
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main(params String[] args)
         {
-            using (var game = new Game.Game())
+            using (var game = new Game.Game(args))
                 game.Run();
         }
     }
