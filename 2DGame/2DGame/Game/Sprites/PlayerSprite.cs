@@ -1,4 +1,5 @@
-﻿using Intro2DGame.Game.Scenes;
+﻿using System;
+using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,10 +12,15 @@ namespace Intro2DGame.Game.Sprites
 		private const int SHOOT_DELAY = 7;
 		private int ShootDelay;
 
+
 		public PlayerSprite(Vector2 position) : base("player", position)
 		{
 			SetLayerDepth(1);
-			SceneManager.GetCurrentScene().AddSprite(new BannerSprite()); // This adds the banner
+			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
+			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
+
+			SetMaxHealth(1000);
+			SetHealth(1000);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -43,7 +49,7 @@ namespace Intro2DGame.Game.Sprites
 			// Shoots bullets
 
 			var ms = Mouse.GetState();
-			if (ShootDelay-- <= 0)
+			if (ShootDelay-- <= 0) {
 				if (KeyboardManager.IsKeyPressed(Keys.Space))
 
 				{
@@ -55,6 +61,19 @@ namespace Intro2DGame.Game.Sprites
 					ShootOrb<PlayerOrb>(GetPosition(), ms.Position.ToVector2());
 					ShootDelay = SHOOT_DELAY;
 				}
+			}
+
+
+			// Debug only!
+			if (KeyboardManager.IsKeyPressed(Keys.F1)) Health += 1;
+			if (KeyboardManager.IsKeyPressed(Keys.F2)) Health -= 1;
+			// end
+
+			//Health += 1;
+			if (Health >= MaxHealth) Health = MaxHealth;
+
+			if (Health <= 0) SceneManager.CloseScene();
+
 		}
 
 		public override bool DoesCollide(AbstractOrb orb)
@@ -68,8 +87,12 @@ namespace Intro2DGame.Game.Sprites
 
 	internal class BannerSprite : ImageSprite
 	{
-		public BannerSprite() : base("banner", new Vector2())
+		private PlayerSprite Player;
+
+		public BannerSprite(PlayerSprite player) : base("banner", new Vector2())
 		{
+			this.Player = player;
+
 			Persistence = true;
 			SetLayerDepth(10);
 		}
@@ -77,11 +100,39 @@ namespace Intro2DGame.Game.Sprites
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(Texture, Position, Hue);
+
+			spriteBatch.DrawString(Game.FontArial, $"Health: {Player.Health}", new Vector2(30, 30), Color.Black);
 		}
 
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
+		}
+	}
+
+	internal class ViginetteSprite : ImageSprite
+	{
+		private PlayerSprite Player;
+
+		public ViginetteSprite(PlayerSprite player) : base("viginette", new Vector2())
+		{
+			this.Player = player;
+
+			Persistence = true;
+			SetLayerDepth(11);
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(this.Texture, new Rectangle(0, 0, (int)Game.GraphicsArea.X, (int)Game.GraphicsArea.Y), null, this.Hue);
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			float k = (this.Player.MaxHealth - this.Player.Health) / ((float) this.Player.MaxHealth);
+			Color c = new Color((int) (255f * k), 0, 0, (int) (64f * k));
+
+			this.Hue = c;
 		}
 	}
 

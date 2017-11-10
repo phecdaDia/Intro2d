@@ -79,14 +79,16 @@ namespace Intro2DGame.Game.Scenes
 
 			var deleted = new List<AbstractSprite>();
 			foreach (var l in SpriteDictionary[GetType()].Values)
-			foreach (AbstractSprite c in l)
 			{
-				c.Update(gameTime);
+				foreach (AbstractSprite c in l)
+				{
+					c.Update(gameTime);
 
-				if (!c.Persistence)
-					if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
-					else if (c.GetPosition().X > Game.GraphicsArea.X || c.GetPosition().Y > Game.GraphicsArea.Y) c.Delete();
-				if (c.IsDeleted()) deleted.Add(c);
+					if (!c.Persistence)
+						if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
+						else if (c.GetPosition().X > Game.GraphicsArea.X || c.GetPosition().Y > Game.GraphicsArea.Y) c.Delete();
+					if (c.IsDeleted()) deleted.Add(c);
+				}
 			}
 
 			foreach (var c in deleted)

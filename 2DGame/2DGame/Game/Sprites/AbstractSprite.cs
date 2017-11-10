@@ -16,15 +16,23 @@ namespace Intro2DGame.Game.Sprites
 		private bool Deleted;
 
 		public bool Enemy;
-		private int Health = -1;
+		public int Health
+		{
+			get;
+			protected set;
+		}
 
-		// This is for coloring monochrome sprites
-		protected Color Hue;
+	// This is for coloring monochrome sprites
+	protected Color Hue;
 
 		// Decides the draw order. Higher layerDepth will draw later.
-		private int LayerDepth;
+		protected int LayerDepth;
 
-		private int MaxHealth;
+		public int MaxHealth
+		{
+			get;
+			protected set;
+		}
 
 		public bool Persistence;
 
@@ -40,6 +48,8 @@ namespace Intro2DGame.Game.Sprites
 			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();
 
 			Hue = Color.White;
+
+			this.Health = -1;
 		}
 
 		public AbstractSprite(string textureKey, Vector2 position) : this()

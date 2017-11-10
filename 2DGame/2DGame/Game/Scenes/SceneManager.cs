@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Scenes.Stages;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,10 +17,12 @@ namespace Intro2DGame.Game.Scenes
 		// Dictionary for all scenes. Scenes don't have to be initiated. 
 		private readonly Dictionary<string, Scene> Scenes;
 
-		private readonly Stack<Scene> SceneStack;
+		private readonly List<Scene> SceneStack;
 
 		// our current scene.
 		private Scene CurrentScene;
+
+		private static bool ClosingScene;
 
 
 		public SceneManager()
@@ -28,7 +32,7 @@ namespace Intro2DGame.Game.Scenes
 
 			// Creates the Scenes Dictionary
 			Scenes = new Dictionary<string, Scene>();
-			SceneStack = new Stack<Scene>();
+			SceneStack = new List<Scene>();
 
 			// Creates all scenes. 
 			CreateScenes();
@@ -57,26 +61,38 @@ namespace Intro2DGame.Game.Scenes
 			var sm = GetInstance();
 
 			sm.SceneStack.Clear();
-			sm.SceneStack.Push(sm.Scenes[key]);
-			sm.CurrentScene = sm.SceneStack.Peek();
+			sm.SceneStack.Add(sm.Scenes[key]);
+			sm.CurrentScene = sm.SceneStack.Last();
 			sm.CurrentScene.ResetScene();
 		}
 
 		public static void CloseScene()
 		{
+			ClosingScene = true;
+		}
+
+		private static void RemoveScene()
+		{
 			var sm = GetInstance();
 
-			sm.SceneStack.Pop().ResetScene();
-			if (sm.SceneStack.Count > 0) sm.CurrentScene = sm.SceneStack.Peek();
-			else sm.CurrentScene = null;
+			var c = sm.SceneStack.Count;
+
+			if (c <= 0) return;
+
+			sm.SceneStack.Last().ResetScene();
+			sm.SceneStack.RemoveAt(c-1);
+
+			sm.CurrentScene = c > 1 ? sm.SceneStack.Last() : null;
 		}
 
 		public static void AddScene(string key)
 		{
+			if (key == GetCurrentScene().SceneKey) return;
+
 			var sm = GetInstance();
 
-			sm.SceneStack.Push(sm.Scenes[key]);
-			sm.CurrentScene = sm.SceneStack.Peek();
+			sm.SceneStack.Add(sm.Scenes[key]);
+			sm.CurrentScene = sm.SceneStack.Last();
 			sm.CurrentScene.ResetScene();
 		}
 
@@ -110,6 +126,12 @@ namespace Intro2DGame.Game.Scenes
 		public static void Update(GameTime gameTime)
 		{
 			GetInstance().CurrentScene?.Update(gameTime);
+
+			if (ClosingScene)
+			{
+				ClosingScene = false;
+				RemoveScene();
+			}
 		}
 
 		public static void Draw(SpriteBatch spriteBatch)

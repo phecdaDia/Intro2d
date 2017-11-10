@@ -9,7 +9,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 	{
 		protected Vector2 Direction;
 
-		public AbstractOrb(string textureKey, Vector2 position, Vector2 direction) : base(textureKey, position)
+		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction) : base(textureKey, position)
 		{
 			Direction = direction;
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
@@ -25,7 +25,12 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 			var players = SceneManager.GetSprites<PlayerSprite>();
 			foreach (var ps in players)
-				if (ps.DoesCollide(this)) Hue = Color.Red;
+			{
+				if (!ps.DoesCollide(this)) continue;
+
+				ps.Damage(250);
+				this.Delete();
+			}
 		}
 
 		protected abstract Vector2 UpdatePosition(GameTime gameTime);
