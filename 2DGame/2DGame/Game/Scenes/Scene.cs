@@ -11,14 +11,8 @@ namespace Intro2DGame.Game.Scenes
 		This is the basic level logic.
 		This allows us to change scenes and update/draw sprites.
 	*/
-    public abstract class Scene
-    {
-        public string SceneKey
-		{
-			get;
-			private set;
-		}
-
+	public abstract class Scene
+	{
 		// Dictionary of all sprites. 
 		// This has to be a Dict<TypeA, Dict<TypeB, IList>>
 		// TypeA is the scene type
@@ -28,146 +22,132 @@ namespace Intro2DGame.Game.Scenes
 
 		// We have to do it this way, otherwise Sprites can't spawn other sprites. 
 		//private static Dictionary<Type, Dictionary<Type, IList>> BufferedSpriteDictionary;
-        private static Dictionary<Type, List<AbstractSprite>> BufferedSpriteDictionary;
-		
+		private static Dictionary<Type, List<AbstractSprite>> BufferedSpriteDictionary;
 
-        public Scene(string key)
-        {
-            // Setting our sceneKey
-            this.SceneKey = key;
+
+		public Scene(string key)
+		{
+			// Setting our sceneKey
+			SceneKey = key;
 
 			// Checks if the Dictionaries already exist.
 			if (SpriteDictionary == null) SpriteDictionary = new Dictionary<Type, Dictionary<Type, IList>>();
 			if (BufferedSpriteDictionary == null) BufferedSpriteDictionary = new Dictionary<Type, List<AbstractSprite>>();
 
 			// Checks if the scene is in the Dictionary. 
-			if (!SpriteDictionary.ContainsKey(this.GetType())) SpriteDictionary[this.GetType()] = new Dictionary<Type, IList>();
-            //if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
+			if (!SpriteDictionary.ContainsKey(GetType())) SpriteDictionary[GetType()] = new Dictionary<Type, IList>();
+			//if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
 
-            CreateScene();
-        }
+			CreateScene();
+		}
+
+		public string SceneKey { get; }
 
 		// Tries to get all Sprites of T
 		// GetSprite<PlayerSprite>() would result in all players.
 		public List<T> GetSprites<T>()
 		{
 			// If we have a List of sprites return it, otherwise give a blank list to avoid NPE
-			if (SpriteDictionary[this.GetType()].ContainsKey(typeof(T))) return (List<T>) SpriteDictionary[this.GetType()][typeof(T)];
+			if (SpriteDictionary[GetType()].ContainsKey(typeof(T))) return (List<T>) SpriteDictionary[GetType()][typeof(T)];
 			return new List<T>();
 		}
 
 		public void AddSprite(AbstractSprite s)
 		{
-			if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) {
-
-                BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
-                
-            }
-            BufferedSpriteDictionary[this.GetType()].Add(s);
-            
+			if (!BufferedSpriteDictionary.ContainsKey(GetType()))
+				BufferedSpriteDictionary[GetType()] = new List<AbstractSprite>();
+			BufferedSpriteDictionary[GetType()].Add(s);
 		}
 
 		// This returns all Sprites of the current scene
 		public Dictionary<Type, IList> GetAllSprites()
 		{
-			return SpriteDictionary[this.GetType()];
+			return SpriteDictionary[GetType()];
 		}
 
 		// This is used to spawn all objects
 		protected abstract void CreateScene();
-        public void ResetScene()
+
+		public void ResetScene()
 		{
-			SpriteDictionary[this.GetType()].Clear();
+			SpriteDictionary[GetType()].Clear();
 			CreateScene();
 		}
 
 		// Updates all registered Sprites
 		public virtual void Update(GameTime gameTime)
-        {
-            if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
+		{
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 
-			List<AbstractSprite> deleted = new List<AbstractSprite>();
-			foreach (IList l in SpriteDictionary[this.GetType()].Values)
+			var deleted = new List<AbstractSprite>();
+			foreach (var l in SpriteDictionary[GetType()].Values)
+			foreach (AbstractSprite c in l)
 			{
-				foreach (AbstractSprite c in l)
-				{
-					c.Update(gameTime);
+				c.Update(gameTime);
 
-                    if (!c.Persistence)
-                    {
-                        if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
-                        else if (c.GetPosition().X > Game.GraphicsArea.X || c.GetPosition().Y > Game.GraphicsArea.Y) c.Delete();
-                    }
-					if (c.IsDeleted()) deleted.Add(c);
-				}
+				if (!c.Persistence)
+					if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
+					else if (c.GetPosition().X > Game.GraphicsArea.X || c.GetPosition().Y > Game.GraphicsArea.Y) c.Delete();
+				if (c.IsDeleted()) deleted.Add(c);
 			}
 
-			foreach (AbstractSprite c in deleted)
-			{
-				SpriteDictionary[this.GetType()][c.GetType()].Remove(c);
-			}
+			foreach (var c in deleted)
+				SpriteDictionary[GetType()][c.GetType()].Remove(c);
 
 			// Adding spawned Sprites to the SpriteDictionary
 
 			// foreach scene go through each sprite type and add them to the SpriteDictionary
 
-            foreach (Type t in BufferedSpriteDictionary.Keys)
-            {
-                foreach (AbstractSprite c in BufferedSpriteDictionary[t])
-                {
-                    if (!SpriteDictionary[t].ContainsKey(c.GetType()))
-                    {
-                        Type listType = typeof(List<>).MakeGenericType(c.GetType());
-                        IList list = (IList)Activator.CreateInstance(listType);
-                        SpriteDictionary[t][c.GetType()] = list;
-                    }
+			foreach (var t in BufferedSpriteDictionary.Keys)
+			{
+				foreach (var c in BufferedSpriteDictionary[t])
+				{
+					if (!SpriteDictionary[t].ContainsKey(c.GetType()))
+					{
+						var listType = typeof(List<>).MakeGenericType(c.GetType());
+						var list = (IList) Activator.CreateInstance(listType);
+						SpriteDictionary[t][c.GetType()] = list;
+					}
 
-                    //Console.WriteLine("Adding Sprite of Type {0}", c.GetType());
-                    SpriteDictionary[t][c.GetType()].Add(c);
-                }
+					//Console.WriteLine("Adding Sprite of Type {0}", c.GetType());
+					SpriteDictionary[t][c.GetType()].Add(c);
+				}
 
-                BufferedSpriteDictionary[t].Clear();
-            }
-            
+				BufferedSpriteDictionary[t].Clear();
+			}
 		}
 
 		// Draws all registered Sprites
-        public virtual void Draw(SpriteBatch spriteBatch)
+		public virtual void Draw(SpriteBatch spriteBatch)
 		{
 			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
-            
-            SortedDictionary<int, List<AbstractSprite>> priorityDictionary = new SortedDictionary<int, List<AbstractSprite>>();
 
-			foreach (IList l in SpriteDictionary[this.GetType()].Values)
+			var priorityDictionary = new SortedDictionary<int, List<AbstractSprite>>();
+
+			foreach (var l in SpriteDictionary[GetType()].Values)
+			foreach (AbstractSprite c in l)
+				if (c.GetLayerDepth() > 0)
+				{
+					if (!priorityDictionary.ContainsKey(c.GetLayerDepth()))
+						priorityDictionary[c.GetLayerDepth()] = new List<AbstractSprite>();
+
+					priorityDictionary[c.GetLayerDepth()].Add(c);
+				}
+				else
+				{
+					c.Draw(spriteBatch);
+				}
+
+			foreach (var v in priorityDictionary.Keys)
 			{
-                foreach (AbstractSprite c in l)
-                {
-                    if (c.GetLayerDepth() > 0)
-                    {
-                        if (!priorityDictionary.ContainsKey(c.GetLayerDepth())) priorityDictionary[c.GetLayerDepth()] = new List<AbstractSprite>();
+				//Console.WriteLine("Drawing Layer #{0}", v);
+				foreach (var a in priorityDictionary[v])
+					//Console.WriteLine("\t{0}", a.GetType());
+					a.Draw(spriteBatch);
 
-                        priorityDictionary[c.GetLayerDepth()].Add(c);
-                    } else c.Draw(spriteBatch);
-                }
+				foreach (var a in priorityDictionary[v])
+					a.Draw(spriteBatch);
 			}
-            
-            foreach (int v in priorityDictionary.Keys)
-            {
-                //Console.WriteLine("Drawing Layer #{0}", v);
-                foreach (AbstractSprite a in priorityDictionary[v])
-                {
-                    //Console.WriteLine("\t{0}", a.GetType());
-                    a.Draw(spriteBatch);
-                }
-
-                foreach (AbstractSprite a in priorityDictionary[v])
-                {
-                    a.Draw(spriteBatch);
-                }
-
-            }
-
-        }
-
+		}
 	}
 }

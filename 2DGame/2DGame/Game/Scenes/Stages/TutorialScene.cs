@@ -18,10 +18,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 	internal class TutorialSprite : AbstractSprite
 	{
-
 		public override void Update(GameTime gameTime)
 		{
-
 		}
 	}
 }

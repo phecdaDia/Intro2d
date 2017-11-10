@@ -19,63 +19,60 @@ namespace Intro2DGame.Game.Sprites
 		public AbstractAnimatedSprite(string key, int spriteSize, int delay) : base(key)
 		{
 			// If the sprite is of invalid size we'll have to throw an exception
-			if (this.Texture.Width % spriteSize != 0) throw new InvalidOperationException("Invalid Sprite size");
+			if (Texture.Width % spriteSize != 0) throw new InvalidOperationException("Invalid Sprite size");
 
 			// Check if we already created our dictionary
 			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Texture2D[]>();
 
 			// setting the delay
-			this.Delay = delay;
+			Delay = delay;
 
 			// If this sprite already has everything loaded, just use that. 
-			if (FrameDictionary.ContainsKey(this.GetType()))
+			if (FrameDictionary.ContainsKey(GetType()))
 			{
-				this.Texture = FrameDictionary[this.GetType()][0];
+				Texture = FrameDictionary[GetType()][0];
 				return;
-
 			}
 
 			// ... otherwise we'll have to load it. 
-			Texture2D[] frames = new Texture2D[this.Texture.Width / spriteSize];
+			var frames = new Texture2D[Texture.Width / spriteSize];
 
 			// Loading each frame individually
-			Color[] colorData = new Color[this.Texture.Height * spriteSize];
+			var colorData = new Color[Texture.Height * spriteSize];
 
 			// This just puts everything together.
-			Rectangle r = new Rectangle(0, 0, spriteSize, this.Texture.Height);
-			for (int w = 0; w < frames.Length; w++)
+			var r = new Rectangle(0, 0, spriteSize, Texture.Height);
+			for (var w = 0; w < frames.Length; w++)
 			{
 				r.Location = new Point(w * spriteSize, 0);
 
 				// Getting the data.
-				this.Texture.GetData(0, r, colorData, 0, colorData.Length);
-				frames[w] = new Texture2D(Game.GetInstance().GraphicsDevice, spriteSize, this.Texture.Height);
+				Texture.GetData(0, r, colorData, 0, colorData.Length);
+				frames[w] = new Texture2D(Game.GetInstance().GraphicsDevice, spriteSize, Texture.Height);
 				frames[w].SetData(colorData);
-
 			}
 
 			// Add our frames to the dictionary
-			FrameDictionary.Add(this.GetType(), frames);
-			this.Texture = frames[0];
+			FrameDictionary.Add(GetType(), frames);
+			Texture = frames[0];
 		}
 
 		public AbstractAnimatedSprite(string key, Vector2 position, int spriteSize, int delay) : this(key, spriteSize, delay)
 		{
-			this.Position = position;
+			Position = position;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
+			var t = GetType();
 
-			Type t = this.GetType();
-
-			if (++this.CurrentOffset >= this.Delay)
+			if (++CurrentOffset >= Delay)
 			{
-				this.CurrentOffset %= this.Delay;
-				if (++this.CurrentFrame >= FrameDictionary[t].Length) this.CurrentFrame %= FrameDictionary[t].Length;
+				CurrentOffset %= Delay;
+				if (++CurrentFrame >= FrameDictionary[t].Length) CurrentFrame %= FrameDictionary[t].Length;
 
 
-				this.Texture = FrameDictionary[t][CurrentFrame];
+				Texture = FrameDictionary[t][CurrentFrame];
 			}
 
 			base.Draw(spriteBatch);

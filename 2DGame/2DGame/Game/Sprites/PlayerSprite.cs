@@ -4,67 +4,62 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites
 {
-    public class PlayerSprite : AbstractSprite
-    {
-	    private const int SHOOT_DELAY = 7;
-	    private int ShootDelay;
+	public class PlayerSprite : AbstractSprite
+	{
+		private const int SHOOT_DELAY = 7;
+		private int ShootDelay;
 
-        public PlayerSprite(Vector2 position) : base("player", position)
-        {
-            this.SetLayerDepth(1);
-            
-        }
+		public PlayerSprite(Vector2 position) : base("player", position)
+		{
+			SetLayerDepth(1);
+		}
 
-	    public override void Update(GameTime gameTime)
-	    {
+		public override void Update(GameTime gameTime)
+		{
+			var movement = new Vector2();
+			var area = Game.GraphicsArea;
 
-		    Vector2 movement = new Vector2();
-		    Vector2 area = Game.GraphicsArea;
+			// buffering movement
+			var ks = Keyboard.GetState();
+			if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
+			if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
+			if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
+			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
 
-		    // buffering movement
-		    KeyboardState ks = Keyboard.GetState();
-		    if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
-		    if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
-		    if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
-		    if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
+			// normalizing movement
+			if (movement.LengthSquared() > 0f) movement.Normalize();
+			Position += movement * 3f;
 
-		    // normalizing movement
-		    if (movement.LengthSquared() > 0f) movement.Normalize();
-		    this.Position += movement * 3f;
-
-		    // Prevents player from leaving the screen
-		    if (this.Position.X + this.Texture.Width / 2f > area.X) this.Position.X = area.X - this.Texture.Width / 2f;
-		    if (this.Position.Y + this.Texture.Height / 2f > area.Y) this.Position.Y = area.Y - this.Texture.Height / 2f;
-		    if (this.Position.X - this.Texture.Width / 2f < 0) this.Position.X = this.Texture.Width / 2f;
-		    if (this.Position.Y - this.Texture.Height / 2f < 0) this.Position.Y = this.Texture.Height / 2f;
+			// Prevents player from leaving the screen
+			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
+			if (Position.Y + Texture.Height / 2f > area.Y) Position.Y = area.Y - Texture.Height / 2f;
+			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
+			if (Position.Y - Texture.Height / 2f < 0) Position.Y = Texture.Height / 2f;
 
 
-		    // Shoots bullets
+			// Shoots bullets
 
-		    MouseState ms = Mouse.GetState();
-		    if (ShootDelay-- <= 0)
-			{
+			var ms = Mouse.GetState();
+			if (ShootDelay-- <= 0)
 				if (KeyboardManager.IsKeyPressed(Keys.Space))
-	
+
 				{
-					ShootOrb<CurvingOrb>(this.GetPosition(), this.Position + new Vector2(1, 0));
+					ShootOrb<CurvingOrb>(GetPosition(), Position + new Vector2(1, 0));
 					ShootDelay = SHOOT_DELAY;
 				}
 				else if (ms.LeftButton == ButtonState.Pressed)
 				{
-					ShootOrb<PlayerOrb>(this.GetPosition(), ms.Position.ToVector2());
+					ShootOrb<PlayerOrb>(GetPosition(), ms.Position.ToVector2());
 					ShootDelay = SHOOT_DELAY;
 				}
-			}
-
 		}
 
-	    public override bool DoesCollide(AbstractOrb orb)
-        {
-            Vector2 tp1 = this.Position + new Vector2(0, 16) - orb.GetPosition();
-            Vector2 tp2 = this.Position + new Vector2(0, -16) - orb.GetPosition();
+		public override bool DoesCollide(AbstractOrb orb)
+		{
+			var tp1 = Position + new Vector2(0, 16) - orb.GetPosition();
+			var tp2 = Position + new Vector2(0, -16) - orb.GetPosition();
 
-            return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
-        }
-    }
+			return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
+		}
+	}
 }

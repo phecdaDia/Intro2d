@@ -7,147 +7,149 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Sprites
 {
-    public abstract class AbstractSprite
-    {
-        // Our textures
-        private static Dictionary<Type, Texture2D> TextureDictionary;
-		protected Texture2D Texture
-		{
-			get { return TextureDictionary.ContainsKey(this.GetType()) ? TextureDictionary[this.GetType()] : null; }
-			set { TextureDictionary[this.GetType()] = value; }
-		}
+	public abstract class AbstractSprite
+	{
+		// Our textures
+		private static Dictionary<Type, Texture2D> TextureDictionary;
 
-        // If the sprite is marked for deleting.
+		// If the sprite is marked for deleting.
 		private bool Deleted;
 
-        // This is for coloring monochrome sprites
+		public bool Enemy;
+		private int Health = -1;
+
+		// This is for coloring monochrome sprites
 		protected Color Hue;
-        // position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
-        protected Vector2 Position;
 
-        // Decides the draw order. Higher layerDepth will draw later.
-        private int LayerDepth;
+		// Decides the draw order. Higher layerDepth will draw later.
+		private int LayerDepth;
 
-	    private int MaxHealth;
-	    private int Health = -1;
+		private int MaxHealth;
 
-        public bool Persistence;
-	    public bool Enemy;
+		public bool Persistence;
 
-	    protected float Rotation = 0f;
-	    public float Scale = 1.0f;
+		// position of our Sprite on the screen. Since we won't move the "camera" we can use this to draw
+		protected Vector2 Position;
+
+		protected float Rotation = 0f;
+		public float Scale = 1.0f;
 
 		protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
 			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();
 
-			this.Hue = Color.White;
+			Hue = Color.White;
 		}
 
-        public AbstractSprite(String textureKey, Vector2 position) : this()
-        {
-            // Setting important things
-            this.Texture = ImageManager.GetTexture2D(textureKey);
-            this.Position = position;
-        }
-
-        public AbstractSprite(String textureKey) : this()
+		public AbstractSprite(string textureKey, Vector2 position) : this()
 		{
-			this.Texture = ImageManager.GetTexture2D(textureKey);
+			// Setting important things
+			Texture = ImageManager.GetTexture2D(textureKey);
+			Position = position;
+		}
+
+		public AbstractSprite(string textureKey) : this()
+		{
+			Texture = ImageManager.GetTexture2D(textureKey);
+		}
+
+		protected Texture2D Texture
+		{
+			get => TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null;
+			set => TextureDictionary[GetType()] = value;
 		}
 
 		public Vector2 GetPosition()
 		{
-			return this.Position;
+			return Position;
 		}
 
-        // Marks this sprite as deleted
+		// Marks this sprite as deleted
 		public void Delete()
 		{
-			this.Deleted = true;
+			Deleted = true;
 		}
 
-        // Returns if the sprite is marked as deleted
+		// Returns if the sprite is marked as deleted
 		public bool IsDeleted()
 		{
-			return this.Deleted;
+			return Deleted;
 		}
 
-        // Sets the current Layer Depth
-        protected void SetLayerDepth(int layerDepth)
-        {
-            this.LayerDepth = layerDepth;
-        }
-        
-        // Returns the current Layer Depth of the sprite
-        public int GetLayerDepth()
-        {
-            return this.LayerDepth;
-        }
+		// Sets the current Layer Depth
+		protected void SetLayerDepth(int layerDepth)
+		{
+			LayerDepth = layerDepth;
+		}
 
-        // Updates the Sprite Logic
-        public abstract void Update(GameTime gameTime);
+		// Returns the current Layer Depth of the sprite
+		public int GetLayerDepth()
+		{
+			return LayerDepth;
+		}
 
-        // Draws a Sprite. 
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            //spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
-	        if (Texture == null) return;
+		// Updates the Sprite Logic
+		public abstract void Update(GameTime gameTime);
 
-
-            spriteBatch.Draw(Texture, Position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
+		// Draws a Sprite. 
+		public virtual void Draw(SpriteBatch spriteBatch)
+		{
+			//spriteBatch.Draw(Texture, position - (new Vector2(Texture.Width, Texture.Height) * 0.5f), Hue);
+			if (Texture == null) return;
 
 
-	        spriteBatch.Draw(
-		        this.Texture,
-		        Position,
-		        null,
-		        this.Hue,
-		        this.Rotation,
-		        new Vector2(this.Texture.Width / 2f, this.Texture.Height / 2f),
-		        new Vector2(this.Scale),
-		        SpriteEffects.None,
-		        0f
-	        );
+			spriteBatch.Draw(Texture, Position - new Vector2(Texture.Width, Texture.Height) * 0.5f, Hue);
+
+
+			spriteBatch.Draw(
+				Texture,
+				Position,
+				null,
+				Hue,
+				Rotation,
+				new Vector2(Texture.Width / 2f, Texture.Height / 2f),
+				new Vector2(Scale),
+				SpriteEffects.None,
+				0f
+			);
 		}
 
 		// Defines if the sprite is an enemy. 
-	    protected void SetEnemy(bool isEnemy)
-	    {
-		    this.Persistence = isEnemy;
-		    this.Enemy = isEnemy;
-	    }
-
-	    protected void SetMaxHealth(int maxHealth)
-	    {
-		    this.MaxHealth = maxHealth;
+		protected void SetEnemy(bool isEnemy)
+		{
+			Persistence = isEnemy;
+			Enemy = isEnemy;
 		}
 
-	    protected void SetHealth(int health)
-	    {
-		    this.Health = health;
-	    }
+		protected void SetMaxHealth(int maxHealth)
+		{
+			MaxHealth = maxHealth;
+		}
 
-	    public int Damage(int amount)
-	    {
-		    if (this.MaxHealth <= 0) return -1;
+		protected void SetHealth(int health)
+		{
+			Health = health;
+		}
 
-		    this.Health -= amount;
+		public int Damage(int amount)
+		{
+			if (MaxHealth <= 0) return -1;
 
-		    return this.Health;
-	    }
+			Health -= amount;
+
+			return Health;
+		}
 
 		protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite
 		{
-			T o = (T)Activator.CreateInstance(typeof(T), parameters);
+			var o = (T) Activator.CreateInstance(typeof(T), parameters);
 			SceneManager.GetCurrentScene().AddSprite(o);
-
 		}
 
-	    public virtual bool DoesCollide(AbstractOrb orb)
-	    {
-		    return (orb.GetPosition() - this.Position).Length() < (this.Texture.Width / 2f);
-	    }
-    }
+		public virtual bool DoesCollide(AbstractOrb orb)
+		{
+			return (orb.GetPosition() - Position).Length() < Texture.Width / 2f;
+		}
+	}
 }

@@ -8,24 +8,24 @@ namespace Intro2DGame.Game.Fonts
 	public abstract class CustomFont
 	{
 		private readonly string TextureKey;
-		private Vector2 SymbolSize;
-
-		protected Dictionary<char, Point> SymbolPosition; // We'll see if we should change that later.
 
 		private readonly int TotalPixelAmount;
 		private Rectangle Rectangle;
+
+		protected readonly Dictionary<char, Point> SymbolPosition; // We'll see if we should change that later.
+		private Vector2 SymbolSize;
 
 		public CustomFont(string fontName, string textureKey, Vector2 symbolSize)
 		{
 			if (fontName == null) throw new ArgumentNullException(nameof(fontName));
 
-			this.TextureKey = textureKey ?? throw new ArgumentNullException(nameof(textureKey));
-			this.SymbolSize = symbolSize;
+			TextureKey = textureKey ?? throw new ArgumentNullException(nameof(textureKey));
+			SymbolSize = symbolSize;
 
-			this.SymbolPosition = new Dictionary<char, Point>();
+			SymbolPosition = new Dictionary<char, Point>();
 
-			this.TotalPixelAmount = (int)(symbolSize.X * symbolSize.Y);
-			this.Rectangle = new Rectangle(0, 0, (int)symbolSize.X, (int)symbolSize.Y);
+			TotalPixelAmount = (int) (symbolSize.X * symbolSize.Y);
+			Rectangle = new Rectangle(0, 0, (int) symbolSize.X, (int) symbolSize.Y);
 
 			FontManager.GetInstance().RegisterFont(fontName, this);
 
@@ -38,37 +38,37 @@ namespace Intro2DGame.Game.Fonts
 		public Texture2D CreateTexture(params string[] lines)
 		{
 			// Going through the lines to see how long the longest line is..
-			int maxLength = 0;
+			var maxLength = 0;
 			foreach (var s in lines)
 			{
-				int l = s.Length;
+				var l = s.Length;
 				if (l > maxLength) maxLength = l;
 			}
 
-			Texture2D result = new Texture2D(Game.GetInstance().GetGraphicsDeviceManager().GraphicsDevice, (int)SymbolSize.X * maxLength, (int)SymbolSize.Y * lines.Length);
+			var result = new Texture2D(Game.GetInstance().GetGraphicsDeviceManager().GraphicsDevice,
+				(int) SymbolSize.X * maxLength, (int) SymbolSize.Y * lines.Length);
 
-			int line = 0;
-			foreach (string s in lines)
+			var line = 0;
+			foreach (var s in lines)
 			{
-
-				int character = 0;
-				foreach (char c in (this.IsIgnoreCase() ? s.ToLower() : s))
+				var character = 0;
+				foreach (var c in IsIgnoreCase() ? s.ToLower() : s)
 				{
 					if (SymbolPosition.ContainsKey(c))
 					{
-						Color[] colorData = new Color[TotalPixelAmount];
+						var colorData = new Color[TotalPixelAmount];
 						// move the rectangle
-						this.Rectangle.Location = SymbolPosition[c];
+						Rectangle.Location = SymbolPosition[c];
 
 						ImageManager.GetTexture2D(TextureKey).GetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 
-						this.Rectangle.Location = new Point(character * ((int)SymbolSize.X), line * ((int)SymbolSize.Y));
+						Rectangle.Location = new Point(character * (int) SymbolSize.X, line * (int) SymbolSize.Y);
 						result.SetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 					}
 					else
 					{
-						Color[] colorData = new Color[TotalPixelAmount];
-						this.Rectangle.Location = new Point(character * ((int)SymbolSize.X), line * ((int)SymbolSize.Y));
+						var colorData = new Color[TotalPixelAmount];
+						Rectangle.Location = new Point(character * (int) SymbolSize.X, line * (int) SymbolSize.Y);
 						result.SetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 					}
 

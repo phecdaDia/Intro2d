@@ -11,13 +11,13 @@ namespace Intro2DGame.Game.Fonts
 
 		private static ContentManager Content;
 
-		private readonly Dictionary<String, CustomFont> Fonts;
+		private readonly Dictionary<string, CustomFont> Fonts;
 
 		private FontManager()
 		{
 			Instance = this;
 
-			this.Fonts = new Dictionary<string, CustomFont>();
+			Fonts = new Dictionary<string, CustomFont>();
 
 			new ExampleFont();
 		}
@@ -37,7 +37,7 @@ namespace Intro2DGame.Game.Fonts
 
 		public void RegisterFont(string key, CustomFont font)
 		{
-			this.Fonts.Add(key, font);
+			Fonts.Add(key, font);
 		}
 
 		public static Texture2D CreateFontString(string font, params string[] text)
@@ -47,7 +47,7 @@ namespace Intro2DGame.Game.Fonts
 
 			if (!GetInstance().Fonts.ContainsKey(font)) return null;
 
-			CustomFont cf = GetInstance().Fonts[font];
+			var cf = GetInstance().Fonts[font];
 			return cf.CreateTexture(text);
 		}
 	}

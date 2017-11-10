@@ -10,30 +10,30 @@ namespace Intro2DGame.Game
 		// Making the ImageManager a singleton
 		private static ImageManager Instance;
 
+		// Instance of the ContentPipeline
+		private static ContentManager Content;
+
 		// Dictionary for the Textures, so we only have to load them once.
 		// Loading will be done via LoadTexture(String): Texture2D in the class that needs the texture
 		private readonly Dictionary<string, Texture2D> TextureDictionary;
 
-		// Instance of the ContentPipeline
-		private static ContentManager Content;
-
 		// Creating the ImageManager
-        private ImageManager()
-        {
-            // ImageManager is a singleton. If there already is an Instance, we don't want to create another one.
-            if (Instance != null) return;
+		private ImageManager()
+		{
+			// ImageManager is a singleton. If there already is an Instance, we don't want to create another one.
+			if (Instance != null) return;
 
-            // Setting the singleton Instance
-            Instance = this;
+			// Setting the singleton Instance
+			Instance = this;
 
-            // Creating the TextureDirectory
-            this.TextureDictionary = new Dictionary<string, Texture2D>();
-        }
+			// Creating the TextureDirectory
+			TextureDictionary = new Dictionary<string, Texture2D>();
+		}
 
-        public static void SetContentManager(ContentManager contentManager)
-        {
-            Content = contentManager;
-        }
+		public static void SetContentManager(ContentManager contentManager)
+		{
+			Content = contentManager;
+		}
 
 		// Get the singleton Instance
 		private static ImageManager GetInstance()
@@ -48,10 +48,10 @@ namespace Intro2DGame.Game
 			try
 			{
 				// Loading the texture
-				Texture2D texture = Content.Load<Texture2D>(key);
+				var texture = Content.Load<Texture2D>(key);
 
 				// Adding texture to our TextureDictionary
-				this.TextureDictionary.Add(key, texture);
+				TextureDictionary.Add(key, texture);
 
 				// return texture if the texture was loaded successfully. 
 				return texture;
@@ -65,11 +65,10 @@ namespace Intro2DGame.Game
 
 		public static Texture2D GetTexture2D(string key)
 		{
-
 			// TODO: Probably redo this function
 
-            // We have to create "output" here. CSharp 2015 doesn't like it in the out.
-            Texture2D output;
+			// We have to create "output" here. CSharp 2015 doesn't like it in the out.
+			Texture2D output;
 
 			GetInstance().TextureDictionary.TryGetValue(key, out output);
 
@@ -95,7 +94,5 @@ namespace Intro2DGame.Game
 
 			// return previously loaded texture
 		}
-
-
 	}
 }

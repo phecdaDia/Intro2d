@@ -5,16 +5,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Intro2DGame.Game
 {
-
 	/// <summary>
-	/// Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx
-	/// Provides a method for performing a deep copy of an object.
-	/// Binary Serialization is used to perform the copy.
+	///     Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx
+	///     Provides a method for performing a deep copy of an object.
+	///     Binary Serialization is used to perform the copy.
 	/// </summary>
 	public static class ObjectCloner
 	{
 		/// <summary>
-		/// Perform a deep Copy of the object.
+		///     Perform a deep Copy of the object.
 		/// </summary>
 		/// <typeparam name="T">The type of object being copied.</typeparam>
 		/// <param name="source">The object instance to copy.</param>
@@ -22,15 +21,11 @@ namespace Intro2DGame.Game
 		public static T Clone<T>(this T source)
 		{
 			if (!typeof(T).IsSerializable)
-			{
 				throw new ArgumentException("The type must be serializable.", nameof(source));
-			}
 
 			// Don't serialize a null object, simply return the default for that object
 			if (ReferenceEquals(source, null))
-			{
 				return default(T);
-			}
 
 			IFormatter formatter = new BinaryFormatter();
 			Stream stream = new MemoryStream();
@@ -38,9 +33,8 @@ namespace Intro2DGame.Game
 			{
 				formatter.Serialize(stream, source);
 				stream.Seek(0, SeekOrigin.Begin);
-				return (T)formatter.Deserialize(stream);
+				return (T) formatter.Deserialize(stream);
 			}
 		}
 	}
 }
-

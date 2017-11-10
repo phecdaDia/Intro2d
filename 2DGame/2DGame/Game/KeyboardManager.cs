@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game
@@ -14,7 +10,7 @@ namespace Intro2DGame.Game
 
 		public static void Update()
 		{
-			KeyboardState ks = Keyboard.GetState();
+			var ks = Keyboard.GetState();
 
 			// Add all keys to the dictionary
 			LastPressedKeys = CurrentPressedKeys;
