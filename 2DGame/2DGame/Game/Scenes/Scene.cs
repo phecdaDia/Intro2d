@@ -38,8 +38,7 @@ namespace Intro2DGame.Game.Scenes
 			if (!SpriteDictionary.ContainsKey(GetType())) SpriteDictionary[GetType()] = new Dictionary<Type, IList>();
 			//if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
 
-			CreateScene();
-		}
+        }
 
 		public string SceneKey { get; }
 
