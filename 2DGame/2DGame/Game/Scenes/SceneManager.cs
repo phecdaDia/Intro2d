@@ -22,7 +22,7 @@ namespace Intro2DGame.Game.Scenes
 		// our current scene.
 		private Scene CurrentScene;
 
-		private static bool ClosingScene;
+		private static int ClosingScene;
 
 
 		public SceneManager()
@@ -68,7 +68,7 @@ namespace Intro2DGame.Game.Scenes
 
 		public static void CloseScene()
 		{
-			ClosingScene = true;
+			ClosingScene += 1;
 		}
 
 		private static void RemoveScene()
@@ -127,9 +127,9 @@ namespace Intro2DGame.Game.Scenes
 		{
 			GetInstance().CurrentScene?.Update(gameTime);
 
-			if (ClosingScene)
+			if (ClosingScene > 0 )
 			{
-				ClosingScene = false;
+				ClosingScene -= 1;
 				RemoveScene();
 			}
 		}

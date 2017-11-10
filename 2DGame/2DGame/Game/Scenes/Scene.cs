@@ -87,7 +87,17 @@ namespace Intro2DGame.Game.Scenes
 					if (!c.Persistence)
 						if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
 						else if (c.GetPosition().X > Game.GraphicsArea.X || c.GetPosition().Y > Game.GraphicsArea.Y) c.Delete();
+
+
+					if (c.Health >= c.MaxHealth) c.Health = c.MaxHealth;
+					else if (c.Health < 0 && c.Enemy)
+					{
+						c.Delete();
+					}
+
 					if (c.IsDeleted()) deleted.Add(c);
+
+
 				}
 			}
 

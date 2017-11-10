@@ -16,11 +16,7 @@ namespace Intro2DGame.Game.Sprites
 		private bool Deleted;
 
 		public bool Enemy;
-		public int Health
-		{
-			get;
-			protected set;
-		}
+		public int Health;
 
 	// This is for coloring monochrome sprites
 	protected Color Hue;
@@ -123,32 +119,6 @@ namespace Intro2DGame.Game.Sprites
 				SpriteEffects.None,
 				0f
 			);
-		}
-
-		// Defines if the sprite is an enemy. 
-		protected void SetEnemy(bool isEnemy)
-		{
-			Persistence = isEnemy;
-			Enemy = isEnemy;
-		}
-
-		protected void SetMaxHealth(int maxHealth)
-		{
-			MaxHealth = maxHealth;
-		}
-
-		protected void SetHealth(int health)
-		{
-			Health = health;
-		}
-
-		public int Damage(int amount)
-		{
-			if (MaxHealth <= 0) return -1;
-
-			Health -= amount;
-
-			return Health;
 		}
 
 		protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite

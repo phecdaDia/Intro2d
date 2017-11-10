@@ -19,8 +19,8 @@ namespace Intro2DGame.Game.Sprites
 			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
 			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 
-			SetMaxHealth(1000);
-			SetHealth(1000);
+			MaxHealth = 1000;
+			Health = 1000;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -87,7 +87,7 @@ namespace Intro2DGame.Game.Sprites
 
 	internal class BannerSprite : ImageSprite
 	{
-		private PlayerSprite Player;
+		private readonly PlayerSprite Player;
 
 		public BannerSprite(PlayerSprite player) : base("banner", new Vector2())
 		{
@@ -112,7 +112,7 @@ namespace Intro2DGame.Game.Sprites
 
 	internal class ViginetteSprite : ImageSprite
 	{
-		private PlayerSprite Player;
+		private readonly PlayerSprite Player;
 
 		public ViginetteSprite(PlayerSprite player) : base("viginette", new Vector2())
 		{
@@ -120,6 +120,8 @@ namespace Intro2DGame.Game.Sprites
 
 			Persistence = true;
 			SetLayerDepth(11);
+
+			this.Hue = Color.Transparent;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -129,8 +131,8 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Update(GameTime gameTime)
 		{
-			float k = (this.Player.MaxHealth - this.Player.Health) / ((float) this.Player.MaxHealth);
-			Color c = new Color((int) (255f * k), 0, 0, (int) (64f * k));
+			var k = (this.Player.MaxHealth - this.Player.Health) / ((float) this.Player.MaxHealth);
+			var c = new Color((int) (255f * k), 0, 0, (int) (64f * k));
 
 			this.Hue = c;
 		}
@@ -156,10 +158,12 @@ namespace Intro2DGame.Game.Sprites
 			foreach (var t in sprites.Keys)
 			foreach (AbstractSprite sprite in sprites[t])
 			{
-				if (!sprite.Enemy) break;
+				if (!sprite.Enemy) continue;
 
-				if (sprite.DoesCollide(this))
-					sprite.Damage(1);
+				if (sprite.DoesCollide(this)) {
+					sprite.Health -= 1;
+					Delete();
+				}
 			}
 		}
 	}

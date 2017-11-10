@@ -28,7 +28,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			{
 				if (!ps.DoesCollide(this)) continue;
 
-				ps.Damage(250);
+				ps.Health -= 250;
 				this.Delete();
 			}
 		}
