@@ -7,12 +7,11 @@ namespace Intro2DGame.Game.Fonts
 {
 	public abstract class CustomFont
 	{
+		protected readonly Dictionary<char, Point> SymbolPosition; // We'll see if we should change that later.
 		private readonly string TextureKey;
 
 		private readonly int TotalPixelAmount;
 		private Rectangle Rectangle;
-
-		protected readonly Dictionary<char, Point> SymbolPosition; // We'll see if we should change that later.
 		private Vector2 SymbolSize;
 
 		public CustomFont(string fontName, string textureKey, Vector2 symbolSize)

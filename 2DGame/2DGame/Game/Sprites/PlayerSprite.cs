@@ -3,9 +3,6 @@ using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Intro2DGame.Game.Sprites
 {
@@ -14,11 +11,11 @@ namespace Intro2DGame.Game.Sprites
 		private const int SHOOT_DELAY = 7;
 		private int ShootDelay;
 
-        public PlayerSprite(Vector2 position) : base("player", position)
-        {
-            this.SetLayerDepth(1);
-            SceneManager.GetCurrentScene().AddSprite(new BannerSprite()); // This adds the banner
-        }
+		public PlayerSprite(Vector2 position) : base("player", position)
+		{
+			SetLayerDepth(1);
+			SceneManager.GetCurrentScene().AddSprite(new BannerSprite()); // This adds the banner
+		}
 
 		public override void Update(GameTime gameTime)
 		{
@@ -36,11 +33,11 @@ namespace Intro2DGame.Game.Sprites
 			if (movement.LengthSquared() > 0f) movement.Normalize();
 			Position += movement * 3f;
 
-		    // Prevents player from leaving the screen
-		    if (this.Position.X + this.Texture.Width / 2f > area.X) this.Position.X = area.X - this.Texture.Width / 2f;
-		    if (this.Position.Y + this.Texture.Height / 2f > area.Y) this.Position.Y = area.Y - this.Texture.Height / 2f;
-		    if (this.Position.X - this.Texture.Width / 2f < 0) this.Position.X = this.Texture.Width / 2f;
-		    if (this.Position.Y - this.Texture.Height / 2f < 100) this.Position.Y = 100 + this.Texture.Height / 2f;
+			// Prevents player from leaving the screen
+			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
+			if (Position.Y + Texture.Height / 2f > area.Y) Position.Y = area.Y - Texture.Height / 2f;
+			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
+			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
 
 
 			// Shoots bullets
@@ -50,7 +47,7 @@ namespace Intro2DGame.Game.Sprites
 				if (KeyboardManager.IsKeyPressed(Keys.Space))
 
 				{
-					ShootOrb<PlayerOrb>(this.GetPosition(), this.Position + new Vector2(1, 0));
+					ShootOrb<PlayerOrb>(GetPosition(), Position + new Vector2(1, 0));
 					ShootDelay = SHOOT_DELAY;
 				}
 				else if (ms.LeftButton == ButtonState.Pressed)
@@ -65,59 +62,54 @@ namespace Intro2DGame.Game.Sprites
 			var tp1 = Position + new Vector2(0, 16) - orb.GetPosition();
 			var tp2 = Position + new Vector2(0, -16) - orb.GetPosition();
 
-            return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
-        }
-    }
+			return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
+		}
+	}
 
-    class BannerSprite : ImageSprite
-    {
-        public BannerSprite () : base("banner", new Vector2())
-        {
-            this.Persistence = true;
-            this.SetLayerDepth(10);
-        }
+	internal class BannerSprite : ImageSprite
+	{
+		public BannerSprite() : base("banner", new Vector2())
+		{
+			Persistence = true;
+			SetLayerDepth(10);
+		}
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(this.Texture, this.Position, Hue);
-        }
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(Texture, Position, Hue);
+		}
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-    }
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+		}
+	}
 
-    public class PlayerOrb : LinearOrb
-    {
-        //private static readonly Vector2 Direction = new Vector2(0, -1);
-        private const float SPEED = 7.5f;
+	public class PlayerOrb : LinearOrb
+	{
+		//private static readonly Vector2 Direction = new Vector2(0, -1);
+		private const float SPEED = 7.5f;
 
 
-        public PlayerOrb(Vector2 position, Vector2 goal) : base(position, goal - position, SPEED)
-        {
-            this.Hue = Color.Purple;
-        }
+		public PlayerOrb(Vector2 position, Vector2 goal) : base(position, goal - position, SPEED)
+		{
+			Hue = Color.Purple;
+		}
 
-        public override void Update(GameTime gameTime)
-        {
-            this.Position += UpdatePosition(gameTime);
+		public override void Update(GameTime gameTime)
+		{
+			Position += UpdatePosition(gameTime);
 
-            Dictionary<Type, IList> sprites = SceneManager.GetAllSprites();
+			var sprites = SceneManager.GetAllSprites();
 
-            foreach (Type t in sprites.Keys)
-            {
-                foreach (AbstractSprite sprite in sprites[t])
-                {
-                    if (!sprite.Enemy) break;
+			foreach (var t in sprites.Keys)
+			foreach (AbstractSprite sprite in sprites[t])
+			{
+				if (!sprite.Enemy) break;
 
-                    if (sprite.DoesCollide(this))
-                    {
-                        sprite.Damage(1);
-                    }
-
-                }
-            }
-        }
-    }
+				if (sprite.DoesCollide(this))
+					sprite.Damage(1);
+			}
+		}
+	}
 }

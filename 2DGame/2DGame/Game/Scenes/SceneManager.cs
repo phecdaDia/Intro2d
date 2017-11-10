@@ -15,10 +15,10 @@ namespace Intro2DGame.Game.Scenes
 		// Dictionary for all scenes. Scenes don't have to be initiated. 
 		private readonly Dictionary<string, Scene> Scenes;
 
+		private readonly Stack<Scene> SceneStack;
+
 		// our current scene.
 		private Scene CurrentScene;
-
-		private readonly Stack<Scene> SceneStack;
 
 
 		public SceneManager()
@@ -56,10 +56,10 @@ namespace Intro2DGame.Game.Scenes
 		{
 			var sm = GetInstance();
 
-            sm.SceneStack.Clear();
-            sm.SceneStack.Push(sm.Scenes[key]);
-            sm.CurrentScene = sm.SceneStack.Peek();
-            sm.CurrentScene.ResetScene();
+			sm.SceneStack.Clear();
+			sm.SceneStack.Push(sm.Scenes[key]);
+			sm.CurrentScene = sm.SceneStack.Peek();
+			sm.CurrentScene.ResetScene();
 		}
 
 		public static void CloseScene()
@@ -75,10 +75,10 @@ namespace Intro2DGame.Game.Scenes
 		{
 			var sm = GetInstance();
 
-            sm.SceneStack.Push(sm.Scenes[key]);
-            sm.CurrentScene = sm.SceneStack.Peek();
-            sm.CurrentScene.ResetScene();
-        }
+			sm.SceneStack.Push(sm.Scenes[key]);
+			sm.CurrentScene = sm.SceneStack.Peek();
+			sm.CurrentScene.ResetScene();
+		}
 
 		// Getting the Singleton instance
 		private static SceneManager GetInstance()
