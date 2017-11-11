@@ -78,6 +78,9 @@ namespace Intro2DGame.Game.Sprites
 					case 7:
 						Game.ExitGame();
 						break;
+					default:
+						Game.ExitGame();
+						break;
 				}
 
 			// Getting index down
@@ -124,7 +127,6 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			// TODO:
 
 			spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"),
 				new Vector2(50, 85 + (SelectedIndex - UpShowIndex) * 50), Color.White);

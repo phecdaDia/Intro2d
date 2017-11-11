@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -63,6 +64,12 @@ namespace Intro2DGame.Game.Scenes
 			return SpriteDictionary[GetType()];
 		}
 
+		// This returns all Sprites of a scene
+		public Dictionary<Type, IList> GetAllSprites(Type type)
+		{
+			return SpriteDictionary[type];
+		}
+
 		// This is used to spawn all objects
 		protected abstract void CreateScene();
 
@@ -75,7 +82,7 @@ namespace Intro2DGame.Game.Scenes
 		// Updates all registered Sprites
 		public virtual void Update(GameTime gameTime)
 		{
-			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
+			//if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 
 			var deleted = new List<AbstractSprite>();
 			foreach (var l in SpriteDictionary[GetType()].Values)
@@ -96,8 +103,6 @@ namespace Intro2DGame.Game.Scenes
 					}
 
 					if (c.IsDeleted()) deleted.Add(c);
-
-
 				}
 			}
 
@@ -125,12 +130,14 @@ namespace Intro2DGame.Game.Scenes
 
 				BufferedSpriteDictionary[t].Clear();
 			}
+
+			if (KeyboardManager.IsKeyDown(Keys.Pause)) SceneManager.AddScene("menu");
 		}
 
 		// Draws all registered Sprites
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{
-			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
+			//if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 
 			var priorityDictionary = new SortedDictionary<int, List<AbstractSprite>>();
 

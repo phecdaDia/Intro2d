@@ -30,9 +30,9 @@ namespace Intro2DGame.Game.Scenes
 			base.Draw(spriteBatch);
 
 			int i = 0;
-			foreach (Type t in new List<Type>(SceneManager.GetAllSprites().Keys))
+			foreach (Type t in new List<Type>(GetAllSprites().Keys))
 			{
-				foreach (AbstractSprite de in SceneManager.GetAllSprites()[t])
+				foreach (AbstractSprite de in GetAllSprites()[t])
 				{
 					if (!de.Enemy) continue;
 					spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}", new Vector2(30, 110 + (i++ * 20)), Color.Black);

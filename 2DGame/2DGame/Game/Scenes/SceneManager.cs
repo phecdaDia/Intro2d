@@ -45,6 +45,8 @@ namespace Intro2DGame.Game.Scenes
 
 			RegisterScene(new TutorialScene());
 
+			RegisterScene(new MenuScene());
+
 
 			SetScene("mainmenu");
 		}
@@ -118,6 +120,11 @@ namespace Intro2DGame.Game.Scenes
 			return GetCurrentScene().GetAllSprites();
 		}
 
+		public static Dictionary<Type, IList> GetAllSprites(Type type)
+		{
+			return GetCurrentScene().GetAllSprites(type);
+		}
+
 		public static int GetStackSize()
 		{
 			return GetInstance().SceneStack.Count;
@@ -136,7 +143,11 @@ namespace Intro2DGame.Game.Scenes
 
 		public static void Draw(SpriteBatch spriteBatch)
 		{
-			GetInstance().CurrentScene?.Draw(spriteBatch);
+			foreach (Scene s in GetInstance().SceneStack)
+			{
+				s.Draw(spriteBatch);
+			}
+			//GetInstance().CurrentScene?.Draw(spriteBatch);
 		}
 	}
 }
