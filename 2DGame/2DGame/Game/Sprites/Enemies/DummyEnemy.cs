@@ -17,8 +17,8 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			Hue = Color.Red;
 
 			Enemy = true;
-			MaxHealth = 100;
-			Health = 100;
+			MaxHealth = 250;
+			Health = 250;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -27,7 +27,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
 			
 
-			const int frames = 12;
+			const int frames = 18;
 			if (++timer > frames)
 			{
 				timer %= frames;
@@ -38,7 +38,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 					var dir = ps.GetPosition() - GetPosition();
 					var tan = 17.5d * 2 * Math.PI; // Math.Atan2(dir.X, dir.Y);
 					var degrees = 2 * Math.PI * (22.5f / 360f);
-					var k = 17;
+					var k = 21;
 					tan += q;
 					var temp_ = 2 * Math.PI * 0.5d * (1f / k);
 					q += temp_;

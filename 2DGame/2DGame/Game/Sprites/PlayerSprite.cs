@@ -12,6 +12,8 @@ namespace Intro2DGame.Game.Sprites
 		private const int SHOOT_DELAY = 7;
 		private int ShootDelay;
 
+		private int Invulnerable;
+
 
 		public PlayerSprite(Vector2 position) : base("player", position)
 		{
@@ -78,14 +80,18 @@ namespace Intro2DGame.Game.Sprites
 			if (KeyboardManager.IsKeyPressed(Keys.F4)) Health = MaxHealth;
 			// end
 
-			if (GameConstants.IS_AUTOREGEN_ENABLED)
+			if (Invulnerable > 0) Invulnerable--;
+			else
 			{
-
-				if (GameConstants.IS_AUTOREGEN_RESTRICTED)
+				if (GameConstants.IS_AUTOREGEN_ENABLED)
 				{
-					if (!shot) Health += 1;
+
+					if (GameConstants.IS_AUTOREGEN_RESTRICTED)
+					{
+						if (!shot) Health += 1;
+					}
+					else Health += 1;
 				}
-				else Health += 1;
 			}
 
 			if (Health >= MaxHealth) Health = MaxHealth;
@@ -100,6 +106,13 @@ namespace Intro2DGame.Game.Sprites
 			var tp2 = Position + new Vector2(0, -16) - orb.GetPosition();
 
 			return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
+		}
+
+		public void Damage(int amount)
+		{
+			if (Invulnerable > 0) return;
+			this.Health -= amount;
+			this.Invulnerable = 15;
 		}
 	}
 

@@ -16,7 +16,7 @@ namespace Intro2DGame.Game.Scenes
 
 		protected override void CreateScene()
 		{
-			AddSprite(new PlayerSprite(new Vector2(100, 50)));
+			AddSprite(new PlayerSprite(new Vector2(100, 350)));
 			//this.AddSprite(new AnimationTestSprite(new Vector2(200, 200)));
 			//this.AddSprite(new RandomSpawnerSprite<OrbSprite>(1000));
 
