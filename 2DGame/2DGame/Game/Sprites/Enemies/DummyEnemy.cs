@@ -3,6 +3,7 @@ using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites.Enemies
 {
@@ -32,8 +33,12 @@ namespace Intro2DGame.Game.Sprites.Enemies
 		{
 			float c = 0;
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
-			
-			
+
+			if (KeyboardManager.IsKeyDown(Keys.F9)) Health = 0;
+			if (KeyboardManager.IsKeyDown(Keys.F10)) Health--;
+			if (KeyboardManager.IsKeyDown(Keys.F11)) Health++;
+
+
 			if (++timer > FrameDelay)
 			{
 				timer %= FrameDelay;
