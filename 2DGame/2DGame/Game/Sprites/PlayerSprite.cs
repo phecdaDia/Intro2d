@@ -2,6 +2,7 @@
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,6 +14,7 @@ namespace Intro2DGame.Game.Sprites
 		private int ShootDelay;
 
 		private int Invulnerable;
+		private int Shot;
 
 
 		public PlayerSprite(Vector2 position) : base("player", position)
@@ -34,8 +36,7 @@ namespace Intro2DGame.Game.Sprites
 			// Shoots bullets
 
 			var ms = Mouse.GetState();
-
-			var shot = KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed;
+			Shot -= Shot > 0 ? 1 : 0;
 
 			if (ShootDelay-- <= 0 || KeyboardManager.IsKeyDown(Keys.Space))
 			{
@@ -45,11 +46,14 @@ namespace Intro2DGame.Game.Sprites
 					ShootOrb<PlayerOrb>(GetPosition(), Position + new Vector2(1, 0));
 					ShootDelay = SHOOT_DELAY;
 
+					Shot = SHOOT_DELAY + 5;
 				}
 				else if (ms.LeftButton == ButtonState.Pressed)
 				{
 					ShootOrb<PlayerOrb>(GetPosition(), ms.Position.ToVector2());
 					ShootDelay = SHOOT_DELAY;
+
+					Shot = SHOOT_DELAY + 5;
 				}
 			}
 
@@ -63,7 +67,7 @@ namespace Intro2DGame.Game.Sprites
 			if (movement.LengthSquared() > 0f) movement.Normalize();
 
 			movement *= new Vector2(1.1f, 1.0f);
-			Position += movement * (shot && GameConstants.IS_MOVEMENT_RESTRICTED ? 2.75f : 4.25f);
+			Position += movement * (Shot > 0 && GameConstants.IS_MOVEMENT_RESTRICTED ? 2.75f : 4.25f);
 
 			// Prevents player from leaving the screen
 			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
@@ -88,7 +92,7 @@ namespace Intro2DGame.Game.Sprites
 
 					if (GameConstants.IS_AUTOREGEN_RESTRICTED)
 					{
-						if (!shot) Health += 1;
+						if (Shot == 0) Health += 1;
 					}
 					else Health += 1;
 				}

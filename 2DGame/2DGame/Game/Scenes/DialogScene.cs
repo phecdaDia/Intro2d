@@ -17,7 +17,7 @@ namespace Intro2DGame.Game.Scenes
 		private static readonly Random Random = new Random();
 
 		// This ensures every scene key is unique. 
-		public DialogScene(string dialogText) : base($"dialog-{Random.Next(0x7fffffff):X08}-{DateTime.Now.Millisecond:X08}")
+		public DialogScene(string dialogText) : base($"dialog-{Random.Next(0x7fffffff):X08}-{DateTime.Now.Ticks:X016}")
 		{
 			this.DialogText = dialogText;
 		}

@@ -12,13 +12,15 @@ namespace Intro2DGame.Game.Sprites.Enemies
 		private int timer;
 		private double z;
 
-		public DummyEnemy(Vector2 position) : base("orb", position)
+		public DummyEnemy(Vector2 position) : base("orb3", position)
 		{
 			Hue = Color.Red;
 
 			Enemy = true;
 			MaxHealth = 250;
 			Health = 250;
+
+			LayerDepth = 1;
 		}
 
 		public override void Update(GameTime gameTime)

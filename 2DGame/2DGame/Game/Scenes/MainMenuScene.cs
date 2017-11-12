@@ -1,9 +1,11 @@
 ﻿using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Intro2DGame.Game.Fonts;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -32,7 +34,9 @@ namespace Intro2DGame.Game.Scenes
 
 		private readonly List<Texture2D> MenuEntries;
 
-		private readonly int TimeoutDelay = 60;
+		private const int TIMEOUT_DELAY = 20;
+
+		private int Timeout = 0;
 
 		// the current selected Index. 
 		private int SelectedIndex;
@@ -51,7 +55,7 @@ namespace Intro2DGame.Game.Scenes
 				FontManager.CreateFontString("example", "Round 1"),
 				FontManager.CreateFontString("example", "Round 2"),
 				FontManager.CreateFontString("example", "Finals"),
-				FontManager.CreateFontString("example", "Go to Scene #6"),
+				FontManager.CreateFontString("example", "DIALOG TEST"),
 				FontManager.CreateFontString("example", "Go to Example Scene!"),
 				FontManager.CreateFontString("example", "Exit")
 			};
@@ -81,9 +85,10 @@ namespace Intro2DGame.Game.Scenes
 						break;
 					case 5:
 						// Creating some dialog boxes
+						Random random = new Random();
 						for (var i = 0; i < 10; i++)
 						{
-							SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}"));
+							SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
 						}
 						break;
 					case 6:
@@ -101,8 +106,10 @@ namespace Intro2DGame.Game.Scenes
 
 			// it works, don't touch this.
 
+			Timeout -= Timeout > 0 ? 1 : 0;
+
 			// Getting index down
-			if (KeyboardManager.IsKeyDown(Keys.W) || KeyboardManager.IsKeyDown(Keys.Up))
+			if (KeyboardManager.IsKeyDown(Keys.W) || KeyboardManager.IsKeyDown(Keys.Up) || Timeout == 0 && (KeyboardManager.IsKeyPressed(Keys.W) || KeyboardManager.IsKeyPressed(Keys.Up)))
 			{
 				SelectedIndex--;
 				if (UpShowIndex > 0) UpShowIndex--;
@@ -112,10 +119,12 @@ namespace Intro2DGame.Game.Scenes
 					if (UpShowIndex < 0) UpShowIndex = 0;
 					SelectedIndex += MenuEntries.Count;
 				}
+
+				Timeout = TIMEOUT_DELAY;
 			}
 
 			// Getting the index up
-			if (KeyboardManager.IsKeyDown(Keys.S) || KeyboardManager.IsKeyDown(Keys.Down))
+			if (KeyboardManager.IsKeyDown(Keys.S) || KeyboardManager.IsKeyDown(Keys.Down) || Timeout == 0 && (KeyboardManager.IsKeyPressed(Keys.S) || KeyboardManager.IsKeyPressed(Keys.Down)))
 			{
 				SelectedIndex++;
 				if (SelectedIndex >= MenuEntries.Count)
@@ -126,6 +135,8 @@ namespace Intro2DGame.Game.Scenes
 
 				if (SelectedIndex >= UpShowIndex + MAX_MENU_ENTRIES)
 					UpShowIndex++;
+
+				Timeout = TIMEOUT_DELAY;
 			}
 		}
 
@@ -145,6 +156,8 @@ namespace Intro2DGame.Game.Scenes
 				for (var i = 0; i < d; i++)
 					spriteBatch.Draw(MenuEntries[i + UpShowIndex], new Vector2(100, 85 + idx++ * 50), Color.White);
 			//spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
+			
+			spriteBatch.DrawString(Game.FontArial, $"{this.Timeout}", new Vector2(1), Color.Black);
 		}
 	}
 }
