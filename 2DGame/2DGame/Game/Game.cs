@@ -114,6 +114,8 @@ namespace Intro2DGame.Game
 			SceneManager.Update(gameTime);
 			//SceneManager.GetCurrentScene().Update(gameTime);
 
+			Window.Title = $"SceneKey: {SceneManager.GetCurrentScene()?.SceneKey ?? "None"}";
+
 			base.Update(gameTime);
 		}
 

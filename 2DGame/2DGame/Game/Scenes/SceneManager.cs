@@ -98,6 +98,15 @@ namespace Intro2DGame.Game.Scenes
 			sm.CurrentScene.ResetScene();
 		}
 
+		public static void AddScene(Scene scene)
+		{
+			var sm = GetInstance();
+
+			sm.SceneStack.Add(scene);
+			sm.CurrentScene = scene;
+			sm.CurrentScene.ResetScene();
+		}
+
 		// Getting the Singleton instance
 		private static SceneManager GetInstance()
 		{
@@ -105,7 +114,7 @@ namespace Intro2DGame.Game.Scenes
 		}
 
 		// Allows registering a scene,
-		public static void RegisterScene(Scene scene)
+		private static void RegisterScene(Scene scene)
 		{
 			GetInstance().Scenes.Add(scene.SceneKey, scene);
 		}
@@ -120,11 +129,6 @@ namespace Intro2DGame.Game.Scenes
 			return GetCurrentScene().GetAllSprites();
 		}
 
-		public static Dictionary<Type, IList> GetAllSprites(Type type)
-		{
-			return GetCurrentScene().GetAllSprites(type);
-		}
-
 		public static int GetStackSize()
 		{
 			return GetInstance().SceneStack.Count;
@@ -134,7 +138,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			GetInstance().CurrentScene?.Update(gameTime);
 
-			if (ClosingScene > 0 )
+			while (ClosingScene > 0 )
 			{
 				ClosingScene -= 1;
 				RemoveScene();
@@ -143,7 +147,7 @@ namespace Intro2DGame.Game.Scenes
 
 		public static void Draw(SpriteBatch spriteBatch)
 		{
-			foreach (Scene s in GetInstance().SceneStack)
+			foreach (var s in GetInstance().SceneStack)
 			{
 				s.Draw(spriteBatch);
 			}

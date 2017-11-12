@@ -27,7 +27,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
 			
 
-			const int frames = 10;
+			const int frames = 12;
 			if (++timer > frames)
 			{
 				timer %= frames;
