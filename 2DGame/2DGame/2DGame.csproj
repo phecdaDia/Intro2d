@@ -54,6 +54,7 @@
     <Compile Include="Game\KeyboardManager.cs" />
     <Compile Include="Game\ObjectCloner.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
+    <Compile Include="Game\Scenes\ExampleScene2.cs" />
     <Compile Include="Game\Scenes\ExampleScene.cs" />
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Scenes\MenuScene.cs" />

@@ -12,15 +12,20 @@ namespace Intro2DGame.Game.Sprites.Enemies
 		private int timer;
 		private double z;
 
-		public DummyEnemy(Vector2 position) : base("orb3", position)
+		private readonly int FrameDelay, LayerDifficulty;
+
+		public DummyEnemy(Vector2 position, int maxHealth, int frameDelay, int layerDifficulty) : base("orb3", position)
 		{
 			Hue = Color.Red;
 
 			Enemy = true;
-			MaxHealth = 250;
-			Health = 250;
+			MaxHealth = maxHealth;
+			Health = maxHealth;
 
 			LayerDepth = 1;
+
+			this.FrameDelay = frameDelay;
+			this.LayerDifficulty = layerDifficulty;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -28,11 +33,10 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			float c = 0;
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
 			
-
-			const int frames = 18;
-			if (++timer > frames)
+			
+			if (++timer > FrameDelay)
 			{
-				timer %= frames;
+				timer %= FrameDelay;
 				// Shoot something
 				var players = SceneManager.GetSprites<PlayerSprite>();
 				foreach (var ps in players)
@@ -40,15 +44,14 @@ namespace Intro2DGame.Game.Sprites.Enemies
 					var dir = ps.GetPosition() - GetPosition();
 					var tan = 17.5d * 2 * Math.PI; // Math.Atan2(dir.X, dir.Y);
 					var degrees = 2 * Math.PI * (22.5f / 360f);
-					var k = 21;
 					tan += q;
-					var temp_ = 2 * Math.PI * 0.5d * (1f / k);
+					var temp_ = 2 * Math.PI * 0.5d * (1f / LayerDifficulty);
 					q += temp_;
 					z += temp_ / 2f;
 
-					var degrees2 = 2 * Math.PI * (Health * (Health+1) / 2.35f / k);
+					var degrees2 = 2 * Math.PI * (Health * (Health+1) / 1.95f / LayerDifficulty);
 
-					for (var i = 0; i < k; i++)
+					for (var i = 0; i < LayerDifficulty; i++)
 						ShootOrb<LinearIncreasingOrb>(Position,
 							new Vector2((float) Math.Sin(tan + i * degrees2 + z), (float) Math.Cos(tan + i * degrees2 + z)), 0.235f,
 							1.01025f);

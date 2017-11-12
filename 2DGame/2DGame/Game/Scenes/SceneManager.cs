@@ -41,6 +41,7 @@ namespace Intro2DGame.Game.Scenes
 		private void CreateScenes()
 		{
 			RegisterScene(new ExampleScene());
+			RegisterScene(new Example2Scene());
 			RegisterScene(new MainMenuScene());
 
 			RegisterScene(new TutorialScene());

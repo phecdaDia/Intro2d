@@ -57,6 +57,7 @@ namespace Intro2DGame.Game.Scenes
 				FontManager.CreateFontString("example", "Finals"),
 				FontManager.CreateFontString("example", "DIALOG TEST"),
 				FontManager.CreateFontString("example", "Go to Example Scene!"),
+				FontManager.CreateFontString("example", "Go to Example Scene2!"),
 				FontManager.CreateFontString("example", "Exit")
 			};
 		}
@@ -95,6 +96,9 @@ namespace Intro2DGame.Game.Scenes
 						SceneManager.AddScene("example");
 						break;
 					case 7:
+						SceneManager.AddScene("example2");
+						break;
+					case 8:
 						Game.ExitGame();
 						break;
 					default:
