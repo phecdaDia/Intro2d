@@ -8,7 +8,7 @@ namespace Intro2DGame.Game.Sprites
 	public abstract class AbstractAnimatedSprite : AbstractSprite
 	{
 		// Dictionary to improve performance, since we'll use many objects at once
-		private static Dictionary<Type, Texture2D[]> FrameDictionary;
+		private static Dictionary<Type, Dictionary<string, Point[]>> FrameDictionary;
 
 		// delay until next frame
 		private readonly int Delay;
@@ -16,66 +16,71 @@ namespace Intro2DGame.Game.Sprites
 		// current frame and the offset until the next frame.
 		private int CurrentFrame, CurrentOffset;
 
-		public AbstractAnimatedSprite(string key, int spriteSize, int delay) : base(key)
-		{
-			// If the sprite is of invalid size we'll have to throw an exception
-			if (Texture.Width % spriteSize != 0) throw new InvalidOperationException("Invalid Sprite size");
+        private string CurrentAnimation = @"default";
 
+        private Point Size;
+
+		public AbstractAnimatedSprite(string key, Point size, int delay) : base(key)
+		{
 			// Check if we already created our dictionary
-			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Texture2D[]>();
+			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Dictionary<string, Point[]>>();
 
 			// setting the delay
 			Delay = delay;
 
-			// If this sprite already has everything loaded, just use that. 
-			if (FrameDictionary.ContainsKey(GetType()))
-			{
-				Texture = FrameDictionary[GetType()][0];
-				return;
-			}
+            this.Size = size;
 
-			// ... otherwise we'll have to load it. 
-			var frames = new Texture2D[Texture.Width / spriteSize];
+            if (FrameDictionary.ContainsKey(this.GetType())) return;
 
-			// Loading each frame individually
-			var colorData = new Color[Texture.Height * spriteSize];
+            FrameDictionary[this.GetType()] = new Dictionary<string, Point[]>();
 
-			// This just puts everything together.
-			var r = new Rectangle(0, 0, spriteSize, Texture.Height);
-			for (var w = 0; w < frames.Length; w++)
-			{
-				r.Location = new Point(w * spriteSize, 0);
-
-				// Getting the data.
-				Texture.GetData(0, r, colorData, 0, colorData.Length);
-				frames[w] = new Texture2D(Game.GetInstance().GraphicsDevice, spriteSize, Texture.Height);
-				frames[w].SetData(colorData);
-			}
-
-			// Add our frames to the dictionary
-			FrameDictionary.Add(GetType(), frames);
-			Texture = frames[0];
+            AddFrames();
 		}
 
-		public AbstractAnimatedSprite(string key, Vector2 position, int spriteSize, int delay) : this(key, spriteSize, delay)
+        protected abstract void AddFrames();
+
+        protected void AddAnimation(string key, Point[] points)
+        {
+            FrameDictionary[this.GetType()][key] = points;
+        }
+
+        protected void AddAnimation(Point[] points)
+        {
+            AddAnimation(@"default", points);
+        }
+
+        protected void SetAnimation(string animation)
+        {
+            this.CurrentAnimation = animation;
+            this.CurrentFrame = 0;
+            this.CurrentOffset = 0;
+        }
+
+		public AbstractAnimatedSprite(string key, Vector2 position, Point size, int delay) : this(key, size, delay)
 		{
 			Position = position;
 		}
 
-		public override void Draw(SpriteBatch spriteBatch)
+        public override void Update(GameTime gameTime)
+        {
+            var t = GetType();
+
+            this.CurrentOffset += gameTime.ElapsedGameTime.Milliseconds;
+
+            while (CurrentOffset >= Delay)
+            {
+                CurrentOffset -= Delay;
+                CurrentFrame++;
+
+                if (CurrentFrame >= FrameDictionary[t][CurrentAnimation].Length) CurrentFrame %= FrameDictionary[t][CurrentAnimation].Length;
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
 		{
-			var t = GetType();
-
-			if (++CurrentOffset >= Delay)
-			{
-				CurrentOffset %= Delay;
-				if (++CurrentFrame >= FrameDictionary[t].Length) CurrentFrame %= FrameDictionary[t].Length;
-
-
-				Texture = FrameDictionary[t][CurrentFrame];
-			}
-
-			base.Draw(spriteBatch);
+            Rectangle rTexture = new Rectangle(FrameDictionary[this.GetType()][CurrentAnimation][CurrentFrame], this.Size);
+            Rectangle rScene = new Rectangle(this.Position.ToPoint() - (this.Size.ToVector2() / 2f).ToPoint(), this.Size);
+            spriteBatch.Draw(this.Texture, rScene, rTexture, this.Hue);
 		}
 	}
 }

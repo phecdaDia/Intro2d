@@ -5,24 +5,53 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Fonts
 {
+    /// <summary>
+    /// Allows implementation of custom fonts.
+    /// Not recommended but works if implemented properly
+    /// </summary>
 	public abstract class CustomFont
 	{
-		protected readonly Dictionary<char, Point> SymbolPosition; // We'll see if we should change that later.
+        /// <summary>
+        /// Dictionary where all symbols are positioned
+        /// </summary>
+		protected readonly Dictionary<char, Point> SymbolPosition;
+        /// <summary>
+        /// Key for the texture
+        /// </summary>
 		private readonly string TextureKey;
 
+        /// <summary>
+        /// Amount of pixels for every character
+        /// </summary>
 		private readonly int TotalPixelAmount;
+        /// <summary>
+        /// Current selecting rectangle.
+        /// </summary>
 		private Rectangle Rectangle;
+        /// <summary>
+        /// Size of the characters
+        /// </summary>
 		private Vector2 SymbolSize;
 
+        /// <summary>
+        /// Creates a new CustomFont
+        /// </summary>
+        /// <param name="fontName">Key</param>
+        /// <param name="textureKey">Texture name in the production pipeline</param>
+        /// <param name="symbolSize">Size of each character</param>
 		public CustomFont(string fontName, string textureKey, Vector2 symbolSize)
 		{
+            // If no key has been supplied, throw a new exception
 			if (fontName == null) throw new ArgumentNullException(nameof(fontName));
 
+            // Setting Texturekey and symbolsize
 			TextureKey = textureKey ?? throw new ArgumentNullException(nameof(textureKey));
 			SymbolSize = symbolSize;
 
+            // Creates the position dictionary
 			SymbolPosition = new Dictionary<char, Point>();
 
+            // Calculate the total pixels. 
 			TotalPixelAmount = (int) (symbolSize.X * symbolSize.Y);
 			Rectangle = new Rectangle(0, 0, (int) symbolSize.X, (int) symbolSize.Y);
 
@@ -31,9 +60,22 @@ namespace Intro2DGame.Game.Fonts
 			SetSymbolPositions();
 		}
 
+        /// <summary>
+        /// Returns if the font ignores case
+        /// </summary>
+        /// <returns></returns>
 		protected abstract bool IsIgnoreCase();
+
+        /// <summary>
+        /// Populating the SymbolPositions
+        /// </summary>
 		protected abstract void SetSymbolPositions();
 
+        /// <summary>
+        /// Creates texture from string
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
 		public Texture2D CreateTexture(params string[] lines)
 		{
 			// Going through the lines to see how long the longest line is..

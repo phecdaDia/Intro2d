@@ -130,8 +130,6 @@ namespace Intro2DGame.Game.Scenes
 
 				BufferedSpriteDictionary[t].Clear();
 			}
-
-			if (KeyboardManager.IsKeyDown(Keys.Pause)) SceneManager.AddScene("menu");
 		}
 
 		// Draws all registered Sprites

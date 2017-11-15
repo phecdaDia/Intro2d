@@ -38,7 +38,7 @@ namespace Intro2DGame.Game.Scenes
 
 	class MenuSprite : AbstractAnimatedSprite
 	{
-		public MenuSprite() : base("test/coin", new Vector2(400, 300), 24, 10)
+		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 100)
 		{
 			
 		}
@@ -46,6 +46,21 @@ namespace Intro2DGame.Game.Scenes
 		public override void Update(GameTime gameTime)
 		{
 			if (KeyboardManager.IsKeyDown(Keys.Pause)) SceneManager.CloseScene();
+
+            base.Update(gameTime);
 		}
-	}
+
+        protected override void AddFrames()
+        {
+            AddAnimation(new Point[]
+            {
+                new Point(0, 0),
+                new Point(24, 0),
+                new Point(48, 0),
+                new Point(72, 0),
+                new Point(96, 0),
+                new Point(120, 0),
+            });
+        }
+    }
 }

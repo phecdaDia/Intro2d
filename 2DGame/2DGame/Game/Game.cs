@@ -107,7 +107,10 @@ namespace Intro2DGame.Game
 			if (KeyboardManager.IsKeyDown(Keys.Escape))
 				SceneManager.CloseScene();
 
-			if (SceneManager.GetCurrentScene() == null) Exit();
+
+
+            if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
+            if (SceneManager.GetCurrentScene() == null) Exit();
 
 			// This updates the current scene.
 
