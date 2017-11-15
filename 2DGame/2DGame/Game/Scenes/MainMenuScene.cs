@@ -28,13 +28,15 @@ namespace Intro2DGame.Game.Scenes
 		}
 	}
 
-	public class MainMenuSprite : AbstractSprite
+	internal class MainMenuSprite : AbstractSprite
 	{
 		private const int MAX_MENU_ENTRIES = 10;
 
-		private readonly List<Texture2D> MenuEntries;
+		private readonly List<MainMenuEntry> MenuEntries;
 
 		private const int TIMEOUT_DELAY = 20;
+
+        private const string FONT_NAME = "example";
 
 		private int Timeout = 0;
 
@@ -48,63 +50,38 @@ namespace Intro2DGame.Game.Scenes
 			SelectedIndex = 0;
 			UpShowIndex = 0;
 
-			MenuEntries = new List<Texture2D>
-			{
-				FontManager.CreateFontString("example", "Introductions"),
-				FontManager.CreateFontString("example", "Knockout Round"),
-				FontManager.CreateFontString("example", "Round 1"),
-				FontManager.CreateFontString("example", "Round 2"),
-				FontManager.CreateFontString("example", "Finals"),
-				FontManager.CreateFontString("example", "DIALOG TEST"),
-				FontManager.CreateFontString("example", "Go to Example Scene!"),
-				FontManager.CreateFontString("example", "Go to Example Scene2!"),
-				FontManager.CreateFontString("example", "Exit")
-			};
+            MenuEntries = new List<MainMenuEntry>
+            {
+
+                new MainMenuEntry("TEST0", FONT_NAME, "example"),
+                new MainMenuEntry("A very very very very very long name", FONT_NAME, "example"),
+                new MainMenuEntry("abcdefghijklmnopqrstuvwxyz", FONT_NAME, "example"),
+                new MainMenuEntry("0123456789", FONT_NAME, "example"),
+                new MainMenuEntry("TEST4", FONT_NAME, "example"),
+                new MainMenuEntry("TEST5", FONT_NAME, "example"),
+                new MainMenuEntry("TEST6", FONT_NAME, "example"),
+                new MainMenuEntry("TEST7", FONT_NAME, "example"),
+                new MainMenuEntry("TEST8", FONT_NAME, "example"),
+                new MainMenuEntry("TEST9", FONT_NAME, "example"),
+            //FontManager.CreateFontString("example", "Introductions"),
+            //FontManager.CreateFontString("example", "Knockout Round"),
+            //FontManager.CreateFontString("example", "Round 1"),
+            //FontManager.CreateFontString("example", "Round 2"),
+            //FontManager.CreateFontString("example", "Finals"),
+            //FontManager.CreateFontString("example", "DIALOG TEST"),
+            //FontManager.CreateFontString("example", "Go to Example Scene!"),
+            //FontManager.CreateFontString("example", "Go to Example Scene2!"),
+            //FontManager.CreateFontString("example", "Exit")
+            };
 		}
 
 		public override void Update(GameTime gameTime)
 		{
 
-			if (KeyboardManager.IsKeyDown(Keys.Enter))
+			if (KeyboardManager.IsKeyDown(Keys.Enter) || KeyboardManager.IsKeyDown(Keys.Space))
 			{
-				switch (SelectedIndex)
-				{
-					case 0:
-						SceneManager.AddScene("tutorial");
-						break;
-					case 1:
-						SceneManager.AddScene("mainmenu");
-						break;
-					case 2:
-						SceneManager.AddScene("mainmenu");
-						break;
-					case 3:
-						SceneManager.AddScene("mainmenu");
-						break;
-					case 4:
-						SceneManager.AddScene("mainmenu");
-						break;
-					case 5:
-						// Creating some dialog boxes
-						Random random = new Random();
-						for (var i = 0; i < 10; i++)
-						{
-							SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
-						}
-						break;
-					case 6:
-						SceneManager.AddScene("example");
-						break;
-					case 7:
-						SceneManager.AddScene("example2");
-						break;
-					case 8:
-						Game.ExitGame();
-						break;
-					default:
-						Game.ExitGame();
-						break;
-				}
+                SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey);
+
 				return;
 			}
 
@@ -155,13 +132,25 @@ namespace Intro2DGame.Game.Scenes
 			var idx = 0;
 			if (MenuEntries.Count <= MAX_MENU_ENTRIES)
 				foreach (var menuItem in MenuEntries)
-					spriteBatch.Draw(menuItem, new Vector2(100, 85 + idx++ * 50), Color.White);
+					spriteBatch.Draw(menuItem.Text, new Vector2(100, 85 + idx++ * 50), Color.White);
 			else
 				for (var i = 0; i < d; i++)
-					spriteBatch.Draw(MenuEntries[i + UpShowIndex], new Vector2(100, 85 + idx++ * 50), Color.White);
+					spriteBatch.Draw(MenuEntries[i + UpShowIndex].Text, new Vector2(100, 85 + idx++ * 50), Color.White);
 			//spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
 			
 			spriteBatch.DrawString(Game.FontArial, $"{this.Timeout}", new Vector2(1), Color.Black);
 		}
 	}
+
+    internal struct MainMenuEntry
+    {
+        public Texture2D Text;
+        public string SceneKey;
+
+        public MainMenuEntry(string text, string font, string sceneKey)
+        {
+            this.Text = FontManager.CreateFontString(font, text);
+            this.SceneKey = sceneKey;
+        }
+    }
 }
