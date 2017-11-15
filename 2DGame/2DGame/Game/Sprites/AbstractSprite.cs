@@ -62,9 +62,11 @@ namespace Intro2DGame.Game.Sprites
 
 		protected Texture2D Texture
 		{
-			get => TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null;
-			set => TextureDictionary[GetType()] = value;
-		}
+            //get => TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null;
+            get { return TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null; }
+            //set => TextureDictionary[GetType()] = value;
+            set { TextureDictionary[GetType()] = value; }
+        }
 
 		public Vector2 GetPosition()
 		{
