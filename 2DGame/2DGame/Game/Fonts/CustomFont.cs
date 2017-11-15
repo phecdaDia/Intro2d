@@ -18,7 +18,8 @@ namespace Intro2DGame.Game.Fonts
 		{
 			if (fontName == null) throw new ArgumentNullException(nameof(fontName));
 
-			TextureKey = textureKey ?? throw new ArgumentNullException(nameof(textureKey));
+            if(textureKey==null) throw new ArgumentNullException(nameof(textureKey));
+            TextureKey = textureKey;
 			SymbolSize = symbolSize;
 
 			SymbolPosition = new Dictionary<char, Point>();
