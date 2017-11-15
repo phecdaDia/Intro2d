@@ -12,16 +12,20 @@ namespace Intro2DGame.Game.Scenes.Stages
 		protected override void CreateScene()
 		{
 			AddSprite(new PlayerSprite(new Vector2(100, 350)));
-			AddSprite(new TutorialSprite());
+			AddSprite(new TutorialSprite(new Vector2(400,250)));
 		}
 	}
 
 	internal class TutorialSprite : AbstractSprite
 	{
 
+        public TutorialSprite(Vector2 position):base("tutorialplayer",position)
+        {
 
+        }
 		public override void Update(GameTime gameTime)
 		{
+
 		}
 	}
 }
