@@ -54,8 +54,8 @@
     <Compile Include="Game\KeyboardManager.cs" />
     <Compile Include="Game\ObjectCloner.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
-    <Compile Include="Game\Scenes\ExampleScene2.cs" />
-    <Compile Include="Game\Scenes\ExampleScene.cs" />
+    <Compile Include="Game\Scenes\Debug\ExampleScene2.cs" />
+    <Compile Include="Game\Scenes\Debug\ExampleScene.cs" />
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Scenes\MenuScene.cs" />
     <Compile Include="Game\Scenes\Stages\TutorialScene.cs" />
@@ -132,7 +132,9 @@
     </None>
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Game\Scenes\Transition\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

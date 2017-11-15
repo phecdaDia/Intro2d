@@ -53,16 +53,21 @@ namespace Intro2DGame.Game.Scenes
             MenuEntries = new List<MainMenuEntry>
             {
 
-                new MainMenuEntry("TEST0", FONT_NAME, "example"),
-                new MainMenuEntry("A very very very very very long name", FONT_NAME, "example"),
-                new MainMenuEntry("abcdefghijklmnopqrstuvwxyz", FONT_NAME, "example"),
-                new MainMenuEntry("0123456789", FONT_NAME, "example"),
-                new MainMenuEntry("TEST4", FONT_NAME, "example"),
-                new MainMenuEntry("TEST5", FONT_NAME, "example"),
-                new MainMenuEntry("TEST6", FONT_NAME, "example"),
-                new MainMenuEntry("TEST7", FONT_NAME, "example"),
-                new MainMenuEntry("TEST8", FONT_NAME, "example"),
-                new MainMenuEntry("TEST9", FONT_NAME, "example"),
+                new MainMenuEntry("Tutorial", FONT_NAME, "tutorial"),
+                new MainMenuEntry("TODO", FONT_NAME, "mainmenu"),
+                new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu"),
+                new MainMenuEntry("TODO Round 2", FONT_NAME, "mainmenu"),
+                new MainMenuEntry("TODO Finals", FONT_NAME, "mainmenu"),
+                new MainMenuEntry("example fight (HARD)", FONT_NAME, "example"),
+                new MainMenuEntry("example fight 2", FONT_NAME, "example2"),
+                new LambdaMainMenuEntry("dialog test", FONT_NAME, () => {
+                        Random random = new Random();
+                        for (var i = 0; i < 10; i++)
+                        {
+                            SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
+                        }
+                    }),
+
             //FontManager.CreateFontString("example", "Introductions"),
             //FontManager.CreateFontString("example", "Knockout Round"),
             //FontManager.CreateFontString("example", "Round 1"),
@@ -80,7 +85,10 @@ namespace Intro2DGame.Game.Scenes
 
 			if (KeyboardManager.IsKeyDown(Keys.Enter) || KeyboardManager.IsKeyDown(Keys.Space))
 			{
-                SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey);
+                MainMenuEntry mme = MenuEntries[SelectedIndex];
+
+                if (mme.GetType() == typeof(MainMenuEntry)) SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey);
+                else if (mme.GetType() == typeof(LambdaMainMenuEntry)) ((LambdaMainMenuEntry)mme).Lambda.Invoke();
 
 				return;
 			}
@@ -142,7 +150,7 @@ namespace Intro2DGame.Game.Scenes
 		}
 	}
 
-    internal struct MainMenuEntry
+    internal class MainMenuEntry
     {
         public Texture2D Text;
         public string SceneKey;
@@ -151,6 +159,16 @@ namespace Intro2DGame.Game.Scenes
         {
             this.Text = FontManager.CreateFontString(font, text);
             this.SceneKey = sceneKey;
+        }
+    }
+
+    internal class LambdaMainMenuEntry : MainMenuEntry
+    {
+        public Action Lambda;
+
+        public LambdaMainMenuEntry(String text, String font, Action lambda) : base(text, font, "")
+        {
+            this.Lambda = lambda;
         }
     }
 }

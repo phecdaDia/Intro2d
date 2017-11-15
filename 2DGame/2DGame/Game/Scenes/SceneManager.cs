@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Scenes.Stages;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Intro2DGame.Game.Scenes.Debug;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -41,8 +42,9 @@ namespace Intro2DGame.Game.Scenes
 		private void CreateScenes()
 		{
 			RegisterScene(new ExampleScene());
-			RegisterScene(new Example2Scene());
-			RegisterScene(new MainMenuScene());
+            RegisterScene(new Example2Scene());
+
+            RegisterScene(new MainMenuScene());
 
 			RegisterScene(new TutorialScene());
 
