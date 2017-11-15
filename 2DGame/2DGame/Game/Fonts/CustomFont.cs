@@ -44,8 +44,8 @@ namespace Intro2DGame.Game.Fonts
             // If no key has been supplied, throw a new exception
 			if (fontName == null) throw new ArgumentNullException(nameof(fontName));
 
-            // Setting Texturekey and symbolsize
-			TextureKey = textureKey ?? throw new ArgumentNullException(nameof(textureKey));
+            if(textureKey==null) throw new ArgumentNullException(nameof(textureKey));
+            TextureKey = textureKey;
 			SymbolSize = symbolSize;
 
             // Creates the position dictionary
