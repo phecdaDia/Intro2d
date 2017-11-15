@@ -18,8 +18,8 @@ namespace Intro2DGame.Game.Sprites
 		public bool Enemy;
 		public int Health;
 
-	// This is for coloring monochrome sprites
-	protected Color Hue;
+	    // This is for coloring monochrome sprites
+	    protected Color Hue;
 
 		// Decides the draw order. Higher layerDepth will draw later.
 		protected int LayerDepth;
@@ -121,11 +121,18 @@ namespace Intro2DGame.Game.Sprites
 			);
 		}
 
-		protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite
+        // Method should not be used
+        [System.Obsolete("Method is deprecated, please use SpawnSprite instead.", true)]
+        protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite
 		{
 			var o = (T) Activator.CreateInstance(typeof(T), parameters);
 			SceneManager.GetCurrentScene().AddSprite(o);
 		}
+
+        protected void SpawnSprite(AbstractSprite sprite)
+        {
+            SceneManager.GetCurrentScene().AddSprite(sprite);
+        }
 
 		public virtual bool DoesCollide(AbstractOrb orb)
 		{

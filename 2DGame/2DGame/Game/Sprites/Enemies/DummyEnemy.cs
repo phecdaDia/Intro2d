@@ -57,9 +57,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 					var degrees2 = 2 * Math.PI * (Health * (Health+1) / 1.95f / LayerDifficulty);
 
 					for (var i = 0; i < LayerDifficulty; i++)
-						ShootOrb<LinearIncreasingOrb>(Position,
+						SpawnSprite(new LinearIncreasingOrb(Position,
 							new Vector2((float) Math.Sin(tan + i * degrees2 + z), (float) Math.Cos(tan + i * degrees2 + z)), 0.235f,
-							1.01025f);
+							1.01025f));
 				}
 			}
 		}
