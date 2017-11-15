@@ -80,7 +80,20 @@ namespace Intro2DGame.Game.Sprites
 		{
             Rectangle rTexture = new Rectangle(FrameDictionary[this.GetType()][CurrentAnimation][CurrentFrame], this.Size);
             Rectangle rScene = new Rectangle(this.Position.ToPoint() - (this.Size.ToVector2() / 2f).ToPoint(), this.Size);
-            spriteBatch.Draw(this.Texture, rScene, rTexture, this.Hue);
-		}
+            //spriteBatch.Draw(this.Texture, rScene, rTexture, this.Hue);
+
+            spriteBatch.Draw(
+                this.Texture,
+                null,
+                rScene,
+                rTexture,
+                Size.ToVector2() / 2f,
+                this.Rotation,
+                new Vector2(this.Scale),
+                this.Hue,
+                SpriteEffects.None,
+                0f
+            );
+        }
 	}
 }

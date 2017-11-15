@@ -38,9 +38,9 @@ namespace Intro2DGame.Game.Scenes
 
 	class MenuSprite : AbstractAnimatedSprite
 	{
-		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 100)
+		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 166)
 		{
-			
+            this.Rotation = 45f;
 		}
 
 		public override void Update(GameTime gameTime)
