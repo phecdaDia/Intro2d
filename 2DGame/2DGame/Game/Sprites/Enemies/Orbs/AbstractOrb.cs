@@ -33,22 +33,6 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			}
 		}
 
-		protected abstract Vector2 UpdatePosition(GameTime gameTime);
-
-
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			spriteBatch.Draw(
-				Texture,
-				Position,
-				null,
-				Hue,
-				Rotation,
-				new Vector2(Texture.Width / 2f, Texture.Height / 2f),
-				new Vector2(Scale),
-				SpriteEffects.None,
-				0f
-			);
-		}
-	}
+        protected abstract Vector2 UpdatePosition(GameTime gameTime);
+    }
 }

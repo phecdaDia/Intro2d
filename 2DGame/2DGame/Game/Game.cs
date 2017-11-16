@@ -16,7 +16,8 @@ namespace Intro2DGame.Game
 
 		public static SpriteFont FontArial;
 
-		private readonly GraphicsDeviceManager Graphics;
+		public GraphicsDeviceManager Graphics;
+
 		private SpriteBatch SpriteBatch;
 
 		public Game(params String[] args)

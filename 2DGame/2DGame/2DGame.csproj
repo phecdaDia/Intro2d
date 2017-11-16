@@ -59,6 +59,7 @@
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Scenes\MenuScene.cs" />
     <Compile Include="Game\Scenes\Stages\TutorialScene.cs" />
+    <Compile Include="Game\Scenes\Transition\TestTransition.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\AbstractOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\CurvingOrb.cs" />
@@ -132,9 +133,7 @@
     </None>
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\Scenes\Transition\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

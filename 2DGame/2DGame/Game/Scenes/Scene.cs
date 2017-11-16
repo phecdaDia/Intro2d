@@ -37,7 +37,7 @@ namespace Intro2DGame.Game.Scenes
 
 			// Checks if the scene is in the Dictionary. 
 			if (!SpriteDictionary.ContainsKey(this.SceneKey)) SpriteDictionary[this.SceneKey] = new Dictionary<Type, IList>();
-			//if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
+            //if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
 		}
 
 		public string SceneKey { get; }
@@ -164,5 +164,9 @@ namespace Intro2DGame.Game.Scenes
 					a.Draw(spriteBatch);
 			}
 		}
+
+        public virtual void LoadContent() {}
+
+        public virtual void UnloadContent() {}
 	}
 }

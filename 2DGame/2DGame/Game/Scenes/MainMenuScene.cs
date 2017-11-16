@@ -6,6 +6,7 @@ using Intro2DGame.Game.Fonts;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Intro2DGame.Game.Scenes.Transition;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -26,7 +27,7 @@ namespace Intro2DGame.Game.Scenes
 			if (SceneManager.GetCurrentScene().SceneKey != this.SceneKey) return;
 				base.Draw(spriteBatch);
 		}
-	}
+    }
 
 	internal class MainMenuSprite : AbstractSprite
 	{

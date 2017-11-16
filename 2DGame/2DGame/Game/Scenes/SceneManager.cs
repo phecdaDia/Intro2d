@@ -7,6 +7,7 @@ using Intro2DGame.Game.Scenes.Stages;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Intro2DGame.Game.Scenes.Debug;
+using Intro2DGame.Game.Scenes.Transition;
 
 namespace Intro2DGame.Game.Scenes
 {
@@ -84,22 +85,27 @@ namespace Intro2DGame.Game.Scenes
 
 			if (c <= 0) return;
 
-			sm.SceneStack.Last().ResetScene();
-			sm.SceneStack.RemoveAt(c-1);
+            sm.SceneStack.Last().UnloadContent();
+            sm.SceneStack.Last().ResetScene();
+            sm.SceneStack.RemoveAt(c-1);
 
 			sm.CurrentScene = c > 1 ? sm.SceneStack.Last() : null;
 		}
 
-		public static void AddScene(string key)
+		public static void AddScene(string key, Scene transition = null)
 		{
 			if (key == GetCurrentScene().SceneKey) return;
+
 
 			var sm = GetInstance();
 
 			sm.SceneStack.Add(sm.Scenes[key]);
 			sm.CurrentScene = sm.SceneStack.Last();
+            sm.CurrentScene.LoadContent();
 			sm.CurrentScene.ResetScene();
-		}
+
+            if (transition != null) AddScene(transition);
+        }
 
 		public static void AddScene(Scene scene)
 		{
@@ -107,6 +113,7 @@ namespace Intro2DGame.Game.Scenes
 
 			sm.SceneStack.Add(scene);
 			sm.CurrentScene = scene;
+            sm.CurrentScene.LoadContent();
 			sm.CurrentScene.ResetScene();
 		}
 

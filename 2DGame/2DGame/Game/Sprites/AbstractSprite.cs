@@ -36,7 +36,7 @@ namespace Intro2DGame.Game.Sprites
 		protected Vector2 Position;
 
 		protected float Rotation = 0f;
-		public float Scale = 1.0f;
+		public Vector2 Scale = new Vector2(1);
 
 		protected AbstractSprite()
 		{
@@ -107,21 +107,21 @@ namespace Intro2DGame.Game.Sprites
 			if (Texture == null) return;
 
 
-			spriteBatch.Draw(Texture, Position - new Vector2(Texture.Width, Texture.Height) * 0.5f, Hue);
+			//spriteBatch.Draw(Texture, Position - new Vector2(Texture.Width, Texture.Height) * 0.5f, Hue);
 
 
-			spriteBatch.Draw(
-				Texture,
-				Position,
-				null,
-				Hue,
-				Rotation,
-				new Vector2(Texture.Width / 2f, Texture.Height / 2f),
-				new Vector2(Scale),
-				SpriteEffects.None,
-				0f
-			);
-		}
+            spriteBatch.Draw(
+                Texture,
+                Position,
+                null,
+                Hue,
+                Rotation,
+                new Vector2(Texture.Width / 2f, Texture.Height / 2f),
+                Scale,
+                SpriteEffects.None,
+                0f
+            );
+        }
 
         // Method should not be used
         [System.Obsolete("Method is deprecated, please use SpawnSprite instead.", true)]

@@ -12,8 +12,6 @@ namespace Intro2DGame.Game.Scenes
 {
 	public class MenuScene : Scene
 	{
-		private MenuSprite MenuSprite;
-
 		public MenuScene() : base("menu")
 		{
 			
@@ -21,31 +19,26 @@ namespace Intro2DGame.Game.Scenes
 
 		protected override void CreateScene()
 		{
-			// this has to be implemented differently, sadly
-			this.MenuSprite = new MenuSprite();
+			AddSprite(new MenuSprite());
 		}
-
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			this.MenuSprite.Draw(spriteBatch);
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			this.MenuSprite.Update(gameTime);
-		}
-	}
+    }
 
 	class MenuSprite : AbstractAnimatedSprite
 	{
-		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 166)
+		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 30)
 		{
             this.Rotation = 45f;
+            this.Scale = new Vector2(2);
 		}
 
 		public override void Update(GameTime gameTime)
 		{
 			if (KeyboardManager.IsKeyDown(Keys.Pause)) SceneManager.CloseScene();
+
+            this.Rotation += 3.6f * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
+            this.Rotation %= 360f;
+
 
             base.Update(gameTime);
 		}

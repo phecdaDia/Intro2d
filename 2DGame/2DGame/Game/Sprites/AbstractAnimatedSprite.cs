@@ -84,13 +84,12 @@ namespace Intro2DGame.Game.Sprites
 
             spriteBatch.Draw(
                 this.Texture,
-                null,
-                rScene,
+                this.Position,
                 rTexture,
-                Size.ToVector2() / 2f,
-                this.Rotation,
-                new Vector2(this.Scale),
                 this.Hue,
+                this.Rotation,
+                Size.ToVector2() / 2f,
+                this.Scale,
                 SpriteEffects.None,
                 0f
             );
