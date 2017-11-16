@@ -8,25 +8,33 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Scenes
 {
-	/*
-		This is the basic level logic.
-		This allows us to change scenes and update/draw sprites.
-	*/
+    /// <summary>
+    /// This is the basic level logic.
+    /// This allows us to change scenes and update/draw sprites.
+    /// </summary>
 	public abstract class Scene
 	{
-		// Dictionary of all sprites. 
-		// This has to be a Dict<TypeA, Dict<TypeB, IList>>
-		// TypeA is the scene type
-		// TypeB is the sprite type
-		// The list contains all sprites of TypeB
-		private static Dictionary<string, Dictionary<Type, IList>> SpriteDictionary;
+        /// <summary> 
+        /// Dictionary of all sprites. 
+        /// This has to be a Dict<TypeA, Dict<TypeB, IList>>
+        /// TypeA is the scene type
+        /// TypeB is the sprite type
+        /// The list contains all sprites of TypeB
+        /// </summary>
+        private static Dictionary<string, Dictionary<Type, IList>> SpriteDictionary;
 
-		// We have to do it this way, otherwise Sprites can't spawn other sprites. 
-		//private static Dictionary<Type, Dictionary<Type, IList>> BufferedSpriteDictionary;
-		private static Dictionary<string, List<AbstractSprite>> BufferedSpriteDictionary;
+        /// <summary>
+        /// We have to do it this way, otherwise Sprites can't spawn other sprites. 
+        /// </summary>
+        private static Dictionary<string, List<AbstractSprite>> BufferedSpriteDictionary;
 
+        /// <summary>
+        /// Every scene should have a unique scenekey for identification if it's registered
+        /// This allows us to call the scene by the key.
+        /// </summary>
+        public string SceneKey { get; }
 
-		public Scene(string key)
+        public Scene(string key)
 		{
 			// Setting our sceneKey
 			SceneKey = key;
@@ -40,10 +48,10 @@ namespace Intro2DGame.Game.Scenes
             //if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
 		}
 
-		public string SceneKey { get; }
-
-		// Tries to get all Sprites of T
-		// GetSprite<PlayerSprite>() would result in all players.
+        /// <summary>
+		/// Tries to get all Sprites of T
+		/// GetSprite<PlayerSprite>() would result in all players.
+        /// </summary>
 		public List<T> GetSprites<T>()
 		{
 			// If we have a List of sprites return it, otherwise give a blank list to avoid NPE
@@ -51,6 +59,10 @@ namespace Intro2DGame.Game.Scenes
 			return new List<T>();
 		}
 
+        /// <summary>
+        /// Adds a sprite to the current top layer scene
+        /// </summary>
+        /// <param name="s">Sprite that's being spawned</param>
 		public void AddSprite(AbstractSprite s)
 		{
 			if (!BufferedSpriteDictionary.ContainsKey(this.SceneKey))
@@ -58,28 +70,43 @@ namespace Intro2DGame.Game.Scenes
 			BufferedSpriteDictionary[this.SceneKey].Add(s);
 		}
 
-		// This returns all Sprites of the current scene
-		public Dictionary<Type, IList> GetAllSprites()
+        /// <summary>
+        /// This returns all Sprites of the current scene
+        /// </summary> 
+        public Dictionary<Type, IList> GetAllSprites()
 		{
 			return SpriteDictionary[this.SceneKey];
 		}
 
-		// This returns all Sprites of a scene
-		public Dictionary<Type, IList> GetAllSprites(String sceneKey)
+        /// <summary>
+        /// This returns all Sprites of the current scene by the scenekey
+        /// </summary> 
+        /// <param name="sceneKey">Key of the scene</param>
+        public Dictionary<Type, IList> GetAllSprites(String sceneKey)
 		{
 			return SpriteDictionary[sceneKey];
 		}
 
-		// This is used to spawn all objects
-		protected abstract void CreateScene();
+        /// <summary>
+        /// Initially creates all sprites a scene uses
+        /// 
+        /// Sprites should be added by the <see cref="AddSprite(AbstractSprite)"/> function.
+        /// </summary>
+        protected abstract void CreateScene();
 
+        /// <summary>
+        /// Removed all current sprites and calls <see cref="CreateScene"/>
+        /// </summary>
 		public void ResetScene()
 		{
 			SpriteDictionary[this.SceneKey].Clear();
 			CreateScene();
 		}
 
-		// Updates all registered Sprites
+		/// <summary>
+        /// Updates all sprites
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
 		public virtual void Update(GameTime gameTime)
 		{
 			//if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
@@ -132,7 +159,10 @@ namespace Intro2DGame.Game.Scenes
 			}
 		}
 
-		// Draws all registered Sprites
+		/// <summary>
+        /// Draws the scene
+        /// </summary>
+        /// <param name="spriteBatch"></param>
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{
 			//if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
@@ -141,12 +171,12 @@ namespace Intro2DGame.Game.Scenes
 
 			foreach (var l in SpriteDictionary[this.SceneKey].Values)
 			foreach (AbstractSprite c in l)
-				if (c.GetLayerDepth() > 0)
+				if (c.LayerDepth > 0)
 				{
-					if (!priorityDictionary.ContainsKey(c.GetLayerDepth()))
-						priorityDictionary[c.GetLayerDepth()] = new List<AbstractSprite>();
+					if (!priorityDictionary.ContainsKey(c.LayerDepth))
+						priorityDictionary[c.LayerDepth] = new List<AbstractSprite>();
 
-					priorityDictionary[c.GetLayerDepth()].Add(c);
+					priorityDictionary[c.LayerDepth].Add(c);
 				}
 				else
 				{
@@ -165,8 +195,14 @@ namespace Intro2DGame.Game.Scenes
 			}
 		}
 
+        /// <summary>
+        /// Loads all custom content
+        /// </summary>
         public virtual void LoadContent() {}
 
+        /// <summary>
+        /// Should unload all custom content
+        /// </summary>
         public virtual void UnloadContent() {}
 	}
 }

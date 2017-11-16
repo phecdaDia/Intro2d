@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Scenes
 {
+    /// <summary>
+    /// Scene shown when the player pauses the game
+    /// </summary>
 	public class MenuScene : Scene
 	{
 		public MenuScene() : base("menu")
@@ -23,7 +26,7 @@ namespace Intro2DGame.Game.Scenes
 		}
     }
 
-	class MenuSprite : AbstractAnimatedSprite
+	internal class MenuSprite : AbstractAnimatedSprite
 	{
 		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 30)
 		{

@@ -8,38 +8,55 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Intro2DGame.Game.Scenes.Debug;
 using Intro2DGame.Game.Scenes.Transition;
+using Intro2DGame.Game.Sprites;
 
 namespace Intro2DGame.Game.Scenes
 {
+    /// <summary>
+    /// Manages all <see cref="Scene"/>
+    /// </summary>
 	public class SceneManager
 	{
-		// Singleton instance
+		/// <summary>
+        /// Singleton instance of the <see cref="SceneManager"/>
+        /// </summary>
 		private static SceneManager Instance;
 
-		// Dictionary for all scenes. Scenes don't have to be initiated. 
-		private readonly Dictionary<string, Scene> Scenes;
+		/// <summary>
+        /// Dictionary for <see cref="Scene"/>
+        /// Primary key is the <see cref="Scene.SceneKey"/>
+        /// </summary>
+		private readonly Dictionary<string, Scene> SceneDictionary;
 
+        /// <summary>
+        /// Current Stack of <see cref="Scene"/>
+        /// 
+        /// It's not actually a <see cref="Stack{Scene}"/>. It's a <see cref="List{Scene}"/> to draw all scenes in order.
+        /// </summary>
 		private readonly List<Scene> SceneStack;
 
-		// our current scene.
-		private Scene CurrentScene;
+        /// <summary>
+        /// The current top scene.
+        /// </summary>
+        private Scene CurrentScene
+        {
+            get { return SceneStack.Count > 0 ? SceneStack.Last() : null; }
+        }
 
 		private static int ClosingScene;
 
 
 		public SceneManager()
 		{
-			// Sets the Singleton instance
-			Instance = this;
 
-			// Creates the Scenes Dictionary
-			Scenes = new Dictionary<string, Scene>();
+			// Creates the SceneDictionary Dictionary
+			SceneDictionary = new Dictionary<string, Scene>();
 			SceneStack = new List<Scene>();
-
-			// Creates all scenes. 
-			CreateScenes();
 		}
 
+        /// <summary>
+        /// Registers all scenes to the <see cref="Scene"/>
+        /// </summary>
 		private void CreateScenes()
 		{
 			RegisterScene(new ExampleScene());
@@ -55,28 +72,40 @@ namespace Intro2DGame.Game.Scenes
 			SetScene("mainmenu");
 		}
 
-		// Returns the current scene
-		public static Scene GetCurrentScene()
+        /// <summary>
+        /// Statically returns the current <see cref="Scene"/>
+        /// </summary>
+        /// <returns>The current top layer <see cref="Scene"/></returns>
+        public static Scene GetCurrentScene()
 		{
 			return GetInstance().CurrentScene;
 		}
 
-		// Clears the Stack and opens a scene
-		public static void SetScene(string key)
+        /// <summary>
+        /// Clears <see cref="SceneStack"/> and adds a <see cref="Scene"/> by <paramref name="key"/>
+        /// </summary>
+        /// <param name="key">Key of the scene</param>
+        public static void SetScene(string key)
 		{
 			var sm = GetInstance();
 
 			sm.SceneStack.Clear();
-			sm.SceneStack.Add(sm.Scenes[key]);
-			sm.CurrentScene = sm.SceneStack.Last();
+			sm.SceneStack.Add(sm.SceneDictionary[key]);
 			sm.CurrentScene.ResetScene();
 		}
 
-		public static void CloseScene()
+        /// <summary>
+        /// Closes <paramref name="amount"/> <see cref="Scene"/> from <see cref="SceneStack"/>
+        /// </summary>
+        /// <param name="amount">Amount of scenes to be closed</param>
+		public static void CloseScene(int amount = 1)
 		{
-			ClosingScene += 1;
+			ClosingScene += amount;
 		}
 
+        /// <summary>
+        /// Removes one <see cref="Scene"/> from the <see cref="SceneStack"/>
+        /// </summary>
 		private static void RemoveScene()
 		{
 			var sm = GetInstance();
@@ -88,10 +117,15 @@ namespace Intro2DGame.Game.Scenes
             sm.SceneStack.Last().UnloadContent();
             sm.SceneStack.Last().ResetScene();
             sm.SceneStack.RemoveAt(c-1);
-
-			sm.CurrentScene = c > 1 ? sm.SceneStack.Last() : null;
 		}
 
+        /// <summary>
+        /// Adds a <see cref="Scene"/> to the <see cref="SceneStack"/> by <paramref name="key"/>
+        /// <para/>
+        /// Additionally adds a <paramref name="transition"/>
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="transition"></param>
 		public static void AddScene(string key, Scene transition = null)
 		{
 			if (key == GetCurrentScene().SceneKey) return;
@@ -99,51 +133,81 @@ namespace Intro2DGame.Game.Scenes
 
 			var sm = GetInstance();
 
-			sm.SceneStack.Add(sm.Scenes[key]);
-			sm.CurrentScene = sm.SceneStack.Last();
+			sm.SceneStack.Add(sm.SceneDictionary[key]);
             sm.CurrentScene.LoadContent();
 			sm.CurrentScene.ResetScene();
 
             if (transition != null) AddScene(transition);
         }
 
+        /// <summary>
+        /// Adds a <see cref="Scene"/> to the <see cref="SceneStack"/>
+        /// </summary>
+        /// <param name="scene"><see cref="Scene"/> that's added to the <see cref="SceneStack"/></param>
 		public static void AddScene(Scene scene)
 		{
 			var sm = GetInstance();
 
 			sm.SceneStack.Add(scene);
-			sm.CurrentScene = scene;
             sm.CurrentScene.LoadContent();
 			sm.CurrentScene.ResetScene();
 		}
 
-		// Getting the Singleton instance
+		/// <summary>
+        /// Singleton Instance
+        /// </summary>
+        /// <returns>Singleton instance</returns>
 		private static SceneManager GetInstance()
 		{
-			return Instance ?? (Instance = new SceneManager());
+            if (Instance == null)
+            {
+                Instance = new SceneManager();
+                Instance.CreateScenes();
+            }
+            return Instance;
 		}
 
-		// Allows registering a scene,
-		private static void RegisterScene(Scene scene)
+        /// <summary>
+        /// Registers a <see cref="Scene"/> to the <see cref="SceneDictionary"/>
+        /// </summary>
+        /// <param name="scene"><see cref="Scene"/> that's added to the <see cref="SceneDictionary"/></param>
+        private static void RegisterScene(Scene scene)
 		{
-			GetInstance().Scenes.Add(scene.SceneKey, scene);
+			GetInstance().SceneDictionary.Add(scene.SceneKey, scene);
 		}
 
-		public static List<T> GetSprites<T>()
+        /// <summary>
+        /// Returns all <see cref="AbstractSprite"/> of <see cref="CurrentScene"/>
+        /// </summary>
+        /// <typeparam name="T">Any <see cref="AbstractSprite"/></typeparam>
+        /// <returns><see cref="List{T}"/> with all <see cref="AbstractSprite"/> of the <see cref="CurrentScene"/></returns>
+		public static List<T> GetSprites<T>() where T : AbstractSprite
 		{
 			return GetCurrentScene().GetSprites<T>();
 		}
 
+        /// <summary>
+        /// <see cref="Dictionary{Type, AbstractSprite}"/> of <see cref="CurrentScene"/>
+        /// </summary>
+        /// <returns></returns>
 		public static Dictionary<Type, IList> GetAllSprites()
 		{
 			return GetCurrentScene().GetAllSprites();
 		}
 
+        /// <summary>
+        /// Statically returns length of <see cref="SceneStack"/> 
+        /// </summary>
+        /// <returns><see cref="SceneStack"/> count</returns>
 		public static int GetStackSize()
 		{
 			return GetInstance().SceneStack.Count;
 		}
 
+        /// <summary>
+        /// Updates <see cref="CurrentScene"/> and closes all closed <see cref="Scene"/>
+        /// </summary>
+        /// <param name="gameTime"></param>
 		public static void Update(GameTime gameTime)
 		{
 			GetInstance().CurrentScene?.Update(gameTime);
@@ -155,6 +219,12 @@ namespace Intro2DGame.Game.Scenes
 			}
 		}
 
+        /// <summary>
+        /// Draws all <see cref="Scene"/> in <see cref="SceneStack"/> in ascending order.
+        /// <para />
+        /// First in first drawn.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
 		public static void Draw(SpriteBatch spriteBatch)
 		{
 			foreach (var s in GetInstance().SceneStack)

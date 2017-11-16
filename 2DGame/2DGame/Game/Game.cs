@@ -12,12 +12,24 @@ namespace Intro2DGame.Game
 	/// </summary>
 	public class Game : Microsoft.Xna.Framework.Game
 	{
+        /// <summary>
+        /// Static instance of the game
+        /// </summary>
 		private static Game GameInstance;
 
+        /// <summary>
+        /// Arial Font
+        /// </summary>
 		public static SpriteFont FontArial;
 
+        /// <summary>
+        /// Our <see cref="GraphicsDeviceManager"/>
+        /// </summary>
 		public GraphicsDeviceManager Graphics;
 
+        /// <summary>
+        /// <see cref="SpriteBatch"/> used for drawing
+        /// </summary>
 		private SpriteBatch SpriteBatch;
 
 		public Game(params String[] args)

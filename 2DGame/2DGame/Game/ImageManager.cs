@@ -5,17 +5,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game
 {
+    /// <summary>
+    /// Loads <see cref="Texture2D"/> from the ContentPipeline
+    /// </summary>
 	public class ImageManager
 	{
-		// Making the ImageManager a singleton
+		/// <summary>
+        /// Singleton Instance
+        /// </summary>
 		private static ImageManager Instance;
 
-		// Instance of the ContentPipeline
+		/// <summary>
+        /// Provided ContentPipeline
+        /// </summary>
 		private static ContentManager Content;
 
-		// Dictionary for the Textures, so we only have to load them once.
-		// Loading will be done via LoadTexture(String): Texture2D in the class that needs the texture
-		private readonly Dictionary<string, Texture2D> TextureDictionary;
+        /// <summary>
+        /// Cached <see cref="Dictionary{string, Texture2D}"/>
+        /// </summary>
+        private readonly Dictionary<string, Texture2D> TextureDictionary;
 
 		// Creating the ImageManager
 		private ImageManager()
@@ -30,12 +38,19 @@ namespace Intro2DGame.Game
 			TextureDictionary = new Dictionary<string, Texture2D>();
 		}
 
+        /// <summary>
+        /// Sets the <see cref="ContentManager"/>
+        /// </summary>
+        /// <param name="contentManager"></param>
 		public static void SetContentManager(ContentManager contentManager)
 		{
 			Content = contentManager;
 		}
 
-		// Get the singleton Instance
+		/// <summary>
+        /// Returns Singleton Instance
+        /// </summary>
+        /// <returns></returns>
 		private static ImageManager GetInstance()
 		{
 			if (Content == null) return null;
@@ -43,6 +58,11 @@ namespace Intro2DGame.Game
 			return Instance ?? (Instance = new ImageManager());
 		}
 
+        /// <summary>
+        /// Loads <see cref="Texture2D"/> by <paramref name="key"/>
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
 		private Texture2D LoadTexture(string key)
 		{
 			try
@@ -63,6 +83,11 @@ namespace Intro2DGame.Game
 			}
 		}
 
+        /// <summary>
+        /// Returns the <see cref="Texture2D"/> and if not yet cached in <see cref="TextureDictionary"/> calls <see cref="LoadTexture(string)"/>
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
 		public static Texture2D GetTexture2D(string key)
 		{
 			// TODO: Probably redo this function

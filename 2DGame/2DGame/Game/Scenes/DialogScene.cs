@@ -16,8 +16,12 @@ namespace Intro2DGame.Game.Scenes
 
 		private static readonly Random Random = new Random();
 
-		// This ensures every scene key is unique. 
-		public DialogScene(string dialogText) : base($"dialog-{Random.Next(0x7fffffff):X08}-{DateTime.Now.Ticks:X016}")
+        /// <summary>
+        /// Dialog textbox
+        /// The scenekey has to be unique. Therefor we generate some random numbers.
+        /// </summary>
+        /// <param name="dialogText">Text to be displayed</param>
+        public DialogScene(string dialogText) : base($"dialog-{Random.Next(0x7fffffff):X08}-{DateTime.Now.Ticks:X016}")
 		{
 			this.DialogText = dialogText;
 		}
@@ -46,6 +50,10 @@ namespace Intro2DGame.Game.Scenes
 	{
 		private readonly string DialogText;
 
+        /// <summary>
+        /// Basic sprite that displays the dialogbox with text
+        /// </summary>
+        /// <param name="dialogText">Text to be displayed</param>
 		public DialogBoxSprite(string dialogText) : base("title", new Vector2(400, 400))
 		{
 			this.DialogText = dialogText;

@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Scenes.Stages
 {
+    /// <summary>
+    /// This scene is used for the tutorial
+    /// </summary>
 	public class TutorialScene : Scene
 	{
 		public TutorialScene() : base("tutorial")
@@ -16,6 +19,9 @@ namespace Intro2DGame.Game.Scenes.Stages
 		}
 	}
 
+    /// <summary>
+    /// Main control sprite for the tutorial
+    /// </summary>
 	internal class TutorialSprite : AbstractSprite
 	{
 

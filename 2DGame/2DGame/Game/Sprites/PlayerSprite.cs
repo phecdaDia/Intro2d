@@ -19,7 +19,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public PlayerSprite(Vector2 position) : base("player", position)
 		{
-			SetLayerDepth(1);
+            LayerDepth = 1;
             SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
             //SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 500)); // This adds the banner
             SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
@@ -132,7 +132,7 @@ namespace Intro2DGame.Game.Sprites
 			Persistence = true;
             
             this.Position = new Vector2(0, 0);
-			SetLayerDepth(10);
+            LayerDepth = 10;
 		}
 
         public BannerSprite(PlayerSprite player, int w) : this(player)
@@ -162,7 +162,7 @@ namespace Intro2DGame.Game.Sprites
 			this.Player = player;
 
 			Persistence = true;
-			SetLayerDepth(11);
+            LayerDepth = 11;
 
 			this.Hue = Color.Transparent;
 		}

@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites.Enemies
 {
+    /// <summary>
+    /// First debug enemy
+    /// </summary>
 	public class DummyEnemy : AbstractSprite
 	{
 		private double q;

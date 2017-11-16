@@ -10,6 +10,9 @@ using Intro2DGame.Game.Scenes.Transition;
 
 namespace Intro2DGame.Game.Scenes
 {
+	/// <summary>
+	/// Scene containing the main menu when the game is startet.
+	/// </summary>
 	public class MainMenuScene : Scene
 	{
 		public MainMenuScene() : base("mainmenu")
@@ -27,58 +30,88 @@ namespace Intro2DGame.Game.Scenes
 			if (SceneManager.GetCurrentScene().SceneKey != this.SceneKey) return;
 				base.Draw(spriteBatch);
 		}
-    }
+	}
 
+	/// <summary>
+	/// Main menu control sprite
+	/// Controls the logic of the main menu
+	/// </summary>
 	internal class MainMenuSprite : AbstractSprite
 	{
+		/// <summary>
+		/// Number of menu entries to be displayed at the same time
+		/// </summary>
 		private const int MAX_MENU_ENTRIES = 10;
 
+		/// <summary>
+		/// List of menu entries
+		/// </summary>
 		private readonly List<MainMenuEntry> MenuEntries;
 
+		/// <summary>
+		/// Timeout for holding down a button
+		/// </summary>
 		private const int TIMEOUT_DELAY = 20;
 
-        private const string FONT_NAME = "example";
+		/// <summary>
+		/// Font used to autogenerate the textures
+		/// </summary>
+		private const string FONT_NAME = "example";
 
+		/// <summary>
+		/// Current timeout.
+		/// </summary>
 		private int Timeout = 0;
 
-		// the current selected Index. 
+		/// <summary>
+		/// The currently selected index
+		/// </summary>
 		private int SelectedIndex;
 
+		/// <summary>
+		/// Index of the first displayed item
+		/// </summary>
 		private int UpShowIndex;
 
+		/// <summary>
+		/// Creates the main menu and initialized all fields
+		/// </summary>
 		public MainMenuSprite()
 		{
-			SelectedIndex = 0;
-			UpShowIndex = 0;
+			
+			// Adding all entries to the list
+			MenuEntries = new List<MainMenuEntry>
+			{
+				// Entry for the tutorial
+				new MainMenuEntry("Tutorial", FONT_NAME, "tutorial"),
 
-            MenuEntries = new List<MainMenuEntry>
-            {
+				//
+				new MainMenuEntry("TODO", FONT_NAME, "mainmenu"),
 
-                new MainMenuEntry("Tutorial", FONT_NAME, "tutorial"),
-                new MainMenuEntry("TODO", FONT_NAME, "mainmenu"),
-                new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu"),
-                new MainMenuEntry("TODO Round 2", FONT_NAME, "mainmenu"),
-                new MainMenuEntry("TODO Finals", FONT_NAME, "mainmenu"),
-                new MainMenuEntry("example fight (HARD)", FONT_NAME, "example"),
-                new MainMenuEntry("example fight 2", FONT_NAME, "example2"),
-                new LambdaMainMenuEntry("dialog test", FONT_NAME, () => {
-                        Random random = new Random();
-                        for (var i = 0; i < 10; i++)
-                        {
-                            SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
-                        }
-                    }),
+				//
+				new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu"),
 
-            //FontManager.CreateFontString("example", "Introductions"),
-            //FontManager.CreateFontString("example", "Knockout Round"),
-            //FontManager.CreateFontString("example", "Round 1"),
-            //FontManager.CreateFontString("example", "Round 2"),
-            //FontManager.CreateFontString("example", "Finals"),
-            //FontManager.CreateFontString("example", "DIALOG TEST"),
-            //FontManager.CreateFontString("example", "Go to Example Scene!"),
-            //FontManager.CreateFontString("example", "Go to Example Scene2!"),
-            //FontManager.CreateFontString("example", "Exit")
-            };
+				//
+				new MainMenuEntry("TODO Round 2", FONT_NAME, "mainmenu"),
+
+				//
+				new MainMenuEntry("TODO Finals", FONT_NAME, "mainmenu"),
+
+				// entry for the first debug scene
+				new MainMenuEntry("example fight HARD", FONT_NAME, "example"),
+
+				// entry for the second debug scene
+				new MainMenuEntry("example fight 2", FONT_NAME, "example2"),
+
+				// Lambda expression for dialog generation
+				new LambdaMainMenuEntry("dialog test", FONT_NAME, () => {
+						Random random = new Random();
+						for (var i = 0; i < 10; i++)
+						{
+							SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
+						}
+				}),
+			};
 		}
 
 		public override void Update(GameTime gameTime)
@@ -86,10 +119,10 @@ namespace Intro2DGame.Game.Scenes
 
 			if (KeyboardManager.IsKeyDown(Keys.Enter) || KeyboardManager.IsKeyDown(Keys.Space))
 			{
-                MainMenuEntry mme = MenuEntries[SelectedIndex];
+				MainMenuEntry mme = MenuEntries[SelectedIndex];
 
-                if (mme.GetType() == typeof(MainMenuEntry)) SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey);
-                else if (mme.GetType() == typeof(LambdaMainMenuEntry)) ((LambdaMainMenuEntry)mme).Lambda.Invoke();
+				if (mme.GetType() == typeof(MainMenuEntry)) SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey);
+				else if (mme.GetType() == typeof(LambdaMainMenuEntry)) ((LambdaMainMenuEntry)mme).Lambda.Invoke();
 
 				return;
 			}
@@ -151,25 +184,25 @@ namespace Intro2DGame.Game.Scenes
 		}
 	}
 
-    internal class MainMenuEntry
-    {
-        public Texture2D Text;
-        public string SceneKey;
+	internal class MainMenuEntry
+	{
+		public Texture2D Text;
+		public string SceneKey;
 
-        public MainMenuEntry(string text, string font, string sceneKey)
-        {
-            this.Text = FontManager.CreateFontString(font, text);
-            this.SceneKey = sceneKey;
-        }
-    }
+		public MainMenuEntry(string text, string font, string sceneKey)
+		{
+			this.Text = FontManager.CreateFontString(font, text);
+			this.SceneKey = sceneKey;
+		}
+	}
 
-    internal class LambdaMainMenuEntry : MainMenuEntry
-    {
-        public Action Lambda;
+	internal class LambdaMainMenuEntry : MainMenuEntry
+	{
+		public Action Lambda;
 
-        public LambdaMainMenuEntry(String text, String font, Action lambda) : base(text, font, "")
-        {
-            this.Lambda = lambda;
-        }
-    }
+		public LambdaMainMenuEntry(String text, String font, Action lambda) : base(text, font, "")
+		{
+			this.Lambda = lambda;
+		}
+	}
 }
