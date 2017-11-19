@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace Intro2DGame.Game.Scenes.Debug
 {
+    /// <summary>
+    /// This scene is used for the second debug fight.
+    /// </summary>
 	public class Example2Scene : Scene
 	{
 		public Example2Scene() : base("example2")

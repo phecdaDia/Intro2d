@@ -19,9 +19,10 @@ namespace Intro2DGame.Game.Sprites
 
 		public PlayerSprite(Vector2 position) : base("player", position)
 		{
-			SetLayerDepth(1);
-			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
-			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
+            LayerDepth = 1;
+            SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
+            //SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 500)); // This adds the banner
+            SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 
 			MaxHealth = 1000;
 			Health = 1000;
@@ -129,8 +130,15 @@ namespace Intro2DGame.Game.Sprites
 			this.Player = player;
 
 			Persistence = true;
-			SetLayerDepth(10);
+            
+            this.Position = new Vector2(0, 0);
+            LayerDepth = 10;
 		}
+
+        public BannerSprite(PlayerSprite player, int w) : this(player)
+        {
+            this.Position = new Vector2(0, w);
+        }
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
@@ -154,7 +162,7 @@ namespace Intro2DGame.Game.Sprites
 			this.Player = player;
 
 			Persistence = true;
-			SetLayerDepth(11);
+            LayerDepth = 11;
 
 			this.Hue = Color.Transparent;
 		}

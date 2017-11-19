@@ -5,17 +5,32 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
+    /// <summary>
+    /// Base class for all orbs
+    /// <para />
+    /// All Orbs must inherit this class
+    /// </summary>
 	public abstract class AbstractOrb : AbstractSprite
 	{
+        /// <summary>
+        /// Direction of the orb.
+        /// <para />
+        /// Used for <see cref="AbstractSprite.Rotation"/>
+        /// </summary>
 		protected Vector2 Direction;
 
 		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction) : base(textureKey, position)
 		{
+            // default values
 			Direction = direction;
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
 			Rotation = (float) Math.Atan2(direction.Y, direction.X);
 		}
 
+        /// <summary>
+        /// Updates <see cref="AbstractSprite.Rotation"/>, calls <see cref="UpdatePosition(GameTime)"/> and damages <see cref="PlayerSprite"/>
+        /// </summary>
+        /// <param name="gameTime"></param>
 		public override void Update(GameTime gameTime)
 		{
 			var up = UpdatePosition(gameTime);
@@ -33,22 +48,11 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			}
 		}
 
-		protected abstract Vector2 UpdatePosition(GameTime gameTime);
-
-
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			spriteBatch.Draw(
-				Texture,
-				Position,
-				null,
-				Hue,
-				Rotation,
-				new Vector2(Texture.Width / 2f, Texture.Height / 2f),
-				new Vector2(Scale),
-				SpriteEffects.None,
-				0f
-			);
-		}
-	}
+        /// <summary>
+        /// Updates <see cref="AbstractSprite.Position"/> and other logic.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <returns><see cref="Vector2"/> with movement</returns>
+        protected abstract Vector2 UpdatePosition(GameTime gameTime);
+    }
 }

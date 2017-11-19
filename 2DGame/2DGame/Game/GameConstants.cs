@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Intro2DGame.Game
 {
-	public static class GameConstants
+    /// <summary>
+    /// All fields must be const.
+    /// </summary>
+    public static class GameConstants
 	{
 		// defines some of the game rules
 
