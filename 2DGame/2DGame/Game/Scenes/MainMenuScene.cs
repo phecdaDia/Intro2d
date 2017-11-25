@@ -105,7 +105,7 @@ namespace Intro2DGame.Game.Scenes
 
 				// Lambda expression for dialog generation
 				new LambdaMainMenuEntry("dialog test", FONT_NAME, () => {
-						Random random = new Random();
+						var random = new Random();
 						for (var i = 0; i < 10; i++)
 						{
 							SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
@@ -119,10 +119,12 @@ namespace Intro2DGame.Game.Scenes
 
 			if (KeyboardManager.IsKeyDown(Keys.Enter) || KeyboardManager.IsKeyDown(Keys.Space))
 			{
-				MainMenuEntry mme = MenuEntries[SelectedIndex];
+				var mme = MenuEntries[SelectedIndex];
 
-				if (mme.GetType() == typeof(MainMenuEntry)) SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey);
-				else if (mme.GetType() == typeof(LambdaMainMenuEntry)) ((LambdaMainMenuEntry)mme).Lambda.Invoke();
+				if (mme.GetType() == typeof(MainMenuEntry))
+					SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey, new TestTransition(1000));
+				else if (mme.GetType() == typeof(LambdaMainMenuEntry))
+					((LambdaMainMenuEntry) mme).Lambda.Invoke();
 
 				return;
 			}
@@ -186,8 +188,8 @@ namespace Intro2DGame.Game.Scenes
 
 	internal class MainMenuEntry
 	{
-		public Texture2D Text;
-		public string SceneKey;
+		public readonly Texture2D Text;
+		public readonly string SceneKey;
 
 		public MainMenuEntry(string text, string font, string sceneKey)
 		{
@@ -198,9 +200,9 @@ namespace Intro2DGame.Game.Scenes
 
 	internal class LambdaMainMenuEntry : MainMenuEntry
 	{
-		public Action Lambda;
+		public readonly Action Lambda;
 
-		public LambdaMainMenuEntry(String text, String font, Action lambda) : base(text, font, "")
+		public LambdaMainMenuEntry(string text, string font, Action lambda) : base(text, font, "")
 		{
 			this.Lambda = lambda;
 		}

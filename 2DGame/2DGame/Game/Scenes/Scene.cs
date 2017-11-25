@@ -1,6 +1,8 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -60,14 +62,32 @@ namespace Intro2DGame.Game.Scenes
 		}
 
         /// <summary>
-        /// Adds a sprite to the current top layer scene
+        /// Adds a sprite to the current top layer scene in the next frame
         /// </summary>
         /// <param name="s">Sprite that's being spawned</param>
-		public void AddSprite(AbstractSprite s)
+		public void BufferedAddSprite(AbstractSprite s)
 		{
 			if (!BufferedSpriteDictionary.ContainsKey(this.SceneKey))
 				BufferedSpriteDictionary[this.SceneKey] = new List<AbstractSprite>();
 			BufferedSpriteDictionary[this.SceneKey].Add(s);
+
+		}
+
+		/// <summary>
+		/// Adds a sprite to the current top layer scene
+		/// </summary>
+		/// <param name="s">Sprite that's being spawned</param>
+		public void AddSprite(AbstractSprite s)
+		{
+			if (!SpriteDictionary[this.SceneKey].ContainsKey(s.GetType()))
+			{
+
+				var listType = typeof(List<>).MakeGenericType(s.GetType());
+				var list = (IList)Activator.CreateInstance(listType);
+				SpriteDictionary[this.SceneKey][s.GetType()] = list;
+			}
+
+			SpriteDictionary[this.SceneKey][s.GetType()].Add(s);
 		}
 
         /// <summary>
