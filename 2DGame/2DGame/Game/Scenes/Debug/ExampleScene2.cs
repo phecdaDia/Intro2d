@@ -24,8 +24,7 @@ namespace Intro2DGame.Game.Scenes.Debug
 			//this.AddSprite(new RandomSpawnerSprite<OrbSprite>(1000));
 
 			//AddSprite(new DummyEnemy(new Vector2(700, 350)));
-			AddSprite(new DummyEnemy(new Vector2(700, 250), 100, 20, 13));
-			AddSprite(new DummyEnemy(new Vector2(700, 450), 100, 20, 13));
+			AddSprite(new ExampleEnemy());
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
