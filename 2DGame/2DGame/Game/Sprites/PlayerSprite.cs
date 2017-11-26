@@ -1,4 +1,5 @@
 ﻿using System;
+using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
@@ -76,14 +77,7 @@ namespace Intro2DGame.Game.Sprites
 			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
 			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
 
-
-
-
-			// Debug only!
-			if (KeyboardManager.IsKeyPressed(Keys.F1)) Health += 1;
-			if (KeyboardManager.IsKeyPressed(Keys.F2)) Health -= 1;
-			if (KeyboardManager.IsKeyPressed(Keys.F4)) Health = MaxHealth;
-			// end
+			
 
 			if (Invulnerable > 0) Invulnerable--;
 			else

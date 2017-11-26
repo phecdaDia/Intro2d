@@ -78,56 +78,50 @@ namespace Intro2DGame.Game.Scenes
 		/// </summary>
 		public MainMenuSprite()
 		{
-			
+
+			var x = 70;
+			var y = 85;
+			var spacing = 45;
+
 			// Adding all entries to the list
 			MenuEntries = new List<MainMenuEntry>
 			{
 				// Entry for the tutorial
-				new MainMenuEntry("Tutorial", FONT_NAME, "tutorial"),
+				new MainMenuEntry("Tutorial", FONT_NAME, "tutorial", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("TODO", FONT_NAME, "mainmenu"),
+				new MainMenuEntry("TODO", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu"),
+				new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("TODO Round 2", FONT_NAME, "mainmenu"),
+				new MainMenuEntry("TODO Round 2", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("TODO Finals", FONT_NAME, "mainmenu"),
+				new MainMenuEntry("TODO Finals", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				// entry for the first debug scene
-				new MainMenuEntry("example fight HARD", FONT_NAME, "example"),
+				new MainMenuEntry("example fight HARD", FONT_NAME, "example", new Vector2(x, y += spacing)),
 
 				// entry for the second debug scene
-				new MainMenuEntry("example fight 2", FONT_NAME, "example2"),
-
+				new MainMenuEntry("example fight 2", FONT_NAME, "example2", new Vector2(x, y += spacing)),
+				
 				// Lambda expression for dialog generation
 				new LambdaMainMenuEntry("dialog test", FONT_NAME, () => {
-						var random = new Random();
-						for (var i = 0; i < 10; i++)
-						{
-							SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
-						}
-				}),
+					var random = new Random();
+					for (var i = 0; i < 10; i++)
+					{
+						SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
+					}
+				}, new Vector2(x, y += spacing)),
 			};
 		}
 
 		public override void Update(GameTime gameTime)
 		{
 
-			if (KeyboardManager.IsKeyDown(Keys.Enter) || KeyboardManager.IsKeyDown(Keys.Space))
-			{
-				var mme = MenuEntries[SelectedIndex];
-
-				if (mme.GetType() == typeof(MainMenuEntry))
-					SceneManager.AddScene(MenuEntries[SelectedIndex].SceneKey, new TestTransition(1000));
-				else if (mme.GetType() == typeof(LambdaMainMenuEntry))
-					((LambdaMainMenuEntry) mme).Lambda.Invoke();
-
-				return;
-			}
+			MenuEntries[SelectedIndex].Update(gameTime);
 
 			// it works, don't touch this.
 
@@ -168,33 +162,72 @@ namespace Intro2DGame.Game.Scenes
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 
-			spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"),
-				new Vector2(50, 85 + (SelectedIndex - UpShowIndex) * 50), Color.White);
+			//spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"),
+			//	new Vector2(50, 85 + (SelectedIndex - UpShowIndex) * 50), Color.White);
 
 			var d = MenuEntries.Count > MAX_MENU_ENTRIES ? MAX_MENU_ENTRIES : MenuEntries.Count;
-
-			var idx = 0;
-			if (MenuEntries.Count <= MAX_MENU_ENTRIES)
-				foreach (var menuItem in MenuEntries)
-					spriteBatch.Draw(menuItem.Text, new Vector2(100, 85 + idx++ * 50), Color.White);
-			else
-				for (var i = 0; i < d; i++)
-					spriteBatch.Draw(MenuEntries[i + UpShowIndex].Text, new Vector2(100, 85 + idx++ * 50), Color.White);
-			//spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
 			
-			spriteBatch.DrawString(Game.FontArial, $"{this.Timeout}", new Vector2(1), Color.Black);
+			if (MenuEntries.Count <= MAX_MENU_ENTRIES)
+			{
+				int z = 0;
+				foreach (var menuItem in MenuEntries)
+				{
+					if (z == SelectedIndex - UpShowIndex)
+					{
+						spriteBatch.Draw(
+							ImageManager.GetTexture2D("MenuItem/arrow"),
+							menuItem.GetPosition() - new Vector2(50, 0),
+							Color.White
+						);
+					}
+					menuItem.Draw(spriteBatch);
+					z++;
+				}
+			}
+			else
+			{ 
+				for (var i = 0; i < d; i++)
+				{
+					if (i == SelectedIndex - UpShowIndex)
+					{
+						spriteBatch.Draw(
+							ImageManager.GetTexture2D("MenuItem/arrow"),
+							MenuEntries[i + UpShowIndex].GetPosition() - new Vector2(50, 0),
+							Color.White
+						);
+					}
+					MenuEntries[i + UpShowIndex].Draw(spriteBatch);
+				}
+			}
+			//spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
+
+			spriteBatch.DrawString(Game.FontArial, $"{this.Timeout} - {this.SelectedIndex}", new Vector2(1), Color.Black);
 		}
 	}
 
-	internal class MainMenuEntry
+	internal class MainMenuEntry : AbstractSprite
 	{
-		public readonly Texture2D Text;
-		public readonly string SceneKey;
+		public readonly string Text, Font, SceneKey;
 
-		public MainMenuEntry(string text, string font, string sceneKey)
+		public MainMenuEntry(string text, string font, string sceneKey, Vector2 position)
 		{
-			this.Text = FontManager.CreateFontString(font, text);
+			this.Text = text;
+			this.Font = font;
 			this.SceneKey = sceneKey;
+			this.Position = position;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			if (KeyboardManager.IsKeyDown(Keys.Enter))
+			{
+				SceneManager.AddScene(this.SceneKey, new TestTransition(1000));
+			}
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			FontManager.DrawString(spriteBatch, Font, Position, Text);
 		}
 	}
 
@@ -202,9 +235,17 @@ namespace Intro2DGame.Game.Scenes
 	{
 		public readonly Action Lambda;
 
-		public LambdaMainMenuEntry(string text, string font, Action lambda) : base(text, font, "")
+		public LambdaMainMenuEntry(string text, string font, Action lambda, Vector2 position) : base(text, font, "", position)
 		{
 			this.Lambda = lambda;
+		}
+		
+		public override void Update(GameTime gameTime)
+		{
+			if (KeyboardManager.IsKeyDown(Keys.Enter))
+			{
+				this.Lambda.Invoke();
+			}
 		}
 	}
 }

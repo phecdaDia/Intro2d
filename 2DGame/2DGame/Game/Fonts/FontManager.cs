@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -49,6 +50,18 @@ namespace Intro2DGame.Game.Fonts
 
 			var cf = GetInstance().Fonts[font];
 			return cf.CreateTexture(text);
+		}
+
+		public static void DrawString(SpriteBatch spriteBatch, string font, Vector2 position, params string[] text)
+		{
+
+			if (font == null) throw new ArgumentNullException(nameof(font));
+			if (text == null) throw new ArgumentNullException(nameof(text));
+
+			if (!GetInstance().Fonts.ContainsKey(font)) return;
+
+			var cf = GetInstance().Fonts[font];
+			cf.DrawString(spriteBatch, position, text);
 		}
 	}
 }

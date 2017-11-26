@@ -120,5 +120,31 @@ namespace Intro2DGame.Game.Fonts
 
 			return result;
 		}
+
+		public void DrawString(SpriteBatch spriteBatch, Vector2 position, params string[] text)
+		{
+			var dispPosition = new Vector2();
+			foreach (var s in text)
+			{
+				foreach (var c in s.ToLower())
+				{
+					if (SymbolPosition.ContainsKey(c))
+					{
+						spriteBatch.Draw(
+							ImageManager.GetTexture2D(TextureKey),
+							new Rectangle((position + dispPosition).ToPoint(), this.SymbolSize.ToPoint()),
+							new Rectangle(SymbolPosition[c], this.SymbolSize.ToPoint()),
+							Color.White
+						);
+					}
+
+
+					dispPosition.X += SymbolSize.X;
+				}
+
+				dispPosition.Y += SymbolSize.Y;
+				dispPosition.X = 0;
+			}
+		}
 	}
 }
