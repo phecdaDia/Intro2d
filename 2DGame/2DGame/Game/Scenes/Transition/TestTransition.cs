@@ -12,36 +12,40 @@ namespace Intro2DGame.Game.Scenes.Transition
     /// Example transition
     /// This transition displays a black screen for the duration specified in the constructor
     /// </summary>
-    public class TestTransition : Scene
+    public class TestTransition : AbstractTransition
     {
-        private int Milliseconds, Elapsed = 0;
-        private Texture2D Texture;
+        private readonly int Milliseconds;
+	    private int Elapsed = 0;
+	    private Texture2D Texture;
 
-        public TestTransition(int milliseconds) : base("transition-test")
-        {
-            this.Milliseconds = milliseconds;
-        }
+	    public TestTransition(int milliseconds) : base("transition-test")
+	    {
+		    this.Milliseconds = milliseconds;
+	    }
 
-        protected override void CreateScene()
+		protected override void CreateScene()
         {}
 
         public override void Update(GameTime gameTime)
         {
             this.Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (Elapsed >= Milliseconds) SceneManager.CloseScene();
+	        if (Elapsed >= Milliseconds / 2) AddTransitioningScene();
+
+            if (Elapsed >= Milliseconds) SceneManager.CloseTransition();
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+	    /// <inheritdoc />
+		public override void Draw(SpriteBatch spriteBatch)
         {
             // Drawing the texture over the entire graphics area. 
             // Recoloring it to be black with 255 alpha.
-            spriteBatch.Draw(this.Texture, Game.GraphicsAreaRectangle, new Color(0xff000000u));
+	        float alpha = 1 - Math.Abs(Milliseconds / 2f - Elapsed) / (Milliseconds / 2f);
+
+			spriteBatch.Draw(this.Texture, Game.GraphicsAreaRectangle, new Color(Color.Black, alpha));
         }
 
-        /// <summary>
-        /// Loading custom content to display the black rectangle
-        /// </summary>
+        /// <inheritdoc />
         public override void LoadContent()
         {
             // Creating a 1x1 pixel texture that is white so we can recolor it in the spriteBatch.Draw();
@@ -49,10 +53,8 @@ namespace Intro2DGame.Game.Scenes.Transition
             Texture.SetData<Color>(new Color[] { Color.White });
         }
 
-        /// <summary>
-        /// Disposing any loading content.
-        /// </summary>
-        public override void UnloadContent()
+	    /// <inheritdoc />
+		public override void UnloadContent()
         {
             Texture.Dispose();
         }

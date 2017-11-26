@@ -188,7 +188,7 @@ namespace Intro2DGame.Game.Sprites
         /// <param name="sprite"></param>
         protected void SpawnSprite(AbstractSprite sprite)
         {
-            SceneManager.GetCurrentScene().AddSprite(sprite);
+            SceneManager.GetCurrentScene().BufferedAddSprite(sprite);
         }
 
         /// <summary>

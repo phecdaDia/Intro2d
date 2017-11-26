@@ -43,6 +43,8 @@ namespace Intro2DGame.Game.Scenes
             get { return SceneStack.Count > 0 ? SceneStack.Last() : null; }
         }
 
+		private AbstractTransition CurrentTransition = null;
+
 		private static int ClosingScene;
 
 
@@ -119,38 +121,72 @@ namespace Intro2DGame.Game.Scenes
             sm.SceneStack.RemoveAt(c-1);
 		}
 
-        /// <summary>
-        /// Adds a <see cref="Scene"/> to the <see cref="SceneStack"/> by <paramref name="key"/>
-        /// <para/>
-        /// Additionally adds a <paramref name="transition"/>
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="transition"></param>
-		public static void AddScene(string key, Scene transition = null)
+		/// <summary>
+		/// Adds a <see cref="Scene"/> to the <see cref="SceneStack"/> by <paramref name="key"/>
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="transition"></param>
+		public static void AddScene(string key, AbstractTransition transition = null)
 		{
 			if (key == GetCurrentScene().SceneKey) return;
 
+			if (transition == null)
+			{
+				var sm = GetInstance();
 
-			var sm = GetInstance();
+				sm.SceneStack.Add(sm.SceneDictionary[key]);
+				sm.CurrentScene.LoadContent();
+				sm.CurrentScene.ResetScene();
+			}
+			else
+			{
+				transition.TransitioningKey = key;
+				AddTransition(transition);
+			}
 
-			sm.SceneStack.Add(sm.SceneDictionary[key]);
-            sm.CurrentScene.LoadContent();
-			sm.CurrentScene.ResetScene();
+		}
 
-            if (transition != null) AddScene(transition);
-        }
-
-        /// <summary>
-        /// Adds a <see cref="Scene"/> to the <see cref="SceneStack"/>
-        /// </summary>
-        /// <param name="scene"><see cref="Scene"/> that's added to the <see cref="SceneStack"/></param>
-		public static void AddScene(Scene scene)
+		/// <summary>
+		/// Adds a <see cref="Scene"/> to the <see cref="SceneStack"/>
+		/// </summary>
+		/// <param name="scene"><see cref="Scene"/> that's added to the <see cref="SceneStack"/></param>
+		/// <param name="transition"></param>
+		public static void AddScene(Scene scene, AbstractTransition transition = null)
 		{
-			var sm = GetInstance();
+			if (transition == null)
+			{
+				var sm = GetInstance();
 
-			sm.SceneStack.Add(scene);
-            sm.CurrentScene.LoadContent();
-			sm.CurrentScene.ResetScene();
+				sm.SceneStack.Add(scene);
+				sm.CurrentScene.LoadContent();
+				sm.CurrentScene.ResetScene();
+			}
+			else
+			{
+				transition.TransitioningScene = scene;
+				AddTransition(transition);
+			}
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="transition"></param>
+		private static void AddTransition(AbstractTransition transition)
+		{
+			transition.LoadContent();
+
+			GetInstance().CurrentTransition = transition;
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static void CloseTransition()
+		{
+			GetInstance().CurrentTransition?.UnloadContent();
+
+			GetInstance().CurrentTransition = null;
 		}
 
 		/// <summary>
@@ -181,7 +217,7 @@ namespace Intro2DGame.Game.Scenes
         /// </summary>
         /// <typeparam name="T">Any <see cref="AbstractSprite"/></typeparam>
         /// <returns><see cref="List{T}"/> with all <see cref="AbstractSprite"/> of the <see cref="CurrentScene"/></returns>
-		public static List<T> GetSprites<T>() where T : AbstractSprite
+		public static List<T> GetSprites<T>()
 		{
 			return GetCurrentScene().GetSprites<T>();
 		}
@@ -209,8 +245,20 @@ namespace Intro2DGame.Game.Scenes
         /// </summary>
         /// <param name="gameTime"></param>
 		public static void Update(GameTime gameTime)
-		{
-			GetInstance().CurrentScene?.Update(gameTime);
+        {
+	        var sm = GetInstance();
+
+	        if (sm.CurrentTransition != null)
+	        {
+		        sm.CurrentTransition.Update(gameTime);
+
+				//if (sm.CurrentScene?.GetAllSprites().Count <= 0)
+				//	sm.CurrentScene?.Update(gameTime);
+			}
+	        else
+	        {
+		        sm.CurrentScene?.Update(gameTime);
+			}
 
 			while (ClosingScene > 0 )
 			{
@@ -231,7 +279,8 @@ namespace Intro2DGame.Game.Scenes
 			{
 				s.Draw(spriteBatch);
 			}
-			//GetInstance().CurrentScene?.Draw(spriteBatch);
+
+			GetInstance().CurrentTransition?.Draw(spriteBatch);
 		}
 	}
 }
