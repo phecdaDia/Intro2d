@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Scenes
 {
+    /// <inheritdoc />
     /// <summary>
     /// Scene shown when the player pauses the game
     /// </summary>
