@@ -2,7 +2,6 @@ using System;
 using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
-using Intro2DGame.Game.Sprites.Enemies.Laser;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -60,7 +59,7 @@ namespace Intro2DGame.Game.Scenes.Stages
             if (ShootDelay-- <= 0 && KeyboardManager.IsKeyPressed(Keys.M))
             {
                 ShootDelay = Shoot_Delay;
-                SpawnSprite(new TutorialLaser(Position, TutorialScene.Player1.GetPosition() - this.GetPosition()));
+                SpawnSprite(new LinearOrb("OrbLaser", Position, TutorialScene.Player1.GetPosition() - this.GetPosition(), 5f));
             }
             //var sprites = SceneManager.GetAllSprites();
 
@@ -68,25 +67,4 @@ namespace Intro2DGame.Game.Scenes.Stages
 
         }
 	}
-    internal class TutorialLaser:AbstractLaser
-    {
-        public TutorialLaser(Vector2 Position,Vector2 ZielPosition): base("OrbLaser", Position, ZielPosition)
-        {
-            //TutorialScene.Player2.GetPosition() - TutorialScene.Player1.GetPosition()
-            //this.Rotation = (float)Math.Acos(TutorialScene.Player1.GetPosition().X / TutorialScene.Player1.GetPosition().Y);
-        }
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            if (TutorialScene.Player1.DoesCollide(this))
-            {
-                TutorialScene.Player1.Health -= 200;
-                this.Delete();
-            }
-        }
-        protected override Vector2 UpdatePosition(GameTime gameTime)
-        {
-            return Direction;
-        }
-    }
 }
