@@ -4,6 +4,7 @@ using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.InteropServices;
 
 namespace Intro2DGame.Game
 {
@@ -32,26 +33,49 @@ namespace Intro2DGame.Game
         /// </summary>
 		private SpriteBatch SpriteBatch;
 
+        private static readonly Point RenderSize = new Point(800, 600);
+
+        private RenderTarget2D NativeRenderTarget;
+
+        public static GameArguments GameArguments;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
+
 		public Game(params String[] args)
 		{
+            GameArguments = new GameArguments(args);
+
 			GameInstance = this;
 
 			Graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-			// Changing the window size
-			Graphics.PreferredBackBufferHeight = 600;
-			Graphics.PreferredBackBufferWidth = 800;
-			GraphicsArea = new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+            // Changing the window size
+            Graphics.PreferredBackBufferWidth = GameArguments.BackbufferWidth;
+            Graphics.PreferredBackBufferHeight = GameArguments.BackbufferHeight;
+            
 
-			GraphicsAreaRectangle = new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+            if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
+            if (GameArguments.ShowConsole) AllocConsole();
 
 			IsMouseVisible = true;
 		}
 
-		public static Vector2 GraphicsArea { get; private set; }
+		public static Vector2 GraphicsArea {
+            get {
+                return RenderSize.ToVector2();
+            }
+        }
 
-		public static Rectangle GraphicsAreaRectangle { get; private set; }
+		public static Rectangle GraphicsAreaRectangle
+        {
+            get
+            {
+                return new Rectangle(new Point(), RenderSize);
+            }
+        }
 
 		public static Game GetInstance()
 		{
@@ -82,7 +106,10 @@ namespace Intro2DGame.Game
 
 			FontManager.GetInstance();
 
-			base.Initialize();
+
+            NativeRenderTarget = new RenderTarget2D(GraphicsDevice, RenderSize.X, RenderSize.Y);
+
+            base.Initialize();
 		}
 
 		/// <summary>
@@ -143,10 +170,12 @@ namespace Intro2DGame.Game
 		{
 			if (SceneManager.GetCurrentScene() == null) return;
 
-			GraphicsDevice.Clear(new Color(0, 128, 255));
 
-			// TODO: Add your drawing code here
-			SpriteBatch.Begin();
+            GraphicsDevice.SetRenderTarget(NativeRenderTarget);
+            GraphicsDevice.Clear(new Color(0, 128, 255));
+
+            // TODO: Add your drawing code here
+            SpriteBatch.Begin();
 
 			// Drawing the current Scene.
 			SceneManager.Draw(SpriteBatch);
@@ -155,6 +184,12 @@ namespace Intro2DGame.Game
 			// Only add something here if it affects the game globally!
 
 			SpriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
+            SpriteBatch.Draw(NativeRenderTarget, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+            SpriteBatch.End();
 
 			base.Draw(gameTime);
 		}

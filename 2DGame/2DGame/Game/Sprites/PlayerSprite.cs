@@ -31,6 +31,13 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Update(GameTime gameTime)
 		{
+            if (Game.GameArguments.IsCheatsEnabled && KeyboardManager.IsKeyPressed(Keys.F4))
+            {
+                Health = MaxHealth;
+                Invulnerable = 2;
+            }
+
+
 			var movement = new Vector2();
 			var area = Game.GraphicsArea;
 
