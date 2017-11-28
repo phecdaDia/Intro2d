@@ -36,6 +36,8 @@ namespace Intro2DGame.Game.Scenes
         /// </summary>
         public string SceneKey { get; }
 
+		private GameTime LifeTime;
+
         public Scene(string key)
 		{
 			// Setting our sceneKey
@@ -48,6 +50,8 @@ namespace Intro2DGame.Game.Scenes
 			// Checks if the scene is in the Dictionary. 
 			if (!SpriteDictionary.ContainsKey(this.SceneKey)) SpriteDictionary[this.SceneKey] = new Dictionary<Type, IList>();
             //if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
+			
+			this.LifeTime = new GameTime();
 		}
 
         /// <summary>
@@ -129,13 +133,16 @@ namespace Intro2DGame.Game.Scenes
         /// <param name="gameTime">GameTime</param>
 		public virtual void Update(GameTime gameTime)
 		{
-			//if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
+
+			this.LifeTime.ElapsedGameTime += gameTime.ElapsedGameTime;
 
 			var deleted = new List<AbstractSprite>();
 			foreach (var l in SpriteDictionary[this.SceneKey].Values)
 			{
 				foreach (AbstractSprite c in l)
 				{
+					c.LifeTime.ElapsedGameTime += gameTime.ElapsedGameTime;
 					c.Update(gameTime);
 
 					if (!c.Persistence)

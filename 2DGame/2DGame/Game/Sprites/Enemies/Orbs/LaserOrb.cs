@@ -25,10 +25,10 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
             Hue = Color.Blue;
             FirstTexture2D = ImageManager.GetTexture2D("OrbLaser2");
             SecondTexture2D = ImageManager.GetTexture2D("OrbLaser");
-            if (TextureDictionary.ContainsKey(FirstTexture2D.GetType()))
-                TextureDictionary[FirstTexture2D.GetType()] = FirstTexture2D;
-            if (TextureDictionary.ContainsKey(SecondTexture2D.GetType()))
-                TextureDictionary[SecondTexture2D.GetType()] = SecondTexture2D;
+            //if (TextureDictionary.ContainsKey(FirstTexture2D.GetType()))
+            //    TextureDictionary[FirstTexture2D.GetType()] = FirstTexture2D;
+            //if (TextureDictionary.ContainsKey(SecondTexture2D.GetType()))
+            //    TextureDictionary[SecondTexture2D.GetType()] = SecondTexture2D;
         }
         protected override Vector2 UpdatePosition(GameTime gameTime)
         {

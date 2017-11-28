@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
@@ -39,10 +41,6 @@ namespace Intro2DGame.Game
 
         public static GameArguments GameArguments;
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
-
 		public Game(params String[] args)
 		{
             GameArguments = new GameArguments(args);
@@ -58,7 +56,6 @@ namespace Intro2DGame.Game
             
 
             if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
-            if (GameArguments.ShowConsole) AllocConsole();
 
 			IsMouseVisible = true;
 		}

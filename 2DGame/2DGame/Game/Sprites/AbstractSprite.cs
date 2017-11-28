@@ -15,7 +15,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
         /// <see cref="Dictionary{Type, Texture2D}"/> of static <see cref="Texture2D"/>
         /// </summary>
-		protected static Dictionary<Type, Texture2D> TextureDictionary;
+		private static Dictionary<Type, Texture2D> TextureDictionary;
 
 		/// <summary>
         /// <see cref="true"/> when the <see cref="AbstractSprite"/> is marked for deletion
@@ -77,6 +77,8 @@ namespace Intro2DGame.Game.Sprites
         /// </summary>
         public Vector2 Scale = new Vector2(1);
 
+		public GameTime LifeTime;
+
         protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
@@ -85,6 +87,8 @@ namespace Intro2DGame.Game.Sprites
 			Hue = Color.White;
 
 			this.Health = -1;
+
+			this.LifeTime = new GameTime();
 		}
 
 		public AbstractSprite(string textureKey, Vector2 position) : this()

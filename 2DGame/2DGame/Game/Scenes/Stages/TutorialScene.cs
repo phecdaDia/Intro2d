@@ -29,7 +29,6 @@ namespace Intro2DGame.Game.Scenes.Stages
     /// Main control sprite for the tutorial
     /// </summary>
     /// 
-
 	internal class TutorialSprite : AbstractSprite
 	{
         private int Shoot_Delay;

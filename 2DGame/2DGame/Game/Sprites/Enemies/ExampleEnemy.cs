@@ -13,8 +13,6 @@ namespace Intro2DGame.Game.Sprites.Enemies
 	{
 		private int State = 0;
 
-		private long Milliseconds = 0;
-
 		public ExampleEnemy() : base("tutorialplayer", new Vector2(700, 350))
 		{
 			this.Enemy = true;
@@ -26,7 +24,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
-			Milliseconds += gameTime.ElapsedGameTime.Milliseconds;
+			Console.WriteLine($"Elapsed Time: {this.LifeTime.ElapsedGameTime.TotalMilliseconds}");
+
+			
 			var state = State;
 
 			State = MaxHealth / 100 - (Health - 1) / 100 - 1;
