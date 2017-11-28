@@ -86,7 +86,7 @@ namespace Intro2DGame.Game.Fonts
 				if (l > maxLength) maxLength = l;
 			}
 
-			var result = new Texture2D(Game.GetInstance().GetGraphicsDeviceManager().GraphicsDevice,
+			var result = new Texture2D(Game.GetInstance().Graphics.GraphicsDevice,
 				(int) SymbolSize.X * maxLength, (int) SymbolSize.Y * lines.Length);
 
 			var line = 0;

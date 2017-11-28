@@ -42,7 +42,7 @@ namespace Intro2DGame.Game.Scenes.Transition
             // Recoloring it to be black with 255 alpha.
 	        float alpha = 1 - Math.Abs(Milliseconds / 2f - Elapsed) / (Milliseconds / 2f);
 
-			spriteBatch.Draw(this.Texture, Game.GraphicsAreaRectangle, new Color(Color.Black, alpha));
+			spriteBatch.Draw(this.Texture, new Rectangle(new Point(), Game.RenderSize), new Color(Color.Black, alpha));
         }
 
         /// <inheritdoc />

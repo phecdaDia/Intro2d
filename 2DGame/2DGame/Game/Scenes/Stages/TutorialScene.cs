@@ -40,7 +40,7 @@ namespace Intro2DGame.Game.Scenes.Stages
         public override void Update(GameTime gameTime)
         {
             var MoveMent = new Vector2();
-            var Area = Game.GraphicsArea;
+            var Area = Game.RenderSize;
             if (KeyboardManager.IsKeyPressed(Keys.Up)) MoveMent += new Vector2(0, -1);
             if (KeyboardManager.IsKeyPressed(Keys.Down)) MoveMent += new Vector2(0, 1);
             if (KeyboardManager.IsKeyPressed(Keys.Left)) MoveMent += new Vector2(-1, 0);

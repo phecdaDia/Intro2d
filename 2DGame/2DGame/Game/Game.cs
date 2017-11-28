@@ -25,23 +25,32 @@ namespace Intro2DGame.Game
         /// </summary>
 		public static SpriteFont FontArial;
 
-        /// <summary>
-        /// Our <see cref="GraphicsDeviceManager"/>
-        /// </summary>
-		public GraphicsDeviceManager Graphics;
+		/// <summary>
+		/// Our <see cref="GraphicsDeviceManager"/>
+		/// </summary>
+		public readonly GraphicsDeviceManager Graphics;
 
         /// <summary>
         /// <see cref="SpriteBatch"/> used for drawing
         /// </summary>
 		private SpriteBatch SpriteBatch;
 
-        private static readonly Point RenderSize = new Point(800, 600);
+		/// <summary>
+		/// This is the size at which we render the game.
+		/// </summary>
+		public static readonly Point RenderSize = new Point(800, 600);//(1280, 720);
 
+		/// <summary>
+		/// This allows us to change the size of the window without changing the render size.
+		/// </summary>
         private RenderTarget2D NativeRenderTarget;
 
-        public static GameArguments GameArguments;
+		/// <summary>
+		/// Parsed arguments which were supplied by the commandline
+		/// </summary>
+		public static GameArguments GameArguments;
 
-		public Game(params String[] args)
+		public Game(params string[] args)
 		{
             GameArguments = new GameArguments(args);
 
@@ -60,30 +69,14 @@ namespace Intro2DGame.Game
 			IsMouseVisible = true;
 		}
 
-		public static Vector2 GraphicsArea {
-            get {
-                return RenderSize.ToVector2();
-            }
-        }
-
-		public static Rectangle GraphicsAreaRectangle
-        {
-            get
-            {
-                return new Rectangle(new Point(), RenderSize);
-            }
-        }
-
 		public static Game GetInstance()
 		{
 			return GameInstance;
 		}
 
-		public GraphicsDeviceManager GetGraphicsDeviceManager()
-		{
-			return Graphics;
-		}
-
+		/// <summary>
+		/// Closes the game.
+		/// </summary>
 		public static void ExitGame()
 		{
 			GetInstance().Exit();

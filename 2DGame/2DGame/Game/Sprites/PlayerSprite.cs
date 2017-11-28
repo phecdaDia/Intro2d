@@ -39,7 +39,6 @@ namespace Intro2DGame.Game.Sprites
 
 
 			var movement = new Vector2();
-			var area = Game.GraphicsArea;
 
 
 			// Shoots bullets
@@ -79,12 +78,16 @@ namespace Intro2DGame.Game.Sprites
 			Position += movement * (Shot > 0 && GameConstants.IS_MOVEMENT_RESTRICTED ? 2.75f : 4.25f);
 
 			// Prevents player from leaving the screen
-			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
-			if (Position.Y + Texture.Height / 2f > area.Y) Position.Y = area.Y - Texture.Height / 2f;
-			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
-			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
+			var halfTextureWidth = this.Texture.Width / 2;
+			var halfTextureHeight = this.Texture.Height / 2;
 
-			
+			if (Position.X < halfTextureWidth) Position.X = halfTextureWidth;
+			if (Position.Y < halfTextureHeight) Position.Y = halfTextureHeight;
+
+			if (Position.X + halfTextureWidth > Game.RenderSize.X) Position.X = Game.RenderSize.X - halfTextureWidth;
+			if (Position.Y + halfTextureWidth > Game.RenderSize.Y) Position.Y = Game.RenderSize.Y - halfTextureHeight;
+
+
 
 			if (Invulnerable > 0) Invulnerable--;
 			else
@@ -170,7 +173,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(this.Texture, new Rectangle(0, 0, (int)Game.GraphicsArea.X, (int)Game.GraphicsArea.Y), null, this.Hue);
+			spriteBatch.Draw(this.Texture, new Rectangle(0, 0, Game.RenderSize.X, Game.RenderSize.Y), null, this.Hue);
 		}
 
 		public override void Update(GameTime gameTime)

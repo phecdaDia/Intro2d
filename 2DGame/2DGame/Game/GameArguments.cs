@@ -21,8 +21,8 @@ namespace Intro2DGame.Game
             Queue<string> argsQueue = new Queue<string>(args);
 
             // setting default values
-            this.BackbufferWidth = 800;
-            this.BackbufferHeight = 600;
+            this.BackbufferWidth = Game.RenderSize.X;
+            this.BackbufferHeight = Game.RenderSize.Y;
 
 
             while (argsQueue.Count > 0)

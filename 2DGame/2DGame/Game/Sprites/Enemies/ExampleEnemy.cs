@@ -11,8 +11,10 @@ namespace Intro2DGame.Game.Sprites.Enemies
 {
 	public class ExampleEnemy : AbstractSprite
 	{
+		// This is the current state our enemy is in.
 		private int State = 0;
 
+		// Texture is just a placeholder for now.
 		public ExampleEnemy() : base("tutorialplayer", new Vector2(700, 350))
 		{
 			this.Enemy = true;
@@ -24,9 +26,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
-			Console.WriteLine($"Elapsed Time: {this.LifeTime.ElapsedGameTime.TotalMilliseconds}");
-
-			
+			// Tries to see if the state changed. If it changed delete all orbs!
 			var state = State;
 
 			State = MaxHealth / 100 - (Health - 1) / 100 - 1;
