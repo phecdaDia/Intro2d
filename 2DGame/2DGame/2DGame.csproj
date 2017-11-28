@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Intro2DGame</RootNamespace>
     <AssemblyName>2DGame</AssemblyName>
@@ -76,6 +76,7 @@
     <Compile Include="Game\Sprites\Enemies\ExampleEnemy.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\AbstractOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\CurvingOrb.cs" />
+    <Compile Include="Game\Sprites\Enemies\Orbs\LaserOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\LinearIncreasingOrb.cs" />
     <Compile Include="Game\Sprites\Enemies\Orbs\LinearOrb.cs" />
     <Compile Include="Game\Scenes\Scene.cs" />

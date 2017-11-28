@@ -23,13 +23,13 @@ namespace Intro2DGame.Game
         [DllImport("GameInternet.dll", EntryPoint = "SetCallBackPlayer")]
         protected static extern bool SetCallBackPlayer(int Index,DllCallBack_SetPointer Proc);
 
-        public Dictionary<int, SetPointerProc> MultiPlayerList;
-        public int MultiPlayerListCount;
+        public static Dictionary<int, SetPointerProc> MultiPlayerList;
+        public static int MultiPlayerListCount;
         public delegate void SetPointerProc(int x, int y);
-        public Internet()
+        static Internet()
         {
             MultiPlayerListCount = 0;
-            //MultiPlayerList = new Dictionary<int, SetPointerProc>();
+            MultiPlayerList = new Dictionary<int, SetPointerProc>();
         }
         public void CSharp_SetPointer(int Index,int x,int y)
         {

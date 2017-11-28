@@ -15,7 +15,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
         /// <see cref="Dictionary{Type, Texture2D}"/> of static <see cref="Texture2D"/>
         /// </summary>
-		private static Dictionary<Type, Texture2D> TextureDictionary;
+		protected static Dictionary<Type, Texture2D> TextureDictionary;
 
 		/// <summary>
         /// <see cref="true"/> when the <see cref="AbstractSprite"/> is marked for deletion
@@ -77,7 +77,7 @@ namespace Intro2DGame.Game.Sprites
         /// </summary>
         public Vector2 Scale = new Vector2(1);
 
-		protected AbstractSprite()
+        protected AbstractSprite()
 		{
 			// Check if the dictionary already exists.
 			if (TextureDictionary == null) TextureDictionary = new Dictionary<Type, Texture2D>();
@@ -152,7 +152,7 @@ namespace Intro2DGame.Game.Sprites
 			if (Texture == null) return;
 
 
-			//spriteBatch.Draw(Texture, Position - new Vector2(Texture.Width, Texture.Height) * 0.5f, Hue);
+            //spriteBatch.Draw(Texture, Position - new Vector2(Texture.Width, Texture.Height) * 0.5f, Hue);
 
 
             spriteBatch.Draw(

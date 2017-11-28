@@ -17,13 +17,13 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
         /// <para />
         /// Used for <see cref="AbstractSprite.Rotation"/>
         /// </summary>
-		protected Vector2 Direction;
+		public Vector2 Direction;
 
 		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction) : base(textureKey, position)
 		{
             // default values
 			Direction = direction;
-			if (Direction.LengthSquared() > 0) Direction.Normalize();
+			//if (Direction.LengthSquared() > 0) Direction.Normalize();
 			Rotation = (float) Math.Atan2(direction.Y, direction.X);
 		}
 
