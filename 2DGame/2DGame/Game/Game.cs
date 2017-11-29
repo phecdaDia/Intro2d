@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
@@ -20,10 +22,15 @@ namespace Intro2DGame.Game
         /// </summary>
 		private static Game GameInstance;
 
-        /// <summary>
-        /// Arial Font
-        /// </summary>
+		/// <summary>
+		/// Arial Font
+		/// </summary>
 		public static SpriteFont FontArial;
+
+		/// <summary>
+		/// Consolas Font
+		/// </summary>
+		public static SpriteFont FontConsolas;
 
 		/// <summary>
 		/// Our <see cref="GraphicsDeviceManager"/>
@@ -49,6 +56,8 @@ namespace Intro2DGame.Game
 		/// Parsed arguments which were supplied by the commandline
 		/// </summary>
 		public static GameArguments GameArguments;
+
+		private float Framerate;
 
 		public Game(params string[] args)
 		{
@@ -109,6 +118,7 @@ namespace Intro2DGame.Game
 		protected override void LoadContent()
 		{
 			FontArial = Content.Load<SpriteFont>("Fonts/Arial");
+			FontConsolas = Content.Load<SpriteFont>("Fonts/Consolas");
 
 			// Create a new SpriteBatch, which can be used to draw textures.
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
@@ -142,12 +152,12 @@ namespace Intro2DGame.Game
             if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
             if (SceneManager.GetCurrentScene() == null) Exit();
 
+			this.Framerate = 1000f / gameTime.ElapsedGameTime.Milliseconds;
 			// This updates the current scene.
 
 			SceneManager.Update(gameTime);
 			//SceneManager.GetCurrentScene().Update(gameTime);
 
-			Window.Title = $"SceneKey: {SceneManager.GetCurrentScene()?.SceneKey ?? "None"}";
 
 			base.Update(gameTime);
 		}
@@ -172,6 +182,10 @@ namespace Intro2DGame.Game
 			//SceneManager.GetCurrentScene().Draw(SpriteBatch);
 
 			// Only add something here if it affects the game globally!
+
+			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(10, RenderSize.Y - 20), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.Framerate}", new Vector2(10, RenderSize.Y - 40), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)}", new Vector2(10, RenderSize.Y - 60), Color.Black);
 
 			SpriteBatch.End();
 

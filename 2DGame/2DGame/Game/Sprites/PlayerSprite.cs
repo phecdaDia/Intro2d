@@ -28,7 +28,7 @@ namespace Intro2DGame.Game.Sprites
 			MaxHealth = 1000;
 			Health = 1000;
 		}
-
+		
 		public override void Update(GameTime gameTime)
 		{
             if (Game.GameArguments.IsCheatsEnabled && KeyboardManager.IsKeyPressed(Keys.F4))
@@ -85,7 +85,7 @@ namespace Intro2DGame.Game.Sprites
 			if (Position.Y < halfTextureHeight) Position.Y = halfTextureHeight;
 
 			if (Position.X + halfTextureWidth > Game.RenderSize.X) Position.X = Game.RenderSize.X - halfTextureWidth;
-			if (Position.Y + halfTextureWidth > Game.RenderSize.Y) Position.Y = Game.RenderSize.Y - halfTextureHeight;
+			if (Position.Y + halfTextureHeight > Game.RenderSize.Y) Position.Y = Game.RenderSize.Y - halfTextureHeight;
 
 
 
@@ -149,11 +149,6 @@ namespace Intro2DGame.Game.Sprites
 			spriteBatch.Draw(Texture, Position, Hue);
 
 			spriteBatch.DrawString(Game.FontArial, $"Health: {Player.Health}", new Vector2(30, 30), Color.Black);
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
 		}
 	}
 

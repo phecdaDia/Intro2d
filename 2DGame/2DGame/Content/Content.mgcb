@@ -212,3 +212,10 @@
 /processorParam:TextureFormat=Color
 /build:OrbLaser2.png
 
+#begin Fonts/Consolas.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Consolas.spritefont
+
