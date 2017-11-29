@@ -48,7 +48,7 @@ namespace Intro2DGame.Game.Scenes
 		private static int ClosingScene;
 
 
-		public SceneManager()
+		private SceneManager()
 		{
 
 			// Creates the SceneDictionary Dictionary
@@ -67,6 +67,7 @@ namespace Intro2DGame.Game.Scenes
 			RegisterScene(new MainMenuScene());
 
 			RegisterScene(new TutorialScene());
+			RegisterScene(new Round1Scene());
 
 			RegisterScene(new MenuScene());
 

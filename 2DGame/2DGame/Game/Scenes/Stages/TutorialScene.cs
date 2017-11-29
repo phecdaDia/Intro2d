@@ -20,7 +20,6 @@ namespace Intro2DGame.Game.Scenes.Stages
 		protected override void CreateScene()
 		{
 			AddSprite(new PlayerSprite(new Vector2(100, 350)));
-			AddSprite(new TutorialSprite(new Vector2(400, 250)));
 		}
 	}
 	/// <summary>
@@ -29,57 +28,9 @@ namespace Intro2DGame.Game.Scenes.Stages
 	/// 
 	internal class TutorialSprite : AbstractSprite
 	{
-		private int Shoot_Delay;
-		private int ShootDelay;
-		public TutorialSprite(Vector2 position):base("tutorialplayer",position)
-		{
-			ShootDelay = Shoot_Delay = 40;
-		}
 		public override void Update(GameTime gameTime)
 		{
-			var MoveMent = new Vector2();
-			var Area = Game.RenderSize;
-			if (KeyboardManager.IsKeyPressed(Keys.Up)) MoveMent += new Vector2(0, -1);
-			if (KeyboardManager.IsKeyPressed(Keys.Down)) MoveMent += new Vector2(0, 1);
-			if (KeyboardManager.IsKeyPressed(Keys.Left)) MoveMent += new Vector2(-1, 0);
-			if (KeyboardManager.IsKeyPressed(Keys.Right)) MoveMent += new Vector2(1, 0);
-			MoveMent *= new Vector2(1.1f, 1.0f);
-			Position += MoveMent * 4.25f;
-			// Prevents player from leaving the screen
-			if (Position.X + Texture.Width / 2f > Area.X) Position.X = Area.X - Texture.Width / 2f;
-			if (Position.Y + Texture.Height / 2f > Area.Y) Position.Y = Area.Y - Texture.Height / 2f;
-			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
-			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
-
-			if (ShootDelay-- <= 0 && KeyboardManager.IsKeyPressed(Keys.M))
-			{
-				ShootDelay = Shoot_Delay;
-				SpawnSprite(new LaserOrb(Position, SceneManager.GetSprites<PlayerSprite>().First().GetPosition() - this.GetPosition()));
-			}
-			//var sprites = SceneManager.GetAllSprites();
-		}
-	}
-	internal class TutorialPlayerSprite:PlayerSprite
-	{
-		public TutorialPlayerSprite(Vector2 Position) : base(Position){}
-		public override bool DoesCollide(AbstractOrb Orb)
-		{
-			double Steigung = Orb.Direction.Y / Orb.Direction.X;
-			float ObenLinkX = this.Position.X - Texture.Width / 2f;
-			float ObenLinkY = this.Position.Y - 100 - Texture.Height / 2f;//-100
-			float LinearPointerY =(float)( Orb.GetPosition().Y-100-((Orb.GetPosition().X-ObenLinkX) * Steigung));//-100
-			if (LinearPointerY < ObenLinkY)
-			{
-				LinearPointerY += (float)(Steigung * Texture.Width);
-				return LinearPointerY > ObenLinkY;
-			}
-			else
-			{
-
-				LinearPointerY += (float)(Steigung * Texture.Width);
-				ObenLinkY += Texture.Height;
-				return LinearPointerY < ObenLinkY;
-			}
+			throw new NotImplementedException();
 		}
 	}
 }
