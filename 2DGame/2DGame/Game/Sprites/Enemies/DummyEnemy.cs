@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites.Enemies
 {
-    /// <summary>
-    /// First debug enemy
-    /// </summary>
+	/// <summary>
+	/// First debug enemy
+	/// </summary>
 	public class DummyEnemy : AbstractSprite
 	{
 		private double q;
@@ -51,7 +51,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 				{
 					var dir = ps.GetPosition() - GetPosition();
 					var tan = 17.5d * 2 * Math.PI; // Math.Atan2(dir.X, dir.Y);
-					var degrees = 2 * Math.PI * (22.5f / 360f);
+					//var degrees = 2 * Math.PI * (22.5f / 360f);
 					tan += q;
 					var temp_ = 2 * Math.PI * 0.5d * (1f / LayerDifficulty);
 					q += temp_;

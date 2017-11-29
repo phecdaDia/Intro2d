@@ -17,9 +17,9 @@ namespace Intro2DGame.Game
 	/// </summary>
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-        /// <summary>
-        /// Static instance of the game
-        /// </summary>
+		/// <summary>
+		/// Static instance of the game
+		/// </summary>
 		private static Game GameInstance;
 
 		/// <summary>
@@ -37,9 +37,9 @@ namespace Intro2DGame.Game
 		/// </summary>
 		public readonly GraphicsDeviceManager Graphics;
 
-        /// <summary>
-        /// <see cref="SpriteBatch"/> used for drawing
-        /// </summary>
+		/// <summary>
+		/// <see cref="SpriteBatch"/> used for drawing
+		/// </summary>
 		private SpriteBatch SpriteBatch;
 
 		/// <summary>
@@ -50,30 +50,30 @@ namespace Intro2DGame.Game
 		/// <summary>
 		/// This allows us to change the size of the window without changing the render size.
 		/// </summary>
-        private RenderTarget2D NativeRenderTarget;
+		private RenderTarget2D NativeRenderTarget;
 
 		/// <summary>
 		/// Parsed arguments which were supplied by the commandline
 		/// </summary>
 		public static GameArguments GameArguments;
 
-		private float Framerate;
+		private float Framerate, MinimumFramerate;
 
 		public Game(params string[] args)
 		{
-            GameArguments = new GameArguments(args);
+			GameArguments = new GameArguments(args);
 
 			GameInstance = this;
 
 			Graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-            // Changing the window size
-            Graphics.PreferredBackBufferWidth = GameArguments.BackbufferWidth;
-            Graphics.PreferredBackBufferHeight = GameArguments.BackbufferHeight;
-            
+			// Changing the window size
+			Graphics.PreferredBackBufferWidth = GameArguments.BackbufferWidth;
+			Graphics.PreferredBackBufferHeight = GameArguments.BackbufferHeight;
+			
 
-            if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
+			if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
 
 			IsMouseVisible = true;
 		}
@@ -106,9 +106,9 @@ namespace Intro2DGame.Game
 			FontManager.GetInstance();
 
 
-            NativeRenderTarget = new RenderTarget2D(GraphicsDevice, RenderSize.X, RenderSize.Y);
+			NativeRenderTarget = new RenderTarget2D(GraphicsDevice, RenderSize.X, RenderSize.Y);
 
-            base.Initialize();
+			base.Initialize();
 		}
 
 		/// <summary>
@@ -149,8 +149,8 @@ namespace Intro2DGame.Game
 
 
 
-            if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
-            if (SceneManager.GetCurrentScene() == null) Exit();
+			if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
+			if (SceneManager.GetCurrentScene() == null) Exit();
 
 			this.Framerate = 1000f / gameTime.ElapsedGameTime.Milliseconds;
 			// This updates the current scene.
@@ -171,11 +171,11 @@ namespace Intro2DGame.Game
 			if (SceneManager.GetCurrentScene() == null) return;
 
 
-            GraphicsDevice.SetRenderTarget(NativeRenderTarget);
-            GraphicsDevice.Clear(new Color(0, 128, 255));
+			GraphicsDevice.SetRenderTarget(NativeRenderTarget);
+			GraphicsDevice.Clear(new Color(0, 128, 255));
 
-            // TODO: Add your drawing code here
-            SpriteBatch.Begin();
+			// TODO: Add your drawing code here
+			SpriteBatch.Begin();
 
 			// Drawing the current Scene.
 			SceneManager.Draw(SpriteBatch);
@@ -189,11 +189,11 @@ namespace Intro2DGame.Game
 
 			SpriteBatch.End();
 
-            GraphicsDevice.SetRenderTarget(null);
+			GraphicsDevice.SetRenderTarget(null);
 
-            SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
-            SpriteBatch.Draw(NativeRenderTarget, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
-            SpriteBatch.End();
+			SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
+			SpriteBatch.Draw(NativeRenderTarget, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+			SpriteBatch.End();
 
 			base.Draw(gameTime);
 		}
