@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace Intro2DGame.Game.Scenes.Debug
 {
-    /// <summary>
-    /// This scene is used for a debug fight
-    /// </summary>
+	/// <summary>
+	/// This scene is used for a debug fight
+	/// </summary>
 	public class ExampleScene : Scene
 	{
 		public ExampleScene() : base("example")
@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Scenes.Debug
 			//this.AddSprite(new AnimationTestSprite(new Vector2(200, 200)));
 			//this.AddSprite(new RandomSpawnerSprite<OrbSprite>(1000));
 
-			AddSprite(new DummyEnemy(new Vector2(700, 350), 50, 30, 13));
+			AddSprite(new DummyEnemy(new Vector2(700, 350), 500, 284d, 17));
 			//AddSprite(new DummyEnemy(new Vector2(700, 250)));
 			//AddSprite(new DummyEnemy(new Vector2(700, 450)));
 		}
@@ -32,8 +32,8 @@ namespace Intro2DGame.Game.Scenes.Debug
 		{
 			base.Draw(spriteBatch);
 
-			int i = 0;
-			foreach (Type t in new List<Type>(GetAllSprites().Keys))
+			var i = 0;
+			foreach (var t in new List<Type>(GetAllSprites().Keys))
 			{
 				foreach (AbstractSprite de in GetAllSprites()[t])
 				{

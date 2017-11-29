@@ -20,26 +20,25 @@ namespace Intro2DGame.Game.Sprites
 
 		public PlayerSprite(Vector2 position) : base("player", position)
 		{
-            LayerDepth = 1;
-            SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
-            //SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 500)); // This adds the banner
-            SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
+			LayerDepth = 1;
+			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
+			//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 500)); // This adds the banner
+			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 
 			MaxHealth = 1000;
 			Health = 1000;
 		}
-
+		
 		public override void Update(GameTime gameTime)
 		{
-            if (Game.GameArguments.IsCheatsEnabled && KeyboardManager.IsKeyPressed(Keys.F4))
-            {
-                Health = MaxHealth;
-                Invulnerable = 2;
-            }
+			if (Game.GameArguments.IsCheatsEnabled && KeyboardManager.IsKeyPressed(Keys.F4))
+			{
+				Health = MaxHealth;
+				Invulnerable = 2;
+			}
 
 
 			var movement = new Vector2();
-			var area = Game.GraphicsArea;
 
 
 			// Shoots bullets
@@ -79,12 +78,16 @@ namespace Intro2DGame.Game.Sprites
 			Position += movement * (Shot > 0 && GameConstants.IS_MOVEMENT_RESTRICTED ? 2.75f : 4.25f);
 
 			// Prevents player from leaving the screen
-			if (Position.X + Texture.Width / 2f > area.X) Position.X = area.X - Texture.Width / 2f;
-			if (Position.Y + Texture.Height / 2f > area.Y) Position.Y = area.Y - Texture.Height / 2f;
-			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
-			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
+			var halfTextureWidth = this.Texture.Width / 2;
+			var halfTextureHeight = this.Texture.Height / 2;
 
-			
+			if (Position.X < halfTextureWidth) Position.X = halfTextureWidth;
+			if (Position.Y < halfTextureHeight) Position.Y = halfTextureHeight;
+
+			if (Position.X + halfTextureWidth > Game.RenderSize.X) Position.X = Game.RenderSize.X - halfTextureWidth;
+			if (Position.Y + halfTextureHeight > Game.RenderSize.Y) Position.Y = Game.RenderSize.Y - halfTextureHeight;
+
+
 
 			if (Invulnerable > 0) Invulnerable--;
 			else
@@ -131,26 +134,21 @@ namespace Intro2DGame.Game.Sprites
 			this.Player = player;
 
 			Persistence = true;
-            
-            this.Position = new Vector2(0, 0);
-            LayerDepth = 10;
+			
+			this.Position = new Vector2(0, 0);
+			LayerDepth = 10;
 		}
 
-        public BannerSprite(PlayerSprite player, int w) : this(player)
-        {
-            this.Position = new Vector2(0, w);
-        }
+		public BannerSprite(PlayerSprite player, int w) : this(player)
+		{
+			this.Position = new Vector2(0, w);
+		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(Texture, Position, Hue);
 
 			spriteBatch.DrawString(Game.FontArial, $"Health: {Player.Health}", new Vector2(30, 30), Color.Black);
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
 		}
 	}
 
@@ -163,14 +161,14 @@ namespace Intro2DGame.Game.Sprites
 			this.Player = player;
 
 			Persistence = true;
-            LayerDepth = 11;
+			LayerDepth = 11;
 
 			this.Hue = Color.Transparent;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(this.Texture, new Rectangle(0, 0, (int)Game.GraphicsArea.X, (int)Game.GraphicsArea.Y), null, this.Hue);
+			spriteBatch.Draw(this.Texture, new Rectangle(0, 0, Game.RenderSize.X, Game.RenderSize.Y), null, this.Hue);
 		}
 
 		public override void Update(GameTime gameTime)

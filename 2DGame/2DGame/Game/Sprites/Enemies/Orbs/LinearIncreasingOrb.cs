@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
-    /// <summary>
-    /// Orb that slowly accelerates
-    /// </summary>
+	/// <summary>
+	/// Orb that slowly accelerates
+	/// </summary>
 	public class LinearIncreasingOrb : AbstractOrb
 	{
 		private readonly float Speed2;
@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
 			// Visualizing
-            // DON'T ENABLE THIS ON WEAK HARDWARE
+			// DON'T ENABLE THIS ON WEAK HARDWARE
 
 			//List<LinearIncreasingOrb> orbs = SceneManager.GetSprites<LinearIncreasingOrb>();
 			//int i = -1;

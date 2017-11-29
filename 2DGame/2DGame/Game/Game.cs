@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Intro2DGame.Game
 {
@@ -13,80 +18,88 @@ namespace Intro2DGame.Game
 	/// </summary>
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-        /// <summary>
-        /// Static instance of the game
-        /// </summary>
+		/// <summary>
+		/// Static instance of the game
+		/// </summary>
 		private static Game GameInstance;
 
-        /// <summary>
-        /// Arial Font
-        /// </summary>
+		/// <summary>
+		/// Arial Font
+		/// </summary>
 		public static SpriteFont FontArial;
 
-        /// <summary>
-        /// Our <see cref="GraphicsDeviceManager"/>
-        /// </summary>
-		public GraphicsDeviceManager Graphics;
+		/// <summary>
+		/// Consolas Font
+		/// </summary>
+		public static SpriteFont FontConsolas;
 
-        /// <summary>
-        /// <see cref="SpriteBatch"/> used for drawing
-        /// </summary>
+		/// <summary>
+		/// Our <see cref="GraphicsDeviceManager"/>
+		/// </summary>
+		public readonly GraphicsDeviceManager Graphics;
+
+		/// <summary>
+		/// <see cref="SpriteBatch"/> used for drawing
+		/// </summary>
 		private SpriteBatch SpriteBatch;
 
-        private static readonly Point RenderSize = new Point(800, 600);
+		/// <summary>
+		/// This is the size at which we render the game.
+		/// </summary>
+		public static readonly Point RenderSize = new Point(800, 600);//(1280, 720);
 
-        private RenderTarget2D NativeRenderTarget;
+		/// <summary>
+		/// This allows us to change the size of the window without changing the render size.
+		/// </summary>
+		private RenderTarget2D NativeRenderTarget;
 
-        public static GameArguments GameArguments;
+		/// <summary>
+		/// Parsed arguments which were supplied by the commandline
+		/// </summary>
+		public static GameArguments GameArguments;
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+		private double Framerate, MinimumFramerate;
 
-		public Game(params String[] args)
+		private FrameCounter FrameCounter;
+
+		public Game(params string[] args)
 		{
-            GameArguments = new GameArguments(args);
+			GameArguments = new GameArguments(args);
 
 			GameInstance = this;
 
 			Graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-            // Changing the window size
-            Graphics.PreferredBackBufferWidth = GameArguments.BackbufferWidth;
-            Graphics.PreferredBackBufferHeight = GameArguments.BackbufferHeight;
-            
+			// Changing the window size
+			Graphics.PreferredBackBufferWidth = GameArguments.BackbufferWidth;
+			Graphics.PreferredBackBufferHeight = GameArguments.BackbufferHeight;
+			
 
-            if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
-            if (GameArguments.ShowConsole) AllocConsole();
+			if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
 
 			IsMouseVisible = true;
+
+			this.IsFixedTimeStep = false;
+
+			this.MinimumFramerate = float.MaxValue;
+
+			this.FrameCounter = new FrameCounter();
 		}
-
-		public static Vector2 GraphicsArea {
-            get {
-                return RenderSize.ToVector2();
-            }
-        }
-
-		public static Rectangle GraphicsAreaRectangle
-        {
-            get
-            {
-                return new Rectangle(new Point(), RenderSize);
-            }
-        }
 
 		public static Game GetInstance()
 		{
 			return GameInstance;
 		}
 
-		public GraphicsDeviceManager GetGraphicsDeviceManager()
+		public static void ResetFrameCounter()
 		{
-			return Graphics;
+			GetInstance().FrameCounter.Reset();
 		}
 
+		/// <summary>
+		/// Closes the game.
+		/// </summary>
 		public static void ExitGame()
 		{
 			GetInstance().Exit();
@@ -107,9 +120,9 @@ namespace Intro2DGame.Game
 			FontManager.GetInstance();
 
 
-            NativeRenderTarget = new RenderTarget2D(GraphicsDevice, RenderSize.X, RenderSize.Y);
+			NativeRenderTarget = new RenderTarget2D(GraphicsDevice, RenderSize.X, RenderSize.Y);
 
-            base.Initialize();
+			base.Initialize();
 		}
 
 		/// <summary>
@@ -119,6 +132,7 @@ namespace Intro2DGame.Game
 		protected override void LoadContent()
 		{
 			FontArial = Content.Load<SpriteFont>("Fonts/Arial");
+			FontConsolas = Content.Load<SpriteFont>("Fonts/Consolas");
 
 			// Create a new SpriteBatch, which can be used to draw textures.
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
@@ -149,15 +163,13 @@ namespace Intro2DGame.Game
 
 
 
-            if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
-            if (SceneManager.GetCurrentScene() == null) Exit();
+			if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
+			if (SceneManager.GetCurrentScene() == null) Exit();
 
+			FrameCounter.Update(gameTime);
 			// This updates the current scene.
-
 			SceneManager.Update(gameTime);
 			//SceneManager.GetCurrentScene().Update(gameTime);
-
-			Window.Title = $"SceneKey: {SceneManager.GetCurrentScene()?.SceneKey ?? "None"}";
 
 			base.Update(gameTime);
 		}
@@ -171,11 +183,11 @@ namespace Intro2DGame.Game
 			if (SceneManager.GetCurrentScene() == null) return;
 
 
-            GraphicsDevice.SetRenderTarget(NativeRenderTarget);
-            GraphicsDevice.Clear(new Color(0, 128, 255));
+			GraphicsDevice.SetRenderTarget(NativeRenderTarget);
+			GraphicsDevice.Clear(new Color(0, 128, 255));
 
-            // TODO: Add your drawing code here
-            SpriteBatch.Begin();
+			// TODO: Add your drawing code here
+			SpriteBatch.Begin();
 
 			// Drawing the current Scene.
 			SceneManager.Draw(SpriteBatch);
@@ -183,15 +195,56 @@ namespace Intro2DGame.Game
 
 			// Only add something here if it affects the game globally!
 
+			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(10, RenderSize.Y - 20), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(10, RenderSize.Y - 40), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(10, RenderSize.Y - 60), Color.Black);
+
 			SpriteBatch.End();
 
-            GraphicsDevice.SetRenderTarget(null);
+			GraphicsDevice.SetRenderTarget(null);
 
-            SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
-            SpriteBatch.Draw(NativeRenderTarget, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
-            SpriteBatch.End();
+			SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
+			SpriteBatch.Draw(NativeRenderTarget, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+			SpriteBatch.End();
 
 			base.Draw(gameTime);
+		}
+	}
+
+	internal class FrameCounter
+	{
+		public FrameCounter()
+		{
+			this.DeltaBuffer = new Queue<double>();
+			this.MinimumFramerate = 1000f;
+		}
+
+		private readonly Queue<double> DeltaBuffer;
+		internal double MinimumFramerate;
+		internal double AverageFramerate => GetAverageFramerate();
+
+		public void Update(GameTime gameTime)
+		{
+			var framerate = 1000d / gameTime.ElapsedGameTime.TotalMilliseconds;
+
+			if (DeltaBuffer.Count > 10) DeltaBuffer.Dequeue();
+			DeltaBuffer.Enqueue(framerate);
+			
+
+			if (KeyboardManager.IsKeyDown(Keys.NumPad0)) Reset();
+			if (AverageFramerate <= MinimumFramerate) MinimumFramerate = AverageFramerate;
+		}
+
+		private double GetAverageFramerate()
+		{
+			var temp = DeltaBuffer.Count() <= 10 ? 1000d : DeltaBuffer.Average();
+			return temp >= 1000d ? 1000d : temp;
+		}
+
+		internal void Reset()
+		{
+			DeltaBuffer.Clear();
+			MinimumFramerate = 100d;
 		}
 	}
 }

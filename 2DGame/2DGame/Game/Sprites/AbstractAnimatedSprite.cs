@@ -35,28 +35,39 @@ namespace Intro2DGame.Game.Sprites
         /// <summary>
         /// Size of a single frame
         /// </summary>
-        private Point Size;
+        private readonly Point Size;
 
-		public AbstractAnimatedSprite(string key, Point size, int delay) : base(key)
+		public AbstractAnimatedSprite(string key, Vector2 position, Point size, int delay) : base(key, position)
 		{
 			// Check if we already created our dictionary
 			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Dictionary<string, Point[]>>();
 
 			// setting the delay
-			Delay = delay;
+		    Delay = delay;
 
             this.Size = size;
 
-            if (FrameDictionary.ContainsKey(this.GetType())) return;
 
-            FrameDictionary[this.GetType()] = new Dictionary<string, Point[]>();
+		    if (FrameDictionary.ContainsKey(this.GetType())) return;
+		    FrameDictionary[this.GetType()] = new Dictionary<string, Point[]>();
 
             AddFrames();
-		}
+        }
 
-        public AbstractAnimatedSprite(string key, Vector2 position, Point size, int delay) : this(key, size, delay)
-        {
-            Position = position;
+	    public AbstractAnimatedSprite(string key, Vector2 position): base(key, position)
+	    {
+
+	        // Check if we already created our dictionary
+	        if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Dictionary<string, Point[]>>();
+
+	        this.Size = this.Texture.Bounds.Size;
+	        this.Delay = Int32.MaxValue;
+
+
+	        if (FrameDictionary.ContainsKey(this.GetType())) return;
+            FrameDictionary[this.GetType()] = new Dictionary<string, Point[]>();
+
+            AddAnimation(new Point[] {new Point()});
         }
 
         /// <summary>
@@ -113,7 +124,7 @@ namespace Intro2DGame.Game.Sprites
         public override void Draw(SpriteBatch spriteBatch)
 		{
             Rectangle rTexture = new Rectangle(FrameDictionary[this.GetType()][CurrentAnimation][CurrentFrame], this.Size);
-            Rectangle rScene = new Rectangle(this.Position.ToPoint() - (this.Size.ToVector2() / 2f).ToPoint(), this.Size);
+            //Rectangle rScene = new Rectangle(this.Position.ToPoint() - (this.Size.ToVector2() / 2f).ToPoint(), this.Size);
             //spriteBatch.Draw(this.Texture, rScene, rTexture, this.Hue);
 
             spriteBatch.Draw(

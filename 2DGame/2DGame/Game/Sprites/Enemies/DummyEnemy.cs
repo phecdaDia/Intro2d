@@ -7,18 +7,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites.Enemies
 {
-    /// <summary>
-    /// First debug enemy
-    /// </summary>
+	/// <summary>
+	/// First debug enemy
+	/// </summary>
 	public class DummyEnemy : AbstractSprite
 	{
 		private double q;
-		private int timer;
 		private double z;
 
-		private readonly int FrameDelay, LayerDifficulty;
+		private readonly double FrameDelay;
+		private readonly int LayerDifficulty;
 
-		public DummyEnemy(Vector2 position, int maxHealth, int frameDelay, int layerDifficulty) : base("orb3", position)
+	    private double Milliseconds;
+
+		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("orb3", position)
 		{
 			Hue = Color.Red;
 
@@ -34,6 +36,8 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
+		    Milliseconds += gameTime.ElapsedGameTime.Milliseconds;
+
 			float c = 0;
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
 
@@ -42,16 +46,16 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			if (KeyboardManager.IsKeyDown(Keys.F11)) Health++;
 
 
-			if (++timer > FrameDelay)
+			if (Milliseconds > FrameDelay)
 			{
-				timer %= FrameDelay;
+			    Milliseconds %= FrameDelay;
 				// Shoot something
 				var players = SceneManager.GetSprites<PlayerSprite>();
 				foreach (var ps in players)
 				{
 					var dir = ps.GetPosition() - GetPosition();
 					var tan = 17.5d * 2 * Math.PI; // Math.Atan2(dir.X, dir.Y);
-					var degrees = 2 * Math.PI * (22.5f / 360f);
+					//var degrees = 2 * Math.PI * (22.5f / 360f);
 					tan += q;
 					var temp_ = 2 * Math.PI * 0.5d * (1f / LayerDifficulty);
 					q += temp_;

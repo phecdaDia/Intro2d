@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
-    /// <summary>
-    /// Orbs that slowly changes <see cref="AbstractOrb.Direction"/> and curves
-    /// </summary>
+	/// <summary>
+	/// Orbs that slowly changes <see cref="AbstractAnimatedOrb.Direction"/> and curves
+	/// </summary>
 	public class CurvingOrb : AbstractOrb
 	{
 		public CurvingOrb(Vector2 position, Vector2 direction) : base("orb3", position, direction)
