@@ -17,25 +17,33 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		//protected Vector2 LaserPosition1;
 		//protected Vector2 LaserPosition2;
 		public Boolean AfterDamage;
-		public LaserOrb(Vector2 Position, Vector2 Direction) : base("OrbLaser2", Position, Direction)
+		public LaserOrb(Vector2 Position, Vector2 Direction) : base("OrbLaser", Position, Direction, 100, new Point(32, 8))
 		{
 			Scale.X = 50;
 			Scale.Y = 1;
 			AfterDamage = false;
 			Hue = Color.Blue;
-			FirstTexture2D = ImageManager.GetTexture2D("OrbLaser2");
-			SecondTexture2D = ImageManager.GetTexture2D("OrbLaser");
-			//if (TextureDictionary.ContainsKey(FirstTexture2D.GetType()))
-			//    TextureDictionary[FirstTexture2D.GetType()] = FirstTexture2D;
-			//if (TextureDictionary.ContainsKey(SecondTexture2D.GetType()))
-			//    TextureDictionary[SecondTexture2D.GetType()] = SecondTexture2D;
+			
+			
 		}
+
+		protected override void AddFrames()
+		{
+			AddAnimation(new Point[]
+			{
+				new Point(0, 0),
+				new Point(32, 0),
+			});
+		}
+
 		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
-			return Direction;
+			return Position;
+
 		}
 		public override void Update(GameTime gameTime)
 		{
+
 			Time++;
 			if (Time > 90) this.Delete();
 			if (Time > 60 && !AfterDamage)
@@ -51,34 +59,6 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			}
 
 		}
-		public override void Draw(SpriteBatch SpriteBatch)
-		{
-			if (FirstTexture2D == null || SecondTexture2D == null) return;
-			if (Time <= 60)
-			{
-				SpriteBatch.Draw(FirstTexture2D,
-					Position,
-					null,
-					Hue,
-					Rotation,
-					new Vector2(FirstTexture2D.Width / 2f, FirstTexture2D.Height / 2f),
-					Scale,
-					SpriteEffects.None,
-					0f);
-			}
-			if (Time > 60 && Time <= 90)
-			{
-				SpriteBatch.Draw(SecondTexture2D,
-					Position,
-					null,
-					Hue,
-					Rotation,
-					new Vector2(SecondTexture2D.Width / 2f, SecondTexture2D.Height / 2f),
-					Scale,
-					SpriteEffects.None,
-					0f);
-				return;
-			}
-		}
+		
 	}
 }

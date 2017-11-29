@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		{
 			// default values
 			Direction = direction;
-			//if (Direction.LengthSquared() > 0) Direction.Normalize(); // TODO
+			if (Direction.LengthSquared() > 0) Direction.Normalize();
 			Rotation = (float)Math.Atan2(direction.Y, direction.X);
 		}
 
@@ -46,6 +46,8 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		/// <param name="gameTime"></param>
 		public override void Update(GameTime gameTime)
 		{
+			base.Update(gameTime);
+
 			var up = UpdatePosition(gameTime);
 			Rotation = (float) Math.Atan2(up.Y, up.X);
 

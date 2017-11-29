@@ -7,16 +7,18 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 	/// </summary>
 	public class LinearOrb : AbstractOrb
 	{
+		private float Speed;
+
 		public LinearOrb(Vector2 position, Vector2 direction, float speed) : this("orb3", position, direction, speed) {}
 
 		public LinearOrb(string textureKey, Vector2 position, Vector2 direction, float speed) : base(textureKey, position, direction)
 		{
-			Direction *= speed;
+			this.Speed = speed;
 		}
 
 		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
-			return Direction;
+			return Direction * Speed;
 		}
 	}
 }

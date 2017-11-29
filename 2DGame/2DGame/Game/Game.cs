@@ -46,7 +46,7 @@ namespace Intro2DGame.Game
 		/// <summary>
 		/// This is the size at which we render the game.
 		/// </summary>
-		public static readonly Point RenderSize = new Point(800, 600);//(1280, 720);
+		public static readonly Point RenderSize = new Point(1280, 720);
 
 		/// <summary>
 		/// This allows us to change the size of the window without changing the render size.
