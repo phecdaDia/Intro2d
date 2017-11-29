@@ -49,5 +49,19 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			Direction *= Speed2;
 			return Direction;
 		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+
+			var players = SceneManager.GetSprites<PlayerSprite>();
+			foreach (var ps in players)
+			{
+				if (!ps.DoesCollide(this)) continue;
+
+				ps.Damage(GameConstants.PLAYER_DAMAGE);
+				this.Delete();
+			}
+		}
 	}
 }

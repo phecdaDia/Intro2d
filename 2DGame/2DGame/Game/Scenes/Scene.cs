@@ -142,7 +142,8 @@ namespace Intro2DGame.Game.Scenes
 			{
 				foreach (AbstractSprite c in l)
 				{
-					c.LifeTime.ElapsedGameTime += gameTime.ElapsedGameTime;
+					c.LifeTime.ElapsedGameTime = gameTime.ElapsedGameTime;
+					c.LifeTime.TotalGameTime += gameTime.ElapsedGameTime;
 					c.Update(gameTime);
 
 					if (!c.Persistence)

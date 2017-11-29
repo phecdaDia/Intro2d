@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,18 +12,11 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
 	public class LaserOrb : AbstractOrb
 	{
-		protected int Time = 0;
-		protected static Texture2D FirstTexture2D;
-		protected static Texture2D SecondTexture2D;
-		//protected Vector2 LaserPosition1;
-		//protected Vector2 LaserPosition2;
-		public Boolean AfterDamage;
-		public LaserOrb(Vector2 Position, Vector2 Direction) : base("OrbLaser", Position, Direction, 100, new Point(32, 8))
+		public LaserOrb(Vector2 position, Vector2 direction) : base("OrbLaser", position, direction, 1000, new Point(32, 8))
 		{
-			Scale.X = 50;
-			Scale.Y = 1;
-			AfterDamage = false;
-			Hue = Color.Blue;
+			Scale.X = 100;
+
+			Hue = Color.Red;
 			
 			
 		}
@@ -38,24 +32,24 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
-			return Position;
+			return Vector2.Zero;
 
 		}
 		public override void Update(GameTime gameTime)
 		{
+			base.Update(gameTime);
 
-			Time++;
-			if (Time > 90) this.Delete();
-			if (Time > 60 && !AfterDamage)
+			if (LifeTime.TotalGameTime.TotalSeconds > 1.5f) this.Delete();
+			else if (LifeTime.TotalGameTime.TotalSeconds > 1.0f)
 			{
-				var Players = SceneManager.GetSprites<PlayerSprite>();
-				foreach (var Player in Players)
+				foreach (var player in SceneManager.GetSprites<PlayerSprite>())
 				{
-					if (!Player.DoesCollide(this)) continue;
-					Player.Damage(GameConstants.PLAYER_DAMAGE);
-					AfterDamage = true;
+					float Inc(Vector2 t) => t.X / t.Y;
+					var j = Inc(Direction) / Inc(player.GetPosition() - this.GetPosition());
+
+					// This is some black magic. TODO Will change this later
+					if (j > 0.5858f && j < 1.4142f) player.Damage(GameConstants.PLAYER_DAMAGE);
 				}
-				return;
 			}
 
 		}

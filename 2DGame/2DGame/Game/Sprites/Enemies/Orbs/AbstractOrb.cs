@@ -49,18 +49,9 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			base.Update(gameTime);
 
 			var up = UpdatePosition(gameTime);
-			Rotation = (float) Math.Atan2(up.Y, up.X);
+			if (up.LengthSquared() > 0) Rotation = (float) Math.Atan2(up.Y, up.X);
 
 			Position += up;
-
-			var players = SceneManager.GetSprites<PlayerSprite>();
-			foreach (var ps in players)
-			{
-				if (!ps.DoesCollide(this)) continue;
-
-				ps.Damage(GameConstants.PLAYER_DAMAGE);
-				this.Delete();
-			}
 		}
 
 		/// <summary>

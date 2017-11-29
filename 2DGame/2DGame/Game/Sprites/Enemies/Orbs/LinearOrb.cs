@@ -1,3 +1,4 @@
+using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Sprites.Enemies.Orbs
@@ -19,6 +20,20 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
 			return Direction * Speed;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			
+			var players = SceneManager.GetSprites<PlayerSprite>();
+			foreach (var ps in players)
+			{
+				if (!ps.DoesCollide(this)) continue;
+
+				ps.Damage(GameConstants.PLAYER_DAMAGE);
+				this.Delete();
+			}
 		}
 	}
 }

@@ -16,14 +16,11 @@ namespace Intro2DGame.Game.Scenes.Stages
 		public TutorialScene() : base("tutorial")
 		{
 		}
-		internal static TutorialPlayerSprite Player1{get;set;}
-		internal static TutorialSprite Player2 { get; set; }
+
 		protected override void CreateScene()
 		{
-			Player1 = new TutorialPlayerSprite(new Vector2(100, 350));
-			AddSprite(Player1);
-			Player2 = new TutorialSprite(new Vector2(400, 250));
-			AddSprite(Player2);
+			AddSprite(new PlayerSprite(new Vector2(100, 350)));
+			AddSprite(new TutorialSprite(new Vector2(400, 250)));
 		}
 	}
 	/// <summary>
@@ -57,28 +54,9 @@ namespace Intro2DGame.Game.Scenes.Stages
 			if (ShootDelay-- <= 0 && KeyboardManager.IsKeyPressed(Keys.M))
 			{
 				ShootDelay = Shoot_Delay;
-				SpawnSprite(new TutorialSpriteLaserOrb(Position, TutorialScene.Player1.GetPosition() - this.GetPosition()));
+				SpawnSprite(new LaserOrb(Position, SceneManager.GetSprites<PlayerSprite>().First().GetPosition() - this.GetPosition()));
 			}
 			//var sprites = SceneManager.GetAllSprites();
-		}
-	}
-	internal class TutorialSpriteLaserOrb: LaserOrb
-	{
-		public TutorialSpriteLaserOrb(Vector2 Position, Vector2 Direction) : base(Position, Direction) { }
-		public override void Update(GameTime gameTime)
-		{
-			Time++;
-			if (Time > 90) this.Delete();
-			if (!AfterDamage && Time > 60)
-			{
-				if (TutorialScene.Player1.DoesCollide(this))
-				{
-					TutorialScene.Player1.Damage(GameConstants.PLAYER_DAMAGE);
-					AfterDamage = true;
-				}
-			}
-
-
 		}
 	}
 	internal class TutorialPlayerSprite:PlayerSprite
@@ -93,10 +71,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			if (LinearPointerY < ObenLinkY)
 			{
 				LinearPointerY += (float)(Steigung * Texture.Width);
-				if (LinearPointerY > ObenLinkY)
-					return true;
-				else
-					return false;
+				return LinearPointerY > ObenLinkY;
 			}
 			else
 			{
