@@ -90,7 +90,7 @@ namespace Intro2DGame.Game.Scenes
 				new MainMenuEntry("Tutorial", FONT_NAME, "tutorial", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("TODO", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+				new MainMenuEntry("TODO", FONT_NAME, "round1", new Vector2(x, y += spacing)),
 
 				//
 				new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),

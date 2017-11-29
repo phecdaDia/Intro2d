@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Intro2DGame.Game.Scenes;
@@ -44,11 +45,46 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			{
 				foreach (var player in SceneManager.GetSprites<PlayerSprite>())
 				{
-					float Inc(Vector2 t) => t.X / t.Y;
-					var j = Inc(Direction) / Inc(player.GetPosition() - this.GetPosition());
+					//float Inc(Vector2 t) => t.X / t.Y;
+					//var j = Inc(Direction) / Inc(player.GetPosition() - this.GetPosition());
 
-					// This is some black magic. TODO Will change this later
-					if (j > 0.5858f && j < 1.4142f) player.Damage(GameConstants.PLAYER_DAMAGE);
+					//// This is some black magic. TODO Will change this later
+					////if (j > 0.5858f && j < 1.4142f) player.Damage(GameConstants.PLAYER_DAMAGE);
+
+					var invDir = new Vector2(Direction.Y, Direction.X * -1.0f);
+
+					var ex = Position.X;
+					var ey = Position.Y;
+
+					var px = player.GetPosition().X;
+					var py = player.GetPosition().Y;
+
+					var dx = Direction.X;
+					var dy = Direction.Y;
+
+					var d2x = Direction.Y;
+					var d2y = Direction.X * -1.0f;
+
+					// (1): ex + a dx = px + b d'x
+					// (2): ey + a dy = py + b d'y
+
+					// solving for a:
+
+					// (1) - d2q (2)
+					var d2q = d2x / d2y;
+
+					// ex - d2q ey + a dx - a dy d2q = px - py d2q + 0
+					// ex - d2q ey + a (dx - dy d2q) = px - py d2q
+					// a (dx - dy d2q) = px - py d2q - ex + d2q ey
+					// a = (px - py d2q - ex + d2q ey)/(dx - dy d2q)
+					var a = (px - py * d2q - ex + d2q * ey) / (dx - dy * d2q);
+
+					var q = GetPosition() + a * Direction;
+
+					Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
+
+					if ((player.GetPosition() - q).Length() < 16) player.Damage(GameConstants.PLAYER_DAMAGE);
+
 				}
 			}
 

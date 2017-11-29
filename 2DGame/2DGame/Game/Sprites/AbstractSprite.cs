@@ -75,7 +75,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Current <see cref="Texture2D"/> scale
 		/// </summary>
-		public Vector2 Scale = new Vector2(1);
+		protected Vector2 Scale = new Vector2(1);
 
 		public GameTime LifeTime;
 
