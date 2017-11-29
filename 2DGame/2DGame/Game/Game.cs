@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Intro2DGame.Game
 {
@@ -57,7 +58,9 @@ namespace Intro2DGame.Game
 		/// </summary>
 		public static GameArguments GameArguments;
 
-		private float Framerate, MinimumFramerate;
+		private double Framerate, MinimumFramerate;
+
+		private FrameCounter FrameCounter;
 
 		public Game(params string[] args)
 		{
@@ -76,11 +79,22 @@ namespace Intro2DGame.Game
 			if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
 
 			IsMouseVisible = true;
+
+			this.IsFixedTimeStep = false;
+
+			this.MinimumFramerate = float.MaxValue;
+
+			this.FrameCounter = new FrameCounter();
 		}
 
 		public static Game GetInstance()
 		{
 			return GameInstance;
+		}
+
+		public static void ResetFrameCounter()
+		{
+			GetInstance().FrameCounter.Reset();
 		}
 
 		/// <summary>
@@ -152,12 +166,10 @@ namespace Intro2DGame.Game
 			if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
 			if (SceneManager.GetCurrentScene() == null) Exit();
 
-			this.Framerate = 1000f / gameTime.ElapsedGameTime.Milliseconds;
+			FrameCounter.Update(gameTime);
 			// This updates the current scene.
-
 			SceneManager.Update(gameTime);
 			//SceneManager.GetCurrentScene().Update(gameTime);
-
 
 			base.Update(gameTime);
 		}
@@ -184,7 +196,7 @@ namespace Intro2DGame.Game
 			// Only add something here if it affects the game globally!
 
 			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(10, RenderSize.Y - 20), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.Framerate}", new Vector2(10, RenderSize.Y - 40), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(10, RenderSize.Y - 40), Color.Black);
 			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)}", new Vector2(10, RenderSize.Y - 60), Color.Black);
 
 			SpriteBatch.End();
@@ -196,6 +208,49 @@ namespace Intro2DGame.Game
 			SpriteBatch.End();
 
 			base.Draw(gameTime);
+		}
+	}
+
+	internal class FrameCounter
+	{
+		public FrameCounter()
+		{
+			this.DeltaBuffer = new Queue<double>();
+			this.MinimumFramerate = 1000f;
+		}
+
+		private readonly Queue<double> DeltaBuffer;
+		internal double MinimumFramerate;
+		internal double AverageFramerate => GetAverageFramerate();
+
+		public void Update(GameTime gameTime)
+		{
+			var framerate = 1000d / gameTime.ElapsedGameTime.TotalMilliseconds;
+
+			if (DeltaBuffer.Count <= 10)
+			{
+				DeltaBuffer.Enqueue(framerate);
+			}
+			else
+			{
+				DeltaBuffer.Dequeue();
+				DeltaBuffer.Enqueue(framerate);
+			}
+
+			if (KeyboardManager.IsKeyDown(Keys.NumPad0)) Reset();
+			if (AverageFramerate <= MinimumFramerate) MinimumFramerate = AverageFramerate;
+		}
+
+		private double GetAverageFramerate()
+		{
+			var temp = DeltaBuffer.Count() <= 10 ? 1000d : DeltaBuffer.Average();
+			return temp >= 1000d ? 1000d : temp;
+		}
+
+		internal void Reset()
+		{
+			DeltaBuffer.Clear();
+			MinimumFramerate = 100d;
 		}
 	}
 }

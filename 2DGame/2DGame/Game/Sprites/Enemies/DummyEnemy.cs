@@ -13,12 +13,14 @@ namespace Intro2DGame.Game.Sprites.Enemies
 	public class DummyEnemy : AbstractSprite
 	{
 		private double q;
-		private int timer;
 		private double z;
 
-		private readonly int FrameDelay, LayerDifficulty;
+		private readonly double FrameDelay;
+		private readonly int LayerDifficulty;
 
-		public DummyEnemy(Vector2 position, int maxHealth, int frameDelay, int layerDifficulty) : base("orb3", position)
+	    private double Milliseconds;
+
+		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("orb3", position)
 		{
 			Hue = Color.Red;
 
@@ -34,6 +36,8 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
+		    Milliseconds += gameTime.ElapsedGameTime.Milliseconds;
+
 			float c = 0;
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
 
@@ -42,9 +46,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			if (KeyboardManager.IsKeyDown(Keys.F11)) Health++;
 
 
-			if (++timer > FrameDelay)
+			if (Milliseconds > FrameDelay)
 			{
-				timer %= FrameDelay;
+			    Milliseconds %= FrameDelay;
 				// Shoot something
 				var players = SceneManager.GetSprites<PlayerSprite>();
 				foreach (var ps in players)

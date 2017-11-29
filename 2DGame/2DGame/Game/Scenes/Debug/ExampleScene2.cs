@@ -47,7 +47,8 @@ namespace Intro2DGame.Game.Scenes.Debug
 
 	internal class DemoSprite1 : AbstractSprite
 	{
-		private float Speed;
+		private readonly float Speed;
+	    private int Milliseconds;
 
 		public DemoSprite1(float speed, Vector2 position) : base("orb", position)
 		{
@@ -58,8 +59,11 @@ namespace Intro2DGame.Game.Scenes.Debug
 
 		public override void Update(GameTime gameTime)
 		{
-			if (this.LifeTime.ElapsedGameTime.Milliseconds % 250 < 16)
+		    this.Milliseconds += this.LifeTime.ElapsedGameTime.Milliseconds;
+
+			if (this.Milliseconds > 250)
 			{
+			    Milliseconds %= 250;
 														/* DIRECTION | NOT SPEED */
 				SpawnSprite(new LinearOrb(this.Position, Vector2.UnitX * this.Speed, /* This is the actual speed */ 1f));
 			}
