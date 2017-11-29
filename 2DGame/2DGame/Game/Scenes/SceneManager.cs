@@ -34,7 +34,7 @@ namespace Intro2DGame.Game.Scenes
 		/// It's not actually a <see cref="Stack{Scene}"/>. It's a <see cref="List{Scene}"/> to draw all scenes in order.
 		/// </summary>
 		private readonly List<Scene> SceneStack;
-
+		
 		/// <summary>
 		/// The current top scene.
 		/// </summary>
@@ -248,6 +248,8 @@ namespace Intro2DGame.Game.Scenes
 		{
 			return GetInstance().SceneStack.Count;
 		}
+
+		public static int GetTotalSpriteCount() => GetInstance().SceneStack.Sum(x => x.GetAllSprites().Values.Sum(y => y.Count));
 
 		/// <summary>
 		/// Updates <see cref="CurrentScene"/> and closes all closed <see cref="Scene"/>

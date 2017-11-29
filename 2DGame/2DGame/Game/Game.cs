@@ -197,7 +197,7 @@ namespace Intro2DGame.Game
 
 			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(10, RenderSize.Y - 20), Color.Black);
 			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(10, RenderSize.Y - 40), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)}", new Vector2(10, RenderSize.Y - 60), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(10, RenderSize.Y - 60), Color.Black);
 
 			SpriteBatch.End();
 
@@ -227,15 +227,9 @@ namespace Intro2DGame.Game
 		{
 			var framerate = 1000d / gameTime.ElapsedGameTime.TotalMilliseconds;
 
-			if (DeltaBuffer.Count <= 10)
-			{
-				DeltaBuffer.Enqueue(framerate);
-			}
-			else
-			{
-				DeltaBuffer.Dequeue();
-				DeltaBuffer.Enqueue(framerate);
-			}
+			if (DeltaBuffer.Count > 10) DeltaBuffer.Dequeue();
+			DeltaBuffer.Enqueue(framerate);
+			
 
 			if (KeyboardManager.IsKeyDown(Keys.NumPad0)) Reset();
 			if (AverageFramerate <= MinimumFramerate) MinimumFramerate = AverageFramerate;
