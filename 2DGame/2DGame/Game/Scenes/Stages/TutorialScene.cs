@@ -62,43 +62,43 @@ namespace Intro2DGame.Game.Scenes.Stages
 			//var sprites = SceneManager.GetAllSprites();
 		}
 	}
-	internal class TutorialSpriteLaserOrb: LaserOrb
-	{
-		public TutorialSpriteLaserOrb(Vector2 Position, Vector2 Direction) : base(Position, Direction) { }
-		public override void Update(GameTime gameTime)
-		{
-			Time++;
-			if (Time > 90) this.Delete();
-			if (!AfterDamage && Time > 60)
-			{
-				if (TutorialScene.Player1.DoesCollide(this))
-				{
-					TutorialScene.Player1.Damage(GameConstants.PLAYER_DAMAGE);
-					AfterDamage = true;
-				}
-				return;
-			}
-		}
-	}
-	internal class TutorialPlayerSprite:PlayerSprite
-	{
-		public TutorialPlayerSprite(Vector2 Position) : base(Position){}
-		public override bool DoesCollide(AbstractOrb Orb)
-		{
-			double Steigung = Orb.Direction.Y / Orb.Direction.X;
-			float ObenLinkX = this.Position.X - Texture.Width / 2f;
-			float ObenLinkY = this.Position.Y - 100 - Texture.Height / 2f;//-100
-			float LinearPointerY =(float)( Orb.GetPosition().Y-100-((Orb.GetPosition().X-ObenLinkX) * Steigung));//-100
-			if (LinearPointerY < ObenLinkY)
-			{
-				LinearPointerY -= (float)(Steigung * Texture.Width);
-				if (LinearPointerY > ObenLinkY)
-					return true;
-				else
-					return false;
-			}
-			else
-			{
+    internal class TutorialSpriteLaserOrb: LaserOrb
+    {
+        public TutorialSpriteLaserOrb(Vector2 Position, Vector2 Direction) : base(Position, Direction) { }
+        public override void Update(GameTime gameTime)
+        {
+            Time++;
+            if (Time > 90) this.Delete();
+            if (!AfterDamage && Time > 60)
+            {
+                if (TutorialScene.Player1.DoesCollide(this))
+                {
+                    TutorialScene.Player1.Damage(GameConstants.PLAYER_DAMAGE);
+                    AfterDamage = true;
+                }
+                return;
+            }
+        }
+    }
+    internal class TutorialPlayerSprite:PlayerSprite
+    {
+        public TutorialPlayerSprite(Vector2 Position) : base(Position){}
+        public override bool DoesCollide(AbstractOrb Orb)
+        {
+            double Steigung = Orb.Direction.Y / Orb.Direction.X;
+            float ObenLinkX = this.Position.X - Texture.Width / 2f;
+            float ObenLinkY = this.Position.Y - 100 - Texture.Height / 2f;//-100
+            float LinearPointerY =(float)( Orb.GetPosition().Y-100-((Orb.GetPosition().X-ObenLinkX) * Steigung));//-100
+            if (LinearPointerY < ObenLinkY)
+            {
+                LinearPointerY += (float)(Steigung * Texture.Width);
+                if (LinearPointerY > ObenLinkY)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
 
 				LinearPointerY += (float)(Steigung * Texture.Width);
 				ObenLinkY += Texture.Height;
