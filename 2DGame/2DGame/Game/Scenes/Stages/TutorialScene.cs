@@ -91,7 +91,7 @@ namespace Intro2DGame.Game.Scenes.Stages
             float LinearPointerY =(float)( Orb.GetPosition().Y-100-((Orb.GetPosition().X-ObenLinkX) * Steigung));//-100
             if (LinearPointerY < ObenLinkY)
             {
-                LinearPointerY -= (float)(Steigung * Texture.Width);
+                LinearPointerY += (float)(Steigung * Texture.Width);
                 if (LinearPointerY > ObenLinkY)
                     return true;
                 else
