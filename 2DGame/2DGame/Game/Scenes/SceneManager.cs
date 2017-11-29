@@ -222,7 +222,7 @@ namespace Intro2DGame.Game.Scenes
 		}
 
 		/// <summary>
-		/// Returns all <see cref="AbstractSprite"/> of <see cref="CurrentScene"/>
+		/// Returns all <see cref="AbstractSprite"/> of type T of <see cref="CurrentScene"/>
 		/// </summary>
 		/// <typeparam name="T">Any <see cref="AbstractSprite"/></typeparam>
 		/// <returns><see cref="List{T}"/> with all <see cref="AbstractSprite"/> of the <see cref="CurrentScene"/></returns>
@@ -232,7 +232,7 @@ namespace Intro2DGame.Game.Scenes
 		}
 
 		/// <summary>
-		/// <see cref="Dictionary{Type, AbstractSprite}"/> of <see cref="CurrentScene"/>
+		/// Returns all <see cref="AbstractSprite"/> of <see cref="CurrentScene"/>
 		/// </summary>
 		/// <returns></returns>
 		public static Dictionary<Type, IList> GetAllSprites()
