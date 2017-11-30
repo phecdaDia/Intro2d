@@ -48,17 +48,10 @@ namespace Intro2DGame.Game.Sprites
 
 			if (ShootDelay-- <= 0 || KeyboardManager.IsKeyDown(Keys.Space))
 			{
-				if (KeyboardManager.IsKeyPressed(Keys.Space))
+				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
 				{
 					SpawnSprite(new PlayerOrb(GetPosition(), Position + new Vector2(1, 0)));
-					ShootDelay = SHOOT_DELAY;
-
-					Shot = SHOOT_DELAY + 5;
-				}
-				else if (ms.LeftButton == ButtonState.Pressed)
-				{
-					SpawnSprite(new PlayerOrb(GetPosition(), ms.Position.ToVector2()));
 					ShootDelay = SHOOT_DELAY;
 
 					Shot = SHOOT_DELAY + 5;
@@ -74,34 +67,23 @@ namespace Intro2DGame.Game.Sprites
 			// normalizing movement
 			if (movement.LengthSquared() > 0f) movement.Normalize();
 
-			movement *= new Vector2(1.1f, 1.0f);
-			Position += movement * (Shot > 0 && GameConstants.IS_MOVEMENT_RESTRICTED ? 2.75f : 4.25f);
+			movement *= new Vector2(1.0f, 1.1f);
+			Position += movement * (Shot > 0 ? 2.75f : 4.25f);
 
 			// Prevents player from leaving the screen
 			var halfTextureWidth = this.Texture.Width / 2;
 			var halfTextureHeight = this.Texture.Height / 2;
 
 			if (Position.X < halfTextureWidth) Position.X = halfTextureWidth;
-			if (Position.Y < halfTextureHeight) Position.Y = halfTextureHeight;
+			if (Position.Y < halfTextureHeight + 100) Position.Y = halfTextureHeight + 100;
 
 			if (Position.X + halfTextureWidth > Game.RenderSize.X) Position.X = Game.RenderSize.X - halfTextureWidth;
-			if (Position.Y + halfTextureHeight > Game.RenderSize.Y) Position.Y = Game.RenderSize.Y - halfTextureHeight;
+			if (Position.Y + halfTextureHeight > Game.RenderSize.Y - 100) Position.Y = Game.RenderSize.Y - halfTextureHeight - 100;
 
 
 
 			if (Invulnerable > 0) Invulnerable--;
-			else
-			{
-				if (GameConstants.IS_AUTOREGEN_ENABLED)
-				{
-
-					if (GameConstants.IS_AUTOREGEN_RESTRICTED)
-					{
-						if (Shot == 0) Health += 1;
-					}
-					else Health += 1;
-				}
-			}
+			
 
 			if (Health >= MaxHealth) Health = MaxHealth;
 
@@ -109,12 +91,13 @@ namespace Intro2DGame.Game.Sprites
 
 		}
 
-		public override bool DoesCollide(AbstractOrb orb)
+		public override bool DoesCollide(Vector2 position)
 		{
-			var tp1 = Position + new Vector2(0, 16) - orb.GetPosition();
-			var tp2 = Position + new Vector2(0, -16) - orb.GetPosition();
+			var tp1 = Position + new Vector2(0, 16) - position;
+			var tp2 = Position + new Vector2(0, 0) - position;
+			var tp3 = Position + new Vector2(0, -16) - position;
 
-			return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256;
+			return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256 || tp3.LengthSquared() <= 256;
 		}
 
 		public void Damage(int amount)
@@ -202,7 +185,7 @@ namespace Intro2DGame.Game.Sprites
 			{
 				if (!sprite.Enemy) continue;
 
-				if (sprite.DoesCollide(this)) {
+				if (sprite.DoesCollide(this.GetPosition())) {
 					sprite.Health -= 1;
 					Delete();
 				}

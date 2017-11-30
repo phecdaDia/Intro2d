@@ -77,7 +77,7 @@ namespace Intro2DGame.Game.Sprites
 		/// </summary>
 		protected Vector2 Scale = new Vector2(1);
 
-		public GameTime LifeTime;
+		public readonly GameTime LifeTime;
 
 		protected AbstractSprite()
 		{
@@ -173,24 +173,10 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Dynamically creates an <see cref="AbstractSprite"/> with <paramref name="parameters"/>
-		/// <para/>
-		/// This method should not be used!
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="parameters"></param>
-		[System.Obsolete("Method is deprecated, please use SpawnSprite instead.", true)]
-		protected void ShootOrb<T>(params object[] parameters) where T : AbstractSprite
-		{
-			var o = (T) Activator.CreateInstance(typeof(T), parameters);
-			SceneManager.GetCurrentScene().AddSprite(o);
-		}
-
-		/// <summary>
 		/// Spawns a <see cref="AbstractSprite"/> in the <see cref="SceneManager.CurrentScene"/>
 		/// </summary>
 		/// <param name="sprite"></param>
-		protected void SpawnSprite(AbstractSprite sprite)
+		protected static void SpawnSprite(AbstractSprite sprite)
 		{
 			SceneManager.GetCurrentScene().BufferedAddSprite(sprite);
 		}
@@ -200,11 +186,21 @@ namespace Intro2DGame.Game.Sprites
 		/// <para/>
 		/// This method should be overwritten by more complex <see cref="AbstractSprite"/>
 		/// </summary>
-		/// <param name="orb"></param>
+		/// <param name="position"></param>
 		/// <returns></returns>
-		public virtual bool DoesCollide(AbstractOrb orb)
+		public virtual bool DoesCollide(Vector2 position)
 		{
-			return (orb.GetPosition() - Position).Length() < (Texture.Width / 2f + orb.Texture.Width);
+			return (position - Position).Length() < (Texture.Width / 2f);
 		}
+
+		/// <summary>
+		/// Loads all custom content
+		/// </summary>
+		public virtual void LoadContent() { }
+
+		/// <summary>
+		/// Should unload all custom content
+		/// </summary>
+		public virtual void UnloadContent() { }
 	}
 }

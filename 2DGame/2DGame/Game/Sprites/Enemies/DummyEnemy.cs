@@ -71,9 +71,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			}
 		}
 
-		public override bool DoesCollide(AbstractOrb orb)
+		public override bool DoesCollide(Vector2 position)
 		{
-			return (orb.GetPosition() - this.GetPosition()).Length() <= 16;
+			return (position - this.GetPosition()).Length() <= 16;
 		}
 	}
 }

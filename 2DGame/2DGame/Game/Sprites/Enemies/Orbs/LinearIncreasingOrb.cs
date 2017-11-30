@@ -57,7 +57,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			var players = SceneManager.GetSprites<PlayerSprite>();
 			foreach (var ps in players)
 			{
-				if (!ps.DoesCollide(this)) continue;
+				if (!ps.DoesCollide(this.GetPosition())) continue;
 
 				ps.Damage(GameConstants.PLAYER_DAMAGE);
 				this.Delete();
