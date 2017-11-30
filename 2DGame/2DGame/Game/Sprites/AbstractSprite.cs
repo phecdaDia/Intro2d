@@ -37,7 +37,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Color of the <see cref="AbstractSprite"/>
 		/// </summary>
-		protected Color Hue;
+		public Color Hue;
 
 		/// <summary>
 		/// Depth of the <see cref="AbstractSprite"/>

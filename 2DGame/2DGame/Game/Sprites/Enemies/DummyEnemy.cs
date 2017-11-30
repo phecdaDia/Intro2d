@@ -20,7 +20,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 	    private double Milliseconds;
 
-		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("orb3", position)
+		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("tutorialplayer", position)
 		{
 			Hue = Color.Red;
 
@@ -64,16 +64,26 @@ namespace Intro2DGame.Game.Sprites.Enemies
 					var degrees2 = 2 * Math.PI * (Health * (Health+1) / 1.95f / LayerDifficulty);
 
 					for (var i = 0; i < LayerDifficulty; i++)
-						SpawnSprite(new LinearIncreasingOrb(Position,
+					{
+						var orb = new LinearIncreasingOrb(Position,
 							new Vector2((float) Math.Sin(tan + i * degrees2 + z), (float) Math.Cos(tan + i * degrees2 + z)), 0.235f,
-							1.01025f));
+							1.01025f);
+
+						var delta = (float) Health / MaxHealth;
+						orb.Hue = new Color(1.0f, delta, delta);
+
+						SpawnSprite(orb);
+					}
 				}
 			}
 		}
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			return (position - this.GetPosition()).Length() <= 16;
+			return (position - this.GetPosition()).Length() <= 16 ||
+			       (position - this.GetPosition() - new Vector2(0, 16)).Length() <= 16 ||
+			       (position - this.GetPosition() + new Vector2(0, 16)).Length() <= 16
+			;
 		}
 	}
 }
