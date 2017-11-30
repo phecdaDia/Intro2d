@@ -71,7 +71,6 @@
     <Compile Include="Game\GameArguments.cs" />
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\ImageManager.cs" />
-    <Compile Include="Game\Internet.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
     <Compile Include="Game\ObjectCloner.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
