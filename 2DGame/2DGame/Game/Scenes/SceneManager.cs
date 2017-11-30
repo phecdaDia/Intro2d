@@ -67,7 +67,7 @@ namespace Intro2DGame.Game.Scenes
 			RegisterScene(new MainMenuScene());
 
 			//RegisterScene(new TutorialScene());
-			RegisterScene(new Round1Scene());
+			RegisterScene(new LaserGuyScene());
 
 			RegisterScene(new MenuScene());
 
@@ -104,28 +104,38 @@ namespace Intro2DGame.Game.Scenes
 		/// Closes <paramref name="amount"/> <see cref="Scene"/> from <see cref="SceneStack"/>
 		/// </summary>
 		/// <param name="amount">Amount of scenes to be closed</param>
-		public static void CloseScene(int amount = 1)
+		public static void CloseScene(AbstractTransition transition = null, int amount = 1)
 		{
+			//RemoveScene(transition);
+			AddTransition(transition);
 			ClosingScene += amount;
 		}
 
 		/// <summary>
 		/// Removes one <see cref="Scene"/> from the <see cref="SceneStack"/>
 		/// </summary>
-		private static void RemoveScene()
+		private static void RemoveScene(AbstractTransition transition = null)
 		{
-
 			Game.ResetFrameCounter();
 
-			var sm = GetInstance();
+			if (transition == null)
+			{
+				var sm = GetInstance();
 
-			var c = sm.SceneStack.Count;
+				var c = sm.SceneStack.Count;
 
-			if (c <= 0) return;
+				if (c <= 0) return;
 
-			sm.SceneStack.Last().UnloadContent();
-			sm.SceneStack.Last().ResetScene();
-			sm.SceneStack.RemoveAt(c-1);
+				sm.SceneStack.Last().UnloadContent();
+				sm.SceneStack.Last().ResetScene();
+				sm.SceneStack.RemoveAt(c - 1);
+			}
+			else
+			{
+				transition.SetLambda(() => RemoveScene());
+				AddTransition(transition);
+			}
+
 		}
 
 		/// <summary>
@@ -149,7 +159,7 @@ namespace Intro2DGame.Game.Scenes
 			}
 			else
 			{
-				transition.TransitioningKey = key;
+				transition.SetLambda(() => AddScene(key));
 				AddTransition(transition);
 			}
 
@@ -174,7 +184,7 @@ namespace Intro2DGame.Game.Scenes
 			}
 			else
 			{
-				transition.TransitioningScene = scene;
+				transition.SetLambda(() => AddScene(scene));
 				AddTransition(transition);
 			}
 		}
@@ -185,9 +195,12 @@ namespace Intro2DGame.Game.Scenes
 		/// <param name="transition"></param>
 		private static void AddTransition(AbstractTransition transition)
 		{
+			if (transition == null) return;
+
 			transition.LoadContent();
 
-			GetInstance().CurrentTransition = transition;
+			if (GetInstance().CurrentTransition?.GetType() != transition.GetType())
+				GetInstance().CurrentTransition = transition;
 		}
 
 		/// <summary>
@@ -276,7 +289,7 @@ namespace Intro2DGame.Game.Scenes
 			while (ClosingScene > 0 )
 			{
 				ClosingScene -= 1;
-				RemoveScene();
+				RemoveScene(GetInstance().CurrentTransition);
 			}
 		}
 

@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Scenes.Stages
 {
-	public class Round1Scene : Scene
+	public class LaserGuyScene : Scene
 	{
-		public Round1Scene() : base("round1")
+		public LaserGuyScene() : base("laserguy")
 		{
 		}
 

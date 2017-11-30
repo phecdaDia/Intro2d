@@ -19,11 +19,11 @@ namespace Intro2DGame.Game.Scenes.Debug
 
 		protected override void CreateScene()
 		{
-			AddSprite(new PlayerSprite(new Vector2(100, 350)));
+			AddSprite(new PlayerSprite(new Vector2(100, 360)));
 			//this.AddSprite(new AnimationTestSprite(new Vector2(200, 200)));
 			//this.AddSprite(new RandomSpawnerSprite<OrbSprite>(1000));
 
-			AddSprite(new DummyEnemy(new Vector2(700, 350), 500, 284d, 17));
+			AddSprite(new DummyEnemy(new Vector2(980, 360), 500, 284d, 17));
 			//AddSprite(new DummyEnemy(new Vector2(700, 250)));
 			//AddSprite(new DummyEnemy(new Vector2(700, 450)));
 		}

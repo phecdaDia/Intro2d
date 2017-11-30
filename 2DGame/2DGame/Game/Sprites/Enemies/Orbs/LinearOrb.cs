@@ -31,7 +31,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			{
 				if (!ps.DoesCollide(this.GetPosition())) continue;
 
-				ps.Damage(GameConstants.PLAYER_DAMAGE);
+				ps.Damage((int)GameConstants.Difficulty);
 				this.Delete();
 			}
 		}

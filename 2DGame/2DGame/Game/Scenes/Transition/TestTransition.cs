@@ -18,7 +18,7 @@ namespace Intro2DGame.Game.Scenes.Transition
 		private int Elapsed = 0;
 		private Texture2D Texture;
 
-		public TestTransition(int milliseconds) : base("transition-test")
+		public TestTransition(int milliseconds)
 		{
 			this.Milliseconds = milliseconds;
 		}
@@ -30,7 +30,7 @@ namespace Intro2DGame.Game.Scenes.Transition
 		{
 			this.Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
-			if (Elapsed >= Milliseconds / 2) AddTransitioningScene();
+			if (Elapsed >= Milliseconds / 2) RunLambda();
 
 			if (Elapsed >= Milliseconds) SceneManager.CloseTransition();
 		}
@@ -40,7 +40,7 @@ namespace Intro2DGame.Game.Scenes.Transition
 		{
 			// Drawing the texture over the entire graphics area. 
 			// Recoloring it to be black with 255 alpha.
-			float alpha = 1 - Math.Abs(Milliseconds / 2f - Elapsed) / (Milliseconds / 2f);
+			var alpha = 1f - Math.Abs(Milliseconds / 2f - Elapsed) / (Milliseconds / 2f);
 
 			spriteBatch.Draw(this.Texture, new Rectangle(new Point(), Game.RenderSize), new Color(Color.Black, alpha));
 		}
@@ -50,7 +50,7 @@ namespace Intro2DGame.Game.Scenes.Transition
 		{
 			// Creating a 1x1 pixel texture that is white so we can recolor it in the spriteBatch.Draw();
 			Texture = new Texture2D(Game.GetInstance().GraphicsDevice, 1, 1);
-			Texture.SetData<Color>(new Color[] { Color.White });
+			Texture.SetData(new [] { Color.White });
 		}
 
 		/// <inheritdoc />

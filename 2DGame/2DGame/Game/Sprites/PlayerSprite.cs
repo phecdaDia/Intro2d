@@ -1,6 +1,7 @@
 ﻿using System;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
+using Intro2DGame.Game.Scenes.Transition;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -22,7 +23,7 @@ namespace Intro2DGame.Game.Sprites
 		{
 			LayerDepth = 1;
 			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
-			//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 500)); // This adds the banner
+			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 
 			MaxHealth = 1000;
@@ -87,7 +88,7 @@ namespace Intro2DGame.Game.Sprites
 
 			if (Health >= MaxHealth) Health = MaxHealth;
 
-			if (Health <= 0) SceneManager.CloseScene();
+			if (Health <= 0) SceneManager.CloseScene(new TestTransition(1000));
 
 		}
 

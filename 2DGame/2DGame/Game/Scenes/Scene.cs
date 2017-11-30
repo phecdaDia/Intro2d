@@ -36,7 +36,7 @@ namespace Intro2DGame.Game.Scenes
 		/// </summary>
 		public string SceneKey { get; }
 
-		private readonly GameTime LifeTime;
+		public readonly GameTime LifeTime;
 
 		protected Scene(string key)
 		{

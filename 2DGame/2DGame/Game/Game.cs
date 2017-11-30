@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using Intro2DGame.Game.Scenes.Transition;
+using Intro2DGame.Game.Sprites;
 
 namespace Intro2DGame.Game
 {
@@ -155,7 +157,7 @@ namespace Intro2DGame.Game
 			KeyboardManager.Update();
 
 			if (KeyboardManager.IsKeyDown(Keys.Escape))
-				SceneManager.CloseScene();
+				SceneManager.CloseScene(new TestTransition(1000));
 
 
 
@@ -191,9 +193,14 @@ namespace Intro2DGame.Game
 
 			// Only add something here if it affects the game globally!
 
-			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(10, RenderSize.Y - 20), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(10, RenderSize.Y - 40), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(10, RenderSize.Y - 60), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(40, RenderSize.Y - 20), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(40, RenderSize.Y - 40), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(40, RenderSize.Y - 60), Color.Black);
+
+			var players = SceneManager.GetSprites<PlayerSprite>();
+			var player = players.FirstOrDefault();
+			if (player != null)
+				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.GetPosition().X:F2} - {player.GetPosition().Y:F2}", new Vector2(40, RenderSize.Y - 80), Color.Black);
 
 			SpriteBatch.End();
 

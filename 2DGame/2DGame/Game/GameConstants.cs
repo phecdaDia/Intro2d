@@ -13,10 +13,15 @@ namespace Intro2DGame.Game
 	{
 		// defines some of the game rules
 
-		public const int PLAYER_DAMAGE = 200; // damage the player takes when getting hit
+		public static Difficulty Difficulty = Difficulty.Normal;
+		
+	}
 
-		public const bool IS_AUTOREGEN_ENABLED = true; // if the player does auto regenerate
-		public const bool IS_AUTOREGEN_RESTRICTED = true; // if the player only auto regenerates if he doesn't shoot.
-		public const bool IS_MOVEMENT_RESTRICTED = true; // if the player moves slower when shooting.
+	public enum Difficulty
+	{
+		Easy = 100,
+		Normal = 200,
+		Difficult = 400,
+		Lunatic = 1000,
 	}
 }

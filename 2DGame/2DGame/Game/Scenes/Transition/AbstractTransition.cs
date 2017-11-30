@@ -8,30 +8,20 @@ namespace Intro2DGame.Game.Scenes.Transition
 {
 	public abstract class AbstractTransition : Scene
 	{
-		public Scene TransitioningScene;
-		public string TransitioningKey;
+		private bool DidLambda;
 
-		private bool DidTransition;
+		private Action Lambda;
 
-		protected AbstractTransition (string key) : base(key) { }
+		protected AbstractTransition() : base("transition")
+		{}
 
-		protected AbstractTransition(Scene newScene, string key) : base(key)
+		public void SetLambda(Action lambda) => Lambda = lambda;
+
+		protected void RunLambda()
 		{
-			this.TransitioningScene = newScene;
-		}
-
-		protected AbstractTransition(string newScene, string key) : base(key)
-		{
-			this.TransitioningKey = newScene;
-		}
-
-		protected void AddTransitioningScene()
-		{
-			if (DidTransition) return;
-			DidTransition = true;
-
-			if (TransitioningScene != null) SceneManager.AddScene(TransitioningScene);
-			else if (TransitioningKey != null) SceneManager.AddScene(TransitioningKey);
+			if (DidLambda) return;
+			DidLambda = true;
+			Lambda();
 		}
 
 	}

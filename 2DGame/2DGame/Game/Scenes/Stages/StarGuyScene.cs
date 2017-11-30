@@ -1,21 +1,34 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Intro2DGame.Game.Scenes;
+using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
 
-namespace Intro2DGame.Game.Sprites.Enemies
+namespace Intro2DGame.Game.Scenes.Stages
 {
-	public class ExampleEnemy : AbstractSprite
+	public class StarGuyScene : Scene
+	{
+		public StarGuyScene() : base("starguy")
+		{
+			
+		}
+
+		protected override void CreateScene()
+		{
+			AddSprite(new PlayerSprite(new Vector2(100, 360)));
+			AddSprite(new StarGuy(new Vector2(1180, 360)));
+		}
+	}
+	internal class StarGuy : AbstractSprite
 	{
 		// This is the current state our enemy is in.
 		private int State = 0;
 
 		// Texture is just a placeholder for now.
-		public ExampleEnemy() : base("tutorialplayer", new Vector2(700, 350))
+		public StarGuy(Vector2 position) : base("tutorialplayer", position)
 		{
 			this.Enemy = true;
 			this.Persistence = true;
@@ -42,6 +55,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 					foreach (AbstractOrb t in keyValuePair.Value)
 					{
 						t.Delete();
+						// spawn a new sprite that aims at StarGuy
 					}
 				}
 			}
@@ -52,11 +66,13 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			{
 				// Movement and logic for State 0
 
-			} else if (this.State == 1)
+			}
+			else if (this.State == 1)
 			{
 				// Movement and logic for State 1
 
-			} else if (this.State == 2)
+			}
+			else if (this.State == 2)
 			{
 				// Movement and logic for State 2
 

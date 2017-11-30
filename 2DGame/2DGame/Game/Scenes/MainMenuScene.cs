@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			AddSprite(new MainMenuSprite());
 			AddSprite(new ImageSprite("title", new Vector2(400, 40)));
-			AddSprite(new MainMenuPlayer(new Vector2(50, 360)));
+			AddSprite(new MainMenuPlayer());
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -50,29 +50,9 @@ namespace Intro2DGame.Game.Scenes
 		private readonly List<MainMenuEntry> MenuEntries;
 
 		/// <summary>
-		/// Timeout for holding down a button
-		/// </summary>
-		private const int TIMEOUT_DELAY = 20;
-
-		/// <summary>
 		/// Font used to autogenerate the textures
 		/// </summary>
 		private const string FONT_NAME = "example";
-
-		/// <summary>
-		/// Current timeout.
-		/// </summary>
-		//private int Timeout = 0;
-
-		///// <summary>
-		///// The currently selected index
-		///// </summary>
-		//private int SelectedIndex;
-
-		///// <summary>
-		///// Index of the first displayed item
-		///// </summary>
-		//private int UpShowIndex;
 
 		/// <summary>
 		/// Creates the main menu and initialized all fields
@@ -89,7 +69,7 @@ namespace Intro2DGame.Game.Scenes
 			{
 
 				//
-				new MainMenuEntry("First Round", FONT_NAME, "round1", new Vector2(x, y += spacing)),
+				new MainMenuEntry("Laser guy Round", FONT_NAME, "laserguy", new Vector2(x, y += spacing)),
 
 				//
 				new MainMenuEntry("Second Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
@@ -111,6 +91,9 @@ namespace Intro2DGame.Game.Scenes
 						SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
 					}
 				}, new Vector2(x, y += spacing)),
+
+				// difficulty
+				new DifficultyMainMenuEntry("Difficulty: Normal", FONT_NAME, new Vector2(x, y += spacing)),
 			};
 		}
 
@@ -153,7 +136,9 @@ namespace Intro2DGame.Game.Scenes
 
 	internal class MainMenuEntry : AbstractSprite
 	{
-		private readonly string Text, Font, SceneKey;
+		protected string Text;
+		protected readonly string Font;
+		protected readonly string SceneKey;
 
 		public MainMenuEntry(string text, string font, string sceneKey, Vector2 position)
 		{
@@ -182,10 +167,39 @@ namespace Intro2DGame.Game.Scenes
 		{
 			this.Lambda = lambda;
 		}
-		
+
 		public override void Update(GameTime gameTime)
 		{
 			this.Lambda.Invoke();
+		}
+	}
+
+	internal class DifficultyMainMenuEntry : MainMenuEntry
+	{
+
+		public DifficultyMainMenuEntry(string text, string font, Vector2 position) : base(text, font, "", position)
+		{
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			switch (GameConstants.Difficulty)
+			{
+				case Difficulty.Easy:
+					GameConstants.Difficulty = Difficulty.Normal;
+					break;
+				case Difficulty.Normal:
+					GameConstants.Difficulty = Difficulty.Difficult;
+					break;
+				case Difficulty.Difficult:
+					GameConstants.Difficulty = Difficulty.Lunatic;
+					break;
+				case Difficulty.Lunatic:
+					GameConstants.Difficulty = Difficulty.Easy;
+					break;
+			}
+
+			this.Text = $"Difficulty: {GameConstants.Difficulty.ToString()}";
 		}
 	}
 
@@ -208,10 +222,12 @@ namespace Intro2DGame.Game.Scenes
 
 		private Boolean IsShootingEnabled = false;
 
-		public MainMenuPlayer(Vector2 position) : base("player", position)
+		public MainMenuPlayer() : base("player", new Vector2())
 		{
 
-			this.PlayerArea = new Rectangle(50, 100, 350, 350);
+			this.PlayerArea = new Rectangle(50, 100, 350, 500);
+
+			this.Position = new Vector2(PlayerArea.X + PlayerArea.Width / 2, PlayerArea.Y + PlayerArea.Height / 2);
 		}
 
 
@@ -272,15 +288,15 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
+			spriteBatch.Draw(temp, PlayerArea, Color.White);
 			base.Draw(spriteBatch);
 
-			spriteBatch.Draw(temp, PlayerArea, Color.White);
 		}
 
 		public override void LoadContent()
 		{
 			temp = new Texture2D(Game.GetInstance().GraphicsDevice, 1, 1);
-			temp.SetData(new Color[] { new Color(0x10101010u), });
+			temp.SetData(new [] { new Color(0x20202020u), });
 		}
 
 		public override void UnloadContent()
