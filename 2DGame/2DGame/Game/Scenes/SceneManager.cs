@@ -66,11 +66,10 @@ namespace Intro2DGame.Game.Scenes
 
 			RegisterScene(new MainMenuScene());
 
-			RegisterScene(new TutorialScene());
+			//RegisterScene(new TutorialScene());
 			RegisterScene(new Round1Scene());
 
 			RegisterScene(new MenuScene());
-
 
 			SetScene("mainmenu");
 		}
@@ -97,6 +96,8 @@ namespace Intro2DGame.Game.Scenes
 			sm.SceneStack.Clear();
 			sm.SceneStack.Add(sm.SceneDictionary[key]);
 			sm.CurrentScene.ResetScene();
+			sm.CurrentScene.LoadContent();
+
 		}
 
 		/// <summary>
@@ -143,8 +144,8 @@ namespace Intro2DGame.Game.Scenes
 				var sm = GetInstance();
 
 				sm.SceneStack.Add(sm.SceneDictionary[key]);
-				sm.CurrentScene.LoadContent();
 				sm.CurrentScene.ResetScene();
+				sm.CurrentScene.LoadContent();
 			}
 			else
 			{
@@ -168,8 +169,8 @@ namespace Intro2DGame.Game.Scenes
 				var sm = GetInstance();
 
 				sm.SceneStack.Add(scene);
-				sm.CurrentScene.LoadContent();
 				sm.CurrentScene.ResetScene();
+				sm.CurrentScene.LoadContent();
 			}
 			else
 			{

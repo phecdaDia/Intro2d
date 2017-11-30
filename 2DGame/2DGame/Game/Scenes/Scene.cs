@@ -36,9 +36,9 @@ namespace Intro2DGame.Game.Scenes
 		/// </summary>
 		public string SceneKey { get; }
 
-		private GameTime LifeTime;
+		private readonly GameTime LifeTime;
 
-		public Scene(string key)
+		protected Scene(string key)
 		{
 			// Setting our sceneKey
 			SceneKey = key;
@@ -162,7 +162,11 @@ namespace Intro2DGame.Game.Scenes
 			}
 
 			foreach (var c in deleted)
+			{
+				c.UnloadContent();
+
 				SpriteDictionary[this.SceneKey][c.GetType()].Remove(c);
+			}
 
 			// Adding spawned Sprites to the SpriteDictionary
 
@@ -226,11 +230,30 @@ namespace Intro2DGame.Game.Scenes
 		/// <summary>
 		/// Loads all custom content
 		/// </summary>
-		public virtual void LoadContent() {}
+		public virtual void LoadContent()
+		{
+			foreach (var spriteDict in GetAllSprites())
+			{
+				foreach (var sprite in spriteDict.Value)
+				{
+					((AbstractSprite) sprite).LoadContent();
+				}
+			}
+		}
 
 		/// <summary>
 		/// Should unload all custom content
 		/// </summary>
-		public virtual void UnloadContent() {}
+		public virtual void UnloadContent()
+		{
+			foreach (var spriteDict in GetAllSprites())
+			{
+				foreach (var sprite in spriteDict.Value)
+				{
+					((AbstractSprite)sprite).UnloadContent();
+				}
+			}
+		}
+
 	}
 }

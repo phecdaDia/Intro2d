@@ -83,6 +83,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 					Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
 
+					// Change this to different hitboxes. 
 					if ((player.GetPosition() - q).Length() < 16) player.Damage(GameConstants.PLAYER_DAMAGE);
 
 				}
