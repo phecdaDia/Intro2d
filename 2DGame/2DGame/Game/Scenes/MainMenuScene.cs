@@ -23,7 +23,6 @@ namespace Intro2DGame.Game.Scenes
 		{
 			AddSprite(new MainMenuSprite());
 			AddSprite(new ImageSprite("title", new Vector2(400, 40)));
-			AddSprite(new MainMenuPlayer(new Vector2(50, 360)));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -62,17 +61,17 @@ namespace Intro2DGame.Game.Scenes
 		/// <summary>
 		/// Current timeout.
 		/// </summary>
-		//private int Timeout = 0;
+		private int Timeout = 0;
 
-		///// <summary>
-		///// The currently selected index
-		///// </summary>
-		//private int SelectedIndex;
+		/// <summary>
+		/// The currently selected index
+		/// </summary>
+		private int SelectedIndex;
 
-		///// <summary>
-		///// Index of the first displayed item
-		///// </summary>
-		//private int UpShowIndex;
+		/// <summary>
+		/// Index of the first displayed item
+		/// </summary>
+		private int UpShowIndex;
 
 		/// <summary>
 		/// Creates the main menu and initialized all fields
@@ -80,22 +79,27 @@ namespace Intro2DGame.Game.Scenes
 		public MainMenuSprite()
 		{
 
-			var x = 500;
+			var x = 70;
 			var y = 85;
 			var spacing = 45;
 
 			// Adding all entries to the list
 			MenuEntries = new List<MainMenuEntry>
 			{
+				// Entry for the tutorial
+				new MainMenuEntry("Tutorial", FONT_NAME, "tutorial", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("First Round", FONT_NAME, "round1", new Vector2(x, y += spacing)),
+				new MainMenuEntry("TODO", FONT_NAME, "round1", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("Second Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+				new MainMenuEntry("TODO Round 1", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("Final Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+				new MainMenuEntry("TODO Round 2", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+
+				//
+				new MainMenuEntry("TODO Finals", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				// entry for the first debug scene
 				new MainMenuEntry("example fight HARD", FONT_NAME, "example", new Vector2(x, y += spacing)),
@@ -117,43 +121,93 @@ namespace Intro2DGame.Game.Scenes
 		public override void Update(GameTime gameTime)
 		{
 
-			var playerOrbs = SceneManager.GetSprites<PlayerOrb>();
+			MenuEntries[SelectedIndex].Update(gameTime);
 
-			foreach (var playerOrb in playerOrbs)
+			// it works, don't touch this.
+
+			Timeout -= Timeout > 0 ? 1 : 0;
+
+			// Getting index down
+			if (KeyboardManager.IsKeyDown(Keys.W) || KeyboardManager.IsKeyDown(Keys.Up) || Timeout == 0 && (KeyboardManager.IsKeyPressed(Keys.W) || KeyboardManager.IsKeyPressed(Keys.Up)))
 			{
-				foreach (var menuEntry in MenuEntries)
+				SelectedIndex--;
+				if (UpShowIndex > 0) UpShowIndex--;
+				if (SelectedIndex < 0)
 				{
-					if (!(playerOrb.GetPosition().X >= menuEntry.GetPosition().X) || playerOrb.IsDeleted()) continue;
-
-					if (!(playerOrb.GetPosition().Y >= menuEntry.GetPosition().Y) ||
-					    !(playerOrb.GetPosition().Y <= menuEntry.GetPosition().Y + 32)) continue;
-
-					foreach (var po in playerOrbs) po.Delete();
-
-					menuEntry.Update(gameTime);
-					return;
+					UpShowIndex = MenuEntries.Count - MAX_MENU_ENTRIES;
+					if (UpShowIndex < 0) UpShowIndex = 0;
+					SelectedIndex += MenuEntries.Count;
 				}
+
+				Timeout = TIMEOUT_DELAY;
+			}
+
+			// Getting the index up
+			if (KeyboardManager.IsKeyDown(Keys.S) || KeyboardManager.IsKeyDown(Keys.Down) || Timeout == 0 && (KeyboardManager.IsKeyPressed(Keys.S) || KeyboardManager.IsKeyPressed(Keys.Down)))
+			{
+				SelectedIndex++;
+				if (SelectedIndex >= MenuEntries.Count)
+				{
+					SelectedIndex = 0;
+					UpShowIndex = 0;
+				}
+
+				if (SelectedIndex >= UpShowIndex + MAX_MENU_ENTRIES)
+					UpShowIndex++;
+
+				Timeout = TIMEOUT_DELAY;
 			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 
+			//spriteBatch.Draw(ImageManager.GetTexture2D("MenuItem/arrow"),
+			//	new Vector2(50, 85 + (SelectedIndex - UpShowIndex) * 50), Color.White);
+
 			var d = MenuEntries.Count > MAX_MENU_ENTRIES ? MAX_MENU_ENTRIES : MenuEntries.Count;
 			
 			if (MenuEntries.Count <= MAX_MENU_ENTRIES)
 			{
+				int z = 0;
 				foreach (var menuItem in MenuEntries)
 				{
+					if (z == SelectedIndex - UpShowIndex)
+					{
+						spriteBatch.Draw(
+							ImageManager.GetTexture2D("MenuItem/arrow"),
+							menuItem.GetPosition() - new Vector2(50, 0),
+							Color.White
+						);
+					}
 					menuItem.Draw(spriteBatch);
+					z++;
 				}
 			}
+			else
+			{ 
+				for (var i = 0; i < d; i++)
+				{
+					if (i == SelectedIndex - UpShowIndex)
+					{
+						spriteBatch.Draw(
+							ImageManager.GetTexture2D("MenuItem/arrow"),
+							MenuEntries[i + UpShowIndex].GetPosition() - new Vector2(50, 0),
+							Color.White
+						);
+					}
+					MenuEntries[i + UpShowIndex].Draw(spriteBatch);
+				}
+			}
+			//spriteBatch.DrawString(Game.FontArial, "Something! " + selectedIndex, new Vector2(100, 80), Color.Black);
+
+			spriteBatch.DrawString(Game.FontArial, $"{this.Timeout} - {this.SelectedIndex}", new Vector2(1), Color.Black);
 		}
 	}
 
 	internal class MainMenuEntry : AbstractSprite
 	{
-		private readonly string Text, Font, SceneKey;
+		public readonly string Text, Font, SceneKey;
 
 		public MainMenuEntry(string text, string font, string sceneKey, Vector2 position)
 		{
@@ -165,7 +219,10 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Update(GameTime gameTime)
 		{
-			SceneManager.AddScene(this.SceneKey, new TestTransition(1000));
+			if (KeyboardManager.IsKeyDown(Keys.Enter))
+			{
+				SceneManager.AddScene(this.SceneKey, new TestTransition(1000));
+			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -176,7 +233,7 @@ namespace Intro2DGame.Game.Scenes
 
 	internal class LambdaMainMenuEntry : MainMenuEntry
 	{
-		private readonly Action Lambda;
+		public readonly Action Lambda;
 
 		public LambdaMainMenuEntry(string text, string font, Action lambda, Vector2 position) : base(text, font, "", position)
 		{
@@ -185,107 +242,10 @@ namespace Intro2DGame.Game.Scenes
 		
 		public override void Update(GameTime gameTime)
 		{
-			this.Lambda.Invoke();
-		}
-	}
-
-	internal class MainMenuPlayer : AbstractAnimatedSprite
-	{
-
-		//public MainMenuPlayer(string key, Vector2 position, Point size, int delay) : base(key, position, size, delay)
-		//{
-		//}
-
-		private const int SHOOT_DELAY = 7;
-		private int ShootDelay;
-		
-		private int Shot;
-
-		private Rectangle PlayerArea;
-
-		// Temporary texture for debug
-		private Texture2D temp;
-
-		private Boolean IsShootingEnabled = false;
-
-		public MainMenuPlayer(Vector2 position) : base("player", position)
-		{
-
-			this.PlayerArea = new Rectangle(50, 100, 350, 350);
-		}
-
-
-		protected override void AddFrames()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
-
-			var movement = new Vector2();
-
-
-			// Shoots bullets
-
-			var ms = Mouse.GetState();
-			Shot -= Shot > 0 ? 1 : 0;
-
-			if (ms.LeftButton == ButtonState.Released) IsShootingEnabled = true;
-
-			if (ShootDelay-- <= 0 && IsShootingEnabled)
+			if (KeyboardManager.IsKeyDown(Keys.Enter))
 			{
-				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
-
-				{
-					SpawnSprite(new PlayerOrb(GetPosition(), Position + new Vector2(1, 0)));
-					ShootDelay = SHOOT_DELAY;
-
-					Shot = SHOOT_DELAY + 5;
-				}
+				this.Lambda.Invoke();
 			}
-
-			// buffering movement
-			if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
-			if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
-			if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
-			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
-
-			// normalizing movement
-			if (movement.LengthSquared() > 0f) movement.Normalize();
-
-			movement *= new Vector2(1.0f, 1.1f);
-			Position += movement * (Shot > 0 ? 2.75f : 4.25f);
-
-			
-			// Prevents player from leaving the screen
-			var halfTextureWidth = this.Texture.Width / 2;
-			var halfTextureHeight = this.Texture.Height / 2;
-
-			if (Position.X - halfTextureWidth < PlayerArea.Location.X) Position.X = PlayerArea.Location.X + halfTextureWidth;
-			if (Position.Y - halfTextureHeight < PlayerArea.Location.Y) Position.Y = PlayerArea.Location.Y + halfTextureHeight;
-
-			if (Position.X + halfTextureWidth > PlayerArea.Location.X + PlayerArea.Width) Position.X = PlayerArea.Location.X + PlayerArea.Width - halfTextureWidth;
-			if (Position.Y + halfTextureHeight > PlayerArea.Location.Y + PlayerArea.Height) Position.Y = PlayerArea.Location.Y + PlayerArea.Height - halfTextureHeight;
-		}
-
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			base.Draw(spriteBatch);
-
-			spriteBatch.Draw(temp, PlayerArea, Color.White);
-		}
-
-		public override void LoadContent()
-		{
-			temp = new Texture2D(Game.GetInstance().GraphicsDevice, 1, 1);
-			temp.SetData(new Color[] { new Color(0x10101010u), });
-		}
-
-		public override void UnloadContent()
-		{
-			temp.Dispose();
 		}
 	}
 }

@@ -80,6 +80,7 @@
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Scenes\MenuScene.cs" />
     <Compile Include="Game\Scenes\Stages\Round1Scene.cs" />
+    <Compile Include="Game\Scenes\Stages\TutorialScene.cs" />
     <Compile Include="Game\Scenes\Transition\AbstractTransition.cs" />
     <Compile Include="Game\Scenes\Transition\TestTransition.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />

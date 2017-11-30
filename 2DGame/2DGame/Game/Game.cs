@@ -58,7 +58,9 @@ namespace Intro2DGame.Game
 		/// </summary>
 		public static GameArguments GameArguments;
 
-		private readonly FrameCounter FrameCounter;
+		private double Framerate, MinimumFramerate;
+
+		private FrameCounter FrameCounter;
 
 		public Game(params string[] args)
 		{
@@ -79,6 +81,8 @@ namespace Intro2DGame.Game
 			IsMouseVisible = true;
 
 			this.IsFixedTimeStep = false;
+
+			this.MinimumFramerate = float.MaxValue;
 
 			this.FrameCounter = new FrameCounter();
 		}
