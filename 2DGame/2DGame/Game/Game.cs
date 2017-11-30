@@ -78,7 +78,7 @@ namespace Intro2DGame.Game
 
 			if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
 
-			IsMouseVisible = true;
+			//IsMouseVisible = true;
 
 			this.IsFixedTimeStep = false;
 
