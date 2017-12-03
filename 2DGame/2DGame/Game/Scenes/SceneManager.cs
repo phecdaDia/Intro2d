@@ -68,6 +68,7 @@ namespace Intro2DGame.Game.Scenes
 
 			//RegisterScene(new TutorialScene());
 			RegisterScene(new LaserGuyScene());
+			RegisterScene(new StarGuyScene());
 
 			RegisterScene(new MenuScene());
 

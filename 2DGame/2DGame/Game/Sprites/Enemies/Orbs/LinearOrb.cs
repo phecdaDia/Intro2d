@@ -8,7 +8,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 	/// </summary>
 	public class LinearOrb : AbstractOrb
 	{
-		private float Speed;
+		protected float Speed;
 
 		public LinearOrb(Vector2 position, Vector2 direction, float speed) : this("orb3", position, direction, speed) {}
 

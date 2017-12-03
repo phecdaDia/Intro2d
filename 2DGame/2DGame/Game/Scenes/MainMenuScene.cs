@@ -72,7 +72,7 @@ namespace Intro2DGame.Game.Scenes
 				new MainMenuEntry("Laser guy Round", FONT_NAME, "laserguy", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("Second Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+				new MainMenuEntry("Second Round", FONT_NAME, "starguy", new Vector2(x, y += spacing)),
 
 				//
 				new MainMenuEntry("Final Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
@@ -137,8 +137,8 @@ namespace Intro2DGame.Game.Scenes
 	internal class MainMenuEntry : AbstractSprite
 	{
 		protected string Text;
-		protected readonly string Font;
-		protected readonly string SceneKey;
+		private readonly string Font;
+		private readonly string SceneKey;
 
 		public MainMenuEntry(string text, string font, string sceneKey, Vector2 position)
 		{
@@ -206,10 +206,6 @@ namespace Intro2DGame.Game.Scenes
 	internal class MainMenuPlayer : AbstractAnimatedSprite
 	{
 
-		//public MainMenuPlayer(string key, Vector2 position, Point size, int delay) : base(key, position, size, delay)
-		//{
-		//}
-
 		private const int SHOOT_DELAY = 7;
 		private int ShootDelay;
 		
@@ -220,7 +216,7 @@ namespace Intro2DGame.Game.Scenes
 		// Temporary texture for debug
 		private Texture2D temp;
 
-		private Boolean IsShootingEnabled = false;
+		private Boolean IsShootingEnabled;
 
 		public MainMenuPlayer() : base("player", new Vector2())
 		{
