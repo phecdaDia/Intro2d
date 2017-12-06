@@ -21,7 +21,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public PlayerSprite(Vector2 position) : base("player", position)
 		{
-			LayerDepth = 1;
+			LayerDepth = 0;
 			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
 			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
@@ -94,11 +94,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			var tp1 = Position + new Vector2(0, 16) - position;
-			var tp2 = Position + new Vector2(0, 0) - position;
-			var tp3 = Position + new Vector2(0, -16) - position;
-
-			return tp1.LengthSquared() <= 256 || tp2.LengthSquared() <= 256 || tp3.LengthSquared() <= 256;
+			return (position - this.Position).LengthSquared() < 16;
 		}
 
 		public void Damage(int amount)
@@ -106,6 +102,12 @@ namespace Intro2DGame.Game.Sprites
 			if (Invulnerable > 0) return;
 			this.Health -= amount;
 			this.Invulnerable = 15;
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			base.Draw(spriteBatch);
+			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), this.Position - new Vector2(4), Color.White);
 		}
 	}
 

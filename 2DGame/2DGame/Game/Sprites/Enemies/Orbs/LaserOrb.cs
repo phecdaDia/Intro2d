@@ -15,17 +15,17 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 	{
 		private readonly float ChargeSpan;
 		private readonly float LifeSpan;
-        private bool Used;
+		private bool Used;
 
-        public LaserOrb(Vector2 position, Vector2 direction, float chargeSpan = 1.0f, float lifeSpan = 2.5f) : base("OrbLaser", position, direction,
+		public LaserOrb(Vector2 position, Vector2 direction, float chargeSpan = 1.0f, float lifeSpan = 2.5f) : base("OrbLaser", position, direction,
 			new Point(32, 8))
 		{
 			this.ChargeSpan = chargeSpan;
 			this.LifeSpan = lifeSpan;
 
 			Scale.X = 100;
-            Used = false;
-            Hue = Color.Red;
+			Used = false;
+			Hue = Color.Red;
 			
 			
 		}
@@ -50,7 +50,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 			if (LifeTime.TotalGameTime.TotalSeconds > this.LifeSpan) this.Delete();
 			else if (LifeTime.TotalGameTime.TotalSeconds > this.ChargeSpan && !Used)
-            {
+			{
 				this.CurrentFrame = 1;
 
 				foreach (var player in SceneManager.GetSprites<PlayerSprite>())
@@ -91,10 +91,10 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 					var q = GetPosition() + a * Direction;
 
-                    //Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
+					//Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
 
-                    // Change this to different hitboxes. 
-                    if ((player.GetPosition() - q).Length() < 16) { player.Damage((int)GameConstants.Difficulty); Used = true; }
+					// Change this to different hitboxes. 
+					if ((player.GetPosition() - q).Length() < 16) { player.Damage((int)GameConstants.Difficulty); Used = true; }
 
 				}
 			}
