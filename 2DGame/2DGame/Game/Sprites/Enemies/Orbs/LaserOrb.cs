@@ -13,11 +13,12 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
 	public class LaserOrb : AbstractOrb
 	{
+        private bool Used;
 		public LaserOrb(Vector2 position, Vector2 direction) : base("OrbLaser", position, direction, 1000, new Point(32, 8))
 		{
 			Scale.X = 100;
-
-			Hue = Color.Red;
+            Used = false;
+            Hue = Color.Red;
 			
 			
 		}
@@ -39,9 +40,9 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-
+            
 			if (LifeTime.TotalGameTime.TotalSeconds > 1.5f) this.Delete();
-			else if (LifeTime.TotalGameTime.TotalSeconds > 1.0f)
+			else if (LifeTime.TotalGameTime.TotalSeconds > 1.0f&&!Used)
 			{
 				foreach (var player in SceneManager.GetSprites<PlayerSprite>())
 				{
@@ -81,10 +82,10 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 					var q = GetPosition() + a * Direction;
 
-					//Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
+                    //Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
 
-					// Change this to different hitboxes. 
-					if ((player.GetPosition() - q).Length() < 16) player.Damage((int)GameConstants.Difficulty);
+                    // Change this to different hitboxes. 
+                    if ((player.GetPosition() - q).Length() < 16) { player.Damage((int)GameConstants.Difficulty); Used = true; }
 
 				}
 			}
