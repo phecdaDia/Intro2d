@@ -27,7 +27,15 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			Rotation = (float)Math.Atan2(direction.Y, direction.X);
 		}
 
-		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, int delay, Point size) : base(textureKey, position, size, delay)
+		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, float delay, Point size) : base(textureKey, position, size, delay)
+		{
+			// default values
+			Direction = direction;
+			if (Direction.LengthSquared() > 0) Direction.Normalize();
+			Rotation = (float)Math.Atan2(direction.Y, direction.X);
+		}
+
+		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, Point size) : base(textureKey, position, size)
 		{
 			// default values
 			Direction = direction;

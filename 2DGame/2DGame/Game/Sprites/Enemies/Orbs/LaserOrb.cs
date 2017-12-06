@@ -13,9 +13,16 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 {
 	public class LaserOrb : AbstractOrb
 	{
+		private readonly float ChargeSpan;
+		private readonly float LifeSpan;
         private bool Used;
-		public LaserOrb(Vector2 position, Vector2 direction) : base("OrbLaser", position, direction, 1000, new Point(32, 8))
+
+        public LaserOrb(Vector2 position, Vector2 direction, float chargeSpan = 1.0f, float lifeSpan = 2.5f) : base("OrbLaser", position, direction,
+			new Point(32, 8))
 		{
+			this.ChargeSpan = chargeSpan;
+			this.LifeSpan = lifeSpan;
+
 			Scale.X = 100;
             Used = false;
             Hue = Color.Red;
@@ -25,7 +32,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 
 		protected override void AddFrames()
 		{
-			AddAnimation(new Point[]
+			AddAnimation(new []
 			{
 				new Point(0, 0),
 				new Point(32, 0),
@@ -39,11 +46,13 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 		}
 		public override void Update(GameTime gameTime)
 		{
-			base.Update(gameTime);
-            
-			if (LifeTime.TotalGameTime.TotalSeconds > 1.5f) this.Delete();
-			else if (LifeTime.TotalGameTime.TotalSeconds > 1.0f&&!Used)
-			{
+			//base.Update(gameTime);
+
+			if (LifeTime.TotalGameTime.TotalSeconds > this.LifeSpan) this.Delete();
+			else if (LifeTime.TotalGameTime.TotalSeconds > this.ChargeSpan && !Used)
+            {
+				this.CurrentFrame = 1;
+
 				foreach (var player in SceneManager.GetSprites<PlayerSprite>())
 				{
 					//float Inc(Vector2 t) => t.X / t.Y;
@@ -52,7 +61,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 					//// This is some black magic. TODO Will change this later
 					////if (j > 0.5858f && j < 1.4142f) player.Damage(GameConstants.PLAYER_DAMAGE);
 
-					var invDir = new Vector2(Direction.Y, Direction.X * -1.0f);
+					//var invDir = new Vector2(Direction.Y, Direction.X * -1.0f);
 
 					var ex = Position.X;
 					var ey = Position.Y;

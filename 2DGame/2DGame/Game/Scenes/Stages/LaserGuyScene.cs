@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Intro2DGame.Game.Sprites;
@@ -39,12 +40,22 @@ namespace Intro2DGame.Game.Scenes.Stages
         private double DauerZeit;
         private int LaserShoot;
         private float Dreh;
+
+		private double ElapsedSeconds;
+
+		// This is the current state our enemy is in.
+		private int State = 0;
+
+		private int HelpState = 0;
+
+
 		public LaserGuySprite(Vector2 position):base("tutorialplayer",position)
 		{
+
+			this.MaxHealth = 750;
+			this.Health = 750;
             this.Enemy = true;
             this.Persistence = true;
-            this.MaxHealth = 2500;
-            this.Health = 2500;
             DauerZeit = 0f;
             LaserShoot = 0;
             ShootDelay = 200f;
@@ -108,4 +119,41 @@ namespace Intro2DGame.Game.Scenes.Stages
             ;
         }
     }
+			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+
+			var state = State;
+
+			if (Health < 250) State = 2;
+			else if (Health < 500) State = 1;
+
+			if (state != State) // State changed
+			{
+				// Remove all orbs once
+				var sprites = SceneManager.GetAllSprites();
+				foreach (var keyValuePair in sprites)
+				{
+					if (!keyValuePair.Key.IsSubclassOf(typeof(AbstractOrb))) continue;
+
+					foreach (AbstractOrb t in keyValuePair.Value)
+					{
+						t.Delete();
+						
+					}
+				}
+			}
+
+			var player = SceneManager.GetSprites<PlayerSprite>().First();
+
+			if (State == 0)
+			{
+				if (ElapsedSeconds >= 1.0f)
+				{
+					ElapsedSeconds -= 1.0f;
+					SpawnSprite(new LaserOrb(this.Position, player.GetPosition() - this.GetPosition(), 2f, 10f));
+				}
+			}
+			
+		}
+	}
 }
+
