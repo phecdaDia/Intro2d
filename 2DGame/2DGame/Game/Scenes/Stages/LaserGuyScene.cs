@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Intro2DGame.Game.Sprites;
@@ -26,11 +27,22 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 	internal class LaserGuySprite : AbstractAnimatedSprite
 	{
-		private int Shoot_Delay;
-		private int ShootDelay;
+
+		private double ElapsedSeconds;
+
+		// This is the current state our enemy is in.
+		private int State = 0;
+
+		private int HelpState = 0;
+
+
 		public LaserGuySprite(Vector2 position):base("tutorialplayer",position)
 		{
-			ShootDelay = Shoot_Delay = 40;
+			this.Enemy = true;
+			this.Persistence = true;
+
+			this.MaxHealth = 750;
+			this.Health = 750;
 		}
 
 		protected override void AddFrames()
@@ -40,26 +52,41 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		public override void Update(GameTime gameTime)
 		{
-			var MoveMent = new Vector2();
-			var Area = Game.RenderSize;
-			if (KeyboardManager.IsKeyPressed(Keys.Up)) MoveMent += new Vector2(0, -1);
-			if (KeyboardManager.IsKeyPressed(Keys.Down)) MoveMent += new Vector2(0, 1);
-			if (KeyboardManager.IsKeyPressed(Keys.Left)) MoveMent += new Vector2(-1, 0);
-			if (KeyboardManager.IsKeyPressed(Keys.Right)) MoveMent += new Vector2(1, 0);
-			MoveMent *= new Vector2(1.1f, 1.0f);
-			Position += MoveMent * 4.25f;
-			// Prevents player from leaving the screen
-			if (Position.X + Texture.Width / 2f > Area.X) Position.X = Area.X - Texture.Width / 2f;
-			if (Position.Y + Texture.Height / 2f > Area.Y) Position.Y = Area.Y - Texture.Height / 2f;
-			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
-			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
+			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (ShootDelay-- <= 0 && KeyboardManager.IsKeyPressed(Keys.M))
+			var state = State;
+
+			if (Health < 250) State = 2;
+			else if (Health < 500) State = 1;
+
+			if (state != State) // State changed
 			{
-				ShootDelay = Shoot_Delay;
-				SpawnSprite(new LaserOrb(Position, SceneManager.GetSprites<PlayerSprite>().First().GetPosition() - this.GetPosition()));
+				// Remove all orbs once
+				var sprites = SceneManager.GetAllSprites();
+				foreach (var keyValuePair in sprites)
+				{
+					if (!keyValuePair.Key.IsSubclassOf(typeof(AbstractOrb))) continue;
+
+					foreach (AbstractOrb t in keyValuePair.Value)
+					{
+						t.Delete();
+						
+					}
+				}
 			}
-			//var sprites = SceneManager.GetAllSprites();
+
+			var player = SceneManager.GetSprites<PlayerSprite>().First();
+
+			if (State == 0)
+			{
+				if (ElapsedSeconds >= 1.0f)
+				{
+					ElapsedSeconds -= 1.0f;
+					SpawnSprite(new LaserOrb(this.Position, player.GetPosition() - this.GetPosition(), 2f, 10f));
+				}
+			}
+			
 		}
 	}
 }
+

@@ -20,12 +20,14 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Delay for every frame in Milliseconds
 		/// </summary>
-		private readonly int Delay;
+		private readonly double Delay;
+
+		private double CurrentOffset;
 
 		/// <summary>
 		/// Current Frame to be displayed.
 		/// </summary>
-		private int CurrentFrame, CurrentOffset;
+		protected int CurrentFrame;
 
 		/// <summary>
 		/// Default animation title.
@@ -37,13 +39,16 @@ namespace Intro2DGame.Game.Sprites
 		/// </summary>
 		private readonly Point Size;
 
-		public AbstractAnimatedSprite(string key, Vector2 position, Point size, int delay) : base(key, position)
+		public AbstractAnimatedSprite(string key, Vector2 position, Point size, float delay) : this(key, position, size)
+		{
+			// setting the delay
+			Delay = delay;
+		}
+
+		public AbstractAnimatedSprite(string key, Vector2 position, Point size) : base(key, position)
 		{
 			// Check if we already created our dictionary
 			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Dictionary<string, Point[]>>();
-
-			// setting the delay
-			Delay = delay;
 
 			this.Size = size;
 
@@ -106,7 +111,7 @@ namespace Intro2DGame.Game.Sprites
 		{
 			var t = GetType();
 
-			this.CurrentOffset += gameTime.ElapsedGameTime.Milliseconds;
+			this.CurrentOffset += gameTime.ElapsedGameTime.TotalSeconds;
 
 			while (CurrentOffset >= Delay)
 			{
