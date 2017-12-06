@@ -71,28 +71,12 @@ namespace Intro2DGame.Game.Scenes.Stages
             //var MoveMent = new Vector2();
             DauerZeit += gameTime.ElapsedGameTime.Milliseconds;
             var Area = Game.RenderSize;
-            /*
-			if (KeyboardManager.IsKeyPressed(Keys.Up)) MoveMent += new Vector2(0, -1);
-			if (KeyboardManager.IsKeyPressed(Keys.Down)) MoveMent += new Vector2(0, 1);
-			if (KeyboardManager.IsKeyPressed(Keys.Left)) MoveMent += new Vector2(-1, 0);
-			if (KeyboardManager.IsKeyPressed(Keys.Right)) MoveMent += new Vector2(1, 0);
-			MoveMent *= new Vector2(1.1f, 1.0f);
-			Position += MoveMent * 4.25f;
-			// Prevents player from leaving the screen
-			if (Position.X + Texture.Width / 2f > Area.X) Position.X = Area.X - Texture.Width / 2f;
-			if (Position.Y + Texture.Height / 2f > Area.Y) Position.Y = Area.Y - Texture.Height / 2f;
-			if (Position.X - Texture.Width / 2f < 0) Position.X = Texture.Width / 2f;
-			if (Position.Y - Texture.Height / 2f < 100) Position.Y = 100 + Texture.Height / 2f;
-            */
             var sprites = SceneManager.GetAllSprites();
             foreach (var k in sprites)
             {
                 if (!k.Key.IsSubclassOf(typeof(PlayerOrb))) continue;
                 foreach (AbstractOrb t in k.Value)
-                {
                     t.Delete();
-                    SpawnSprite(new PlayerOrb(t.GetPosition(), this.GetPosition()));
-                }
             }
             if(DauerZeit>ShootDelay)
             {
@@ -118,8 +102,7 @@ namespace Intro2DGame.Game.Scenes.Stages
                    (position - this.GetPosition() + new Vector2(0, 16)).Length() <= 16
             ;
         }
-    }
-			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+    }/*
 
 			var state = State;
 
@@ -142,18 +125,16 @@ namespace Intro2DGame.Game.Scenes.Stages
 				}
 			}
 
-			var player = SceneManager.GetSprites<PlayerSprite>().First();
+	
 
 			if (State == 0)
 			{
-				if (ElapsedSeconds >= 1.0f)
-				{
-					ElapsedSeconds -= 1.0f;
-					SpawnSprite(new LaserOrb(this.Position, player.GetPosition() - this.GetPosition(), 2f, 10f));
-				}
+
 			}
 			
 		}
-	}
+        }
+        */
+	
 }
 
