@@ -216,6 +216,9 @@ namespace Intro2DGame.Game
 
 	internal class FrameCounter
 	{
+		private readonly int DELTA_BUFFER_SIZE = 100;
+
+
 		public FrameCounter()
 		{
 			this.DeltaBuffer = new Queue<double>();
@@ -230,24 +233,24 @@ namespace Intro2DGame.Game
 		{
 			var framerate = 1000d / gameTime.ElapsedGameTime.TotalMilliseconds;
 
-			if (DeltaBuffer.Count > 10) DeltaBuffer.Dequeue();
+			if (DeltaBuffer.Count > DELTA_BUFFER_SIZE) DeltaBuffer.Dequeue();
 			DeltaBuffer.Enqueue(framerate);
 			
 
 			if (KeyboardManager.IsKeyDown(Keys.NumPad0)) Reset();
-			if (AverageFramerate <= MinimumFramerate) MinimumFramerate = AverageFramerate;
+			if (AverageFramerate <= MinimumFramerate || MinimumFramerate < 0.0d) MinimumFramerate = AverageFramerate;
 		}
 
 		private double GetAverageFramerate()
 		{
-			var temp = DeltaBuffer.Count() <= 10 ? 1000d : DeltaBuffer.Average();
-			return temp >= 1000d ? 1000d : temp;
+			var temp = DeltaBuffer.Count > 0 ? DeltaBuffer.Average() : -1d;
+			return double.IsInfinity(temp) ? -1d : temp;
 		}
 
 		internal void Reset()
 		{
 			DeltaBuffer.Clear();
-			MinimumFramerate = 100d;
+			MinimumFramerate = -1d;
 		}
 	}
 }

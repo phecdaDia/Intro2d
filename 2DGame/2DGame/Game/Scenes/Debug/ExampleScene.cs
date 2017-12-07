@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Scenes.Debug
 			//this.AddSprite(new AnimationTestSprite(new Vector2(200, 200)));
 			//this.AddSprite(new RandomSpawnerSprite<OrbSprite>(1000));
 
-			AddSprite(new DummyEnemy(new Vector2(980, 360), 500, 100d, 31));
+			AddSprite(new DummyEnemy(new Vector2(1180, 360), 500, 80d, 23));
 			//AddSprite(new DummyEnemy(new Vector2(700, 250)));
 			//AddSprite(new DummyEnemy(new Vector2(700, 450)));
 		}

@@ -90,7 +90,7 @@ namespace Intro2DGame.Game.Scenes
 		/// <param name="key">Key of the scene</param>
 		public static void SetScene(string key)
 		{
-			Game.ResetFrameCounter();
+			//Game.ResetFrameCounter();
 
 			var sm = GetInstance();
 
@@ -117,7 +117,7 @@ namespace Intro2DGame.Game.Scenes
 		/// </summary>
 		private static void RemoveScene(AbstractTransition transition = null)
 		{
-			Game.ResetFrameCounter();
+			//Game.ResetFrameCounter();
 
 			if (transition == null)
 			{
@@ -148,7 +148,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			if (key == GetCurrentScene().SceneKey) return;
 
-			Game.ResetFrameCounter();
+			//Game.ResetFrameCounter();
 
 			if (transition == null)
 			{
@@ -173,7 +173,7 @@ namespace Intro2DGame.Game.Scenes
 		/// <param name="transition"></param>
 		public static void AddScene(Scene scene, AbstractTransition transition = null)
 		{
-			Game.ResetFrameCounter();
+			//Game.ResetFrameCounter();
 
 			if (transition == null)
 			{

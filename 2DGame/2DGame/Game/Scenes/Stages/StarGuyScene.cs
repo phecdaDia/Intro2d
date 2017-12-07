@@ -48,13 +48,15 @@ namespace Intro2DGame.Game.Scenes.Stages
 		private double ElapsedSeconds;
 
 		// Texture is just a placeholder for now.
-		public StarGuy(Vector2 position) : base("tutorialplayer", position)
+		public StarGuy(Vector2 position) : base("Enemies/profile-64p-flip", position)
 		{
 			this.Enemy = true;
 			this.Persistence = true;
 
 			this.MaxHealth = 2500;
 			this.Health = 2500;
+
+			this.LayerDepth = 1;
 		}
 
 		public override void Update(GameTime gameTime)
