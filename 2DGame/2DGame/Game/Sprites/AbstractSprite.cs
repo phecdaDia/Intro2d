@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Microsoft.Xna.Framework;
@@ -47,6 +48,8 @@ namespace Intro2DGame.Game.Sprites
 		/// Higher values will be drawn later resulting in being in the foreground
 		/// </summary>
 		public int LayerDepth;
+
+		public Vector2 TextureSize => new Vector2(Texture.Width, Texture.Height) * Scale;
 
 		/// <summary>
 		/// Maximum amount of <see cref="Health"/>
@@ -109,9 +112,9 @@ namespace Intro2DGame.Game.Sprites
 		protected Texture2D Texture
 		{
 			//get => TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null;
-			get { return TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null; }
+			get => TextureDictionary.ContainsKey(GetType()) ? TextureDictionary[GetType()] : null;
 			//set => TextureDictionary[GetType()] = value;
-			set { TextureDictionary[GetType()] = value; }
+			set => TextureDictionary[GetType()] = value;
 		}
 
 		/// <summary>
@@ -172,18 +175,18 @@ namespace Intro2DGame.Game.Sprites
 			);
 
 
-			// Draw a red pixel at the position
-			spriteBatch.Draw(
-				Game.WhitePixel,
-				Position,
-				null,
-				Hue,
-				Rotation,
-				new Vector2(Texture.Width / 2f, Texture.Height / 2f),
-				Scale,
-				SpriteEffects.None,
-				0f
-			);
+			//// Draw a red pixel at the position
+			//spriteBatch.Draw(
+			//	Game.WhitePixel,
+			//	Position,
+			//	null,
+			//	Color.Red,
+			//	0f,
+			//	new Vector2(), 
+			//	3f,
+			//	SpriteEffects.None,
+			//	0f
+			//);
 		}
 
 		/// <summary>

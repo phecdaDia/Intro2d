@@ -97,6 +97,11 @@ namespace Intro2DGame.Game.Sprites
 			return (position - this.Position).LengthSquared() < 16;
 		}
 
+		public bool DoesCollide(AbstractSprite sprite)
+		{
+			return (sprite.GetPosition() - this.Position).LengthSquared() < (16 + sprite.TextureSize.LengthSquared() * 0.5f);
+		}
+
 		public void Damage(int amount)
 		{
 			if (Invulnerable > 0) return;
