@@ -62,6 +62,8 @@ namespace Intro2DGame.Game
 
 		private readonly FrameCounter FrameCounter;
 
+		public static Texture2D WhitePixel;
+
 		public Game(params string[] args)
 		{
 			GameArguments = new GameArguments(args);
@@ -136,6 +138,9 @@ namespace Intro2DGame.Game
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// Images are loaded when needed. Don't load them here! We use the ImageManager.
+
+			WhitePixel = new Texture2D(GraphicsDevice, 1, 1);
+			WhitePixel.SetData(new [] {Color.White});
 		}
 
 		/// <summary>
@@ -145,6 +150,8 @@ namespace Intro2DGame.Game
 		protected override void UnloadContent()
 		{
 			// TODO: Unload any non ContentManager content here
+
+			WhitePixel.Dispose();
 		}
 
 		/// <summary>

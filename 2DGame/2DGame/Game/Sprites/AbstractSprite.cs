@@ -170,6 +170,20 @@ namespace Intro2DGame.Game.Sprites
 				SpriteEffects.None,
 				0f
 			);
+
+
+			// Draw a red pixel at the position
+			spriteBatch.Draw(
+				Game.WhitePixel,
+				Position,
+				null,
+				Hue,
+				Rotation,
+				new Vector2(Texture.Width / 2f, Texture.Height / 2f),
+				Scale,
+				SpriteEffects.None,
+				0f
+			);
 		}
 
 		/// <summary>
