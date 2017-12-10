@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
 using Intro2DGame.Game.Fonts;
@@ -38,12 +39,14 @@ namespace Intro2DGame.Game.Scenes.Stages
 	{
 		private float OrbRotation;
 
-		private double ElapsedSeconds;
+		private double ElapsedStateSeconds, ElapsedBulletSeconds;
 
 		// This is the current state our enemy is in.
-		//private int State = 0;
 
-		private int HelpState;
+		private int BulletState, State, BulletHelpState, HelpState;
+
+		private const int TOTAL_STATES = 3;
+		private const int TOTAL_BULLET_STATES = 2;
 
 
 		public LaserGuySprite(Vector2 position):base("Enemies/LSprite-0001", position)
@@ -63,40 +66,153 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		public override void Update(GameTime gameTime)
 		{
-			//var MoveMent = new Vector2();
-			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+			ElapsedStateSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+			ElapsedBulletSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+
+			UpdateState(gameTime);
+			UpdateBulletState(gameTime);
 			
-			var sprites = SceneManager.GetAllSprites();
-			foreach (var k in sprites)
-			{
-				if (!k.Key.IsSubclassOf(typeof(PlayerOrb))) continue;
-				foreach (AbstractOrb t in k.Value)
-					t.Delete();
-			}
-
-			if(ElapsedSeconds > 0.25f)
-			{
-				ElapsedSeconds %= 0.25f;
-
-				HelpState++;
-				if(HelpState > 3)
-				{
-					HelpState = 0;
-					SpawnSprite(new LaserOrb(Position, SceneManager.GetSprites<PlayerSprite>().First().GetPosition() - this.GetPosition()));
-				}
-				OrbRotation+= (float)Math.PI / 36f;
-				if (OrbRotation > (float)Math.PI) OrbRotation = 0f;
-				for (int i=0;i<12;++i)
-				{
-					SpawnSprite(new LinearOrb(Position, new Vector2((float)Math.Sin(Math.PI/6*i+ OrbRotation), (float)Math.Cos(Math.PI / 6 * i+ OrbRotation)),3.0f));
-				}
-			}
 		}
+
+		private void UpdateState(GameTime gameTime)
+		{
+
+			
+		}
+
+		private void UpdateBulletState(GameTime gameTime)
+		{
+			var player = SceneManager.GetSprites<PlayerSprite>().First();
+
+			if (BulletState == 0)
+			{
+				//Shoots a ring of bullets
+				if (ElapsedBulletSeconds <= 0.4f) return;
+				ElapsedBulletSeconds -= 0.4f;
+
+				var totalBullets = 24;
+				var increment = 360f / totalBullets;
+				var direction = -Vector2.UnitX;
+
+				if ((BulletHelpState & 1) == 1) direction = direction.AddDegrees(0.5f * increment);
+
+				for (var i = 0; i < totalBullets; i++)
+					SpawnSprite(new LinearOrb(this.Position, direction.AddDegrees(i * increment), 3.5f));
+
+				BulletHelpState++;
+
+				if (BulletHelpState < 2) return;
+
+				BulletState = 1;
+				BulletHelpState = 0;
+			}
+			else if (BulletState == 1)
+			{
+				SpawnSprite(new LinearTracer1(this.Position, -Vector2.UnitX.AddDegrees(35d)));
+				SpawnSprite(new LinearTracer1(this.Position, -Vector2.UnitX.AddDegrees(-35d)));
+
+				BulletState = 0;
+			}
+
+			//while (true)
+			//{
+			//	var player = SceneManager.GetSprites<PlayerSprite>().First();
+
+			//	if (BulletState == 0)
+			//	{
+			//		// Shoots a ring of bullets
+			//		if (ElapsedBulletSeconds <= 0.4f) return;
+			//		ElapsedBulletSeconds -= 0.4f;
+
+			//		var totalBullets = 24;
+			//		var increment = 360f / totalBullets;
+			//		var direction = -Vector2.UnitX;
+
+			//		if ((BulletHelpState & 1) == 1) direction = direction.AddDegrees(0.5f * increment);
+
+			//		for (var i = 0; i < totalBullets; i++)
+			//			SpawnSprite(new LinearOrb(this.Position, direction.AddDegrees(i * increment), 3.5f));
+
+			//		BulletHelpState++;
+
+			//		if (BulletHelpState < 2) return;
+			//	}
+			//	else if (BulletState == 1)
+			//	{
+			//		// shoots a barrage
+			//		// does not have a cooldown.
+			//		var direction = player.GetPosition() - this.Position;
+
+			//		for (var i = -4; i <= 4; i++)
+			//			SpawnSprite(new LinearOrb(this.Position, direction.AddDegrees(-0.5f * i), 5f));
+
+			//		do
+			//			BulletState = GameConstants.Random.Next(TOTAL_BULLET_STATES);
+			//		while (BulletState == 1);
+
+			//		// Execute the next state in the same frame.
+			//		continue;
+			//	}
+			//	else if (BulletState == 2)
+			//	{
+
+			//	}
+
+			//	BulletState = GameConstants.Random.Next(TOTAL_BULLET_STATES);
+			//	break;
+			//}
+		}
+
 		public override bool DoesCollide(Vector2 position)
 		{
 			return (position - this.GetPosition()).Length() <= 16 ||
-				   (position - this.GetPosition() - new Vector2(0, 16)).Length() <= 16 ||
-				   (position - this.GetPosition() + new Vector2(0, 16)).Length() <= 16;
+			       (position - this.GetPosition() - new Vector2(0, 16)).Length() <= 16 ||
+			       (position - this.GetPosition() - new Vector2(0, 32)).Length() <= 16 ||
+			       (position - this.GetPosition() + new Vector2(0, 16)).Length() <= 16 ||
+			       (position - this.GetPosition() + new Vector2(0, 32)).Length() <= 16;
+		}
+	}
+
+	internal class LinearTracer1 : AbstractSprite
+	{
+		private readonly Vector2 Direction;
+		private double ElapsedSeconds, TotalElapsedSeconds;
+
+		private readonly Vector2 Goal;
+
+		public LinearTracer1(Vector2 position, Vector2 direction) : base(position)
+		{
+			this.Direction = direction;
+
+			var player = SceneManager.GetSprites<PlayerSprite>().First();
+			this.Goal = player.GetPosition();
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			this.Position += Direction * 5f;
+			this.ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+			this.TotalElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+
+
+			if (ElapsedSeconds >= 1.5f)
+			{
+				ElapsedSeconds -= 1.5f;
+
+				SpawnSprite(new LaserOrb(this.Position, this.Goal - this.Position, (float) (3f - TotalElapsedSeconds), 0.5f));
+			}
+
+			if (TotalElapsedSeconds >= 3.0f)
+			{
+				this.Delete();
+				return;
+			}
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			base.Draw(spriteBatch);
+			spriteBatch.Draw(Game.WhitePixel, this.Position, Color.Red);
 		}
 	}
 }

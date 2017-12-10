@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Enemies.Orbs;
@@ -173,15 +174,5 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 
 		}
-	}
-
-	internal static class ExtensionMethods
-	{
-		internal static double ToAngle(this Vector2 vector) => Math.Atan2(vector.Y, vector.X);
-		internal static Vector2 ToVector2(this double degrees) => new Vector2((float)Math.Cos(degrees), (float)Math.Sin(degrees));
-
-		internal static Vector2 AddDegrees(this Vector2 vector, double degrees) => (vector.ToAngle() + degrees.ToDegrees()).ToVector2();
-		internal static double ToDegrees(this double number) => number / 360d * 2 * Math.PI;
-
 	}
 }

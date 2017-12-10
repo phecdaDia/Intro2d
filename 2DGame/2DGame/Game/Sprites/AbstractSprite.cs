@@ -106,6 +106,11 @@ namespace Intro2DGame.Game.Sprites
 			Texture = ImageManager.GetTexture2D(textureKey);
 		}
 
+		public AbstractSprite(Vector2 position) : this()
+		{
+			this.Position = position;
+		}
+
 		/// <summary>
 		/// Current <see cref="Texture2D"/> of the <see cref="AbstractSprite"/>
 		/// </summary>

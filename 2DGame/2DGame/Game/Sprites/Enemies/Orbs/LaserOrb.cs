@@ -21,7 +21,7 @@ namespace Intro2DGame.Game.Sprites.Enemies.Orbs
 			new Point(32, 8))
 		{
 			this.ChargeSpan = chargeSpan;
-			this.LifeSpan = lifeSpan;
+			this.LifeSpan = lifeSpan + chargeSpan;
 
 			Scale.X = 100;
 			Used = false;
