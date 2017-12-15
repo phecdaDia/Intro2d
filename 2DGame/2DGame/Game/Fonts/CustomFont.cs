@@ -57,6 +57,7 @@ namespace Intro2DGame.Game.Fonts
 
 			FontManager.GetInstance().RegisterFont(fontName, this);
 
+			// ReSharper disable once VirtualMemberCallInConstructor
 			SetSymbolPositions();
 		}
 
