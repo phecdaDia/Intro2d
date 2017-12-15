@@ -19,10 +19,12 @@ namespace Intro2DGame.Game.Sprites
 		private int Invulnerable;
 		private int Shot;
 
-		private Vector2 ShootDirection = new Vector2(1, 0);
+		internal Vector2 ShootDirection = new Vector2(1, 0);
 
-		public Rectangle PlayArea = new Rectangle(0, 100, Game.RenderSize.X, Game.RenderSize.Y - 100);
-	
+		private Rectangle PlayArea = new Rectangle(0, 100, Game.RenderSize.X, Game.RenderSize.Y - 100);
+
+
+		private readonly DirectionMarker DirectionMarker;
 
 		public PlayerSprite(Vector2 position, bool addChilds = true) : base("player", position)
 		{
@@ -34,6 +36,8 @@ namespace Intro2DGame.Game.Sprites
 				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 			}
+
+			this.DirectionMarker = new DirectionMarker(this);
 
 			MaxHealth = 1000;
 			Health = 1000;
@@ -65,7 +69,7 @@ namespace Intro2DGame.Game.Sprites
 				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
 				{
-					SpawnSprite(new PlayerOrb(GetPosition(), ShootDirection));
+					SpawnSprite(new PlayerOrb(this.DirectionMarker.GetPosition(), ShootDirection));
 					ShootDelay = SHOOT_DELAY;
 
 					Shot = SHOOT_DELAY + 5;
@@ -77,6 +81,10 @@ namespace Intro2DGame.Game.Sprites
 			if (KeyboardManager.IsKeyPressed(Keys.S)) movement += new Vector2(0, 1);
 			if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
 			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
+
+			if (KeyboardManager.IsKeyPressed(Keys.Q)) this.ShootDirection = ShootDirection.AddDegrees(-180 * gameTime.ElapsedGameTime.TotalSeconds);
+			if (KeyboardManager.IsKeyPressed(Keys.E)) this.ShootDirection = ShootDirection.AddDegrees(180 * gameTime.ElapsedGameTime.TotalSeconds);
+			if (KeyboardManager.IsKeyPressed(Keys.R)) this.ShootDirection = Vector2.UnitX;
 
 			// normalizing movement
 			if (movement.LengthSquared() > 0f) movement.Normalize();
@@ -103,6 +111,8 @@ namespace Intro2DGame.Game.Sprites
 
 			if (Health <= 0) SceneManager.CloseScene(new TestTransition(1000));
 
+			DirectionMarker.Update(gameTime);
+
 		}
 
 		public override bool DoesCollide(Vector2 position)
@@ -126,6 +136,9 @@ namespace Intro2DGame.Game.Sprites
 		{
 			base.Draw(spriteBatch);
 			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), this.Position - new Vector2(4), Color.White);
+
+			this.DirectionMarker.Draw(spriteBatch);
+
 		}
 	}
 
@@ -216,7 +229,7 @@ namespace Intro2DGame.Game.Sprites
 
 	internal class DirectionMarker : AbstractSprite
 	{
-		private PlayerSprite Player;
+		private readonly PlayerSprite Player;
 
 		internal DirectionMarker(PlayerSprite player) : base("orb3")
 		{
@@ -225,7 +238,9 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Update(GameTime gameTime)
 		{
-			this.Rotation = (float) Player.Rotation;
+			Vector2 FloatToVector2(float degrees) => new Vector2((float)Math.Cos(degrees), (float)Math.Sin(degrees));
+			this.Rotation = (float) Player.ShootDirection.ToAngle();
+			this.Position = Player.GetPosition() + FloatToVector2(this.Rotation) * 7.5f;
 		}
 	}
 }
