@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			AddSprite(new MainMenuSprite());
 			AddSprite(new ImageSprite("title", new Vector2(400, 40)));
-			AddSprite(new MainMenuPlayer());
+			AddSprite(new PlayerSprite(new Vector2(35, 200), false));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -203,6 +203,7 @@ namespace Intro2DGame.Game.Scenes
 		}
 	}
 
+	[Obsolete("", true)]
 	internal class MainMenuPlayer : AbstractAnimatedSprite
 	{
 

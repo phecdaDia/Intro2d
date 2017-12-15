@@ -1,4 +1,5 @@
 ﻿using System;
+using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Scenes.Transition;
@@ -18,20 +19,32 @@ namespace Intro2DGame.Game.Sprites
 		private int Invulnerable;
 		private int Shot;
 
+		private Vector2 ShootDirection = new Vector2(1, 0);
 
-		public PlayerSprite(Vector2 position) : base("player", position)
+		public Rectangle PlayArea = new Rectangle(0, 100, Game.RenderSize.X, Game.RenderSize.Y - 100);
+	
+
+		public PlayerSprite(Vector2 position, bool addChilds = true) : base("player", position)
 		{
 			LayerDepth = 0;
-			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
-			SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
-			SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
+
+			if (addChilds)
+			{
+				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
+				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
+				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
+			}
 
 			MaxHealth = 1000;
 			Health = 1000;
+
+
+			this.Persistence = true;
 		}
 		
 		public override void Update(GameTime gameTime)
 		{
+
 			if (Game.GameArguments.IsCheatsEnabled && KeyboardManager.IsKeyPressed(Keys.F4))
 			{
 				Health = MaxHealth;
@@ -52,7 +65,7 @@ namespace Intro2DGame.Game.Sprites
 				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
 				{
-					SpawnSprite(new PlayerOrb(GetPosition(), Position + new Vector2(1, 0)));
+					SpawnSprite(new PlayerOrb(GetPosition(), ShootDirection));
 					ShootDelay = SHOOT_DELAY;
 
 					Shot = SHOOT_DELAY + 5;
@@ -75,11 +88,11 @@ namespace Intro2DGame.Game.Sprites
 			var halfTextureWidth = this.Texture.Width / 2;
 			var halfTextureHeight = this.Texture.Height / 2;
 
-			if (Position.X < halfTextureWidth) Position.X = halfTextureWidth;
-			if (Position.Y < halfTextureHeight + 100) Position.Y = halfTextureHeight + 100;
+			if (Position.X < halfTextureWidth + PlayArea.Location.X) Position.X = halfTextureWidth + +PlayArea.Location.X;
+			if (Position.Y < halfTextureHeight + PlayArea.Location.Y) Position.Y = halfTextureHeight + PlayArea.Location.Y;
 
-			if (Position.X + halfTextureWidth > Game.RenderSize.X) Position.X = Game.RenderSize.X - halfTextureWidth;
-			if (Position.Y + halfTextureHeight > Game.RenderSize.Y - 100) Position.Y = Game.RenderSize.Y - halfTextureHeight - 100;
+			if (Position.X + halfTextureWidth > PlayArea.Size.X) Position.X = PlayArea.Size.X - halfTextureWidth;
+			if (Position.Y + halfTextureHeight > PlayArea.Size.Y) Position.Y = PlayArea.Size.Y - halfTextureHeight;
 
 
 
@@ -177,7 +190,7 @@ namespace Intro2DGame.Game.Sprites
 		private const float SPEED = 7.5f;
 
 
-		public PlayerOrb(Vector2 position, Vector2 goal) : base(position, goal - position, SPEED)
+		public PlayerOrb(Vector2 position, Vector2 direction) : base(position, direction, SPEED)
 		{
 			Hue = Color.Purple;
 		}
@@ -198,6 +211,21 @@ namespace Intro2DGame.Game.Sprites
 					Delete();
 				}
 			}
+		}
+	}
+
+	internal class DirectionMarker : AbstractSprite
+	{
+		private PlayerSprite Player;
+
+		internal DirectionMarker(PlayerSprite player) : base("orb3")
+		{
+			this.Player = player;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			this.Rotation = (float) Player.Rotation;
 		}
 	}
 }

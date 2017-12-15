@@ -73,7 +73,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Current <see cref="Texture2D"/> rotation
 		/// </summary>
-		protected float Rotation = 0f;
+		public float Rotation = 0f;
 
 		/// <summary>
 		/// Current <see cref="Texture2D"/> scale
