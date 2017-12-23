@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Sprites;
-using Intro2DGame.Game.Sprites.Enemies.Orbs;
+using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

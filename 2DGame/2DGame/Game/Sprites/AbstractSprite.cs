@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Scenes;
-using Intro2DGame.Game.Sprites.Enemies.Orbs;
+using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

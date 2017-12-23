@@ -3,7 +3,7 @@ using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace Intro2DGame.Game.Sprites.Enemies.Orbs
+namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
 	/// Orb that slowly accelerates

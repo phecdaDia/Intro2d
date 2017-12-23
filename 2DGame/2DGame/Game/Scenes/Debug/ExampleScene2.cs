@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Intro2DGame.Game.Fonts;
-using Intro2DGame.Game.Sprites.Enemies.Orbs;
+using Intro2DGame.Game.Sprites.Orbs;
 
 namespace Intro2DGame.Game.Scenes.Debug
 {

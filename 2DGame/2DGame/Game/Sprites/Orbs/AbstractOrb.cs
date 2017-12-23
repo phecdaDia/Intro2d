@@ -3,7 +3,7 @@ using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Intro2DGame.Game.Sprites.Enemies.Orbs
+namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
 	/// Base class for all orbs

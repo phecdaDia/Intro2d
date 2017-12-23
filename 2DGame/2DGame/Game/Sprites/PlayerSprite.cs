@@ -3,7 +3,7 @@ using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Scenes.Transition;
-using Intro2DGame.Game.Sprites.Enemies.Orbs;
+using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

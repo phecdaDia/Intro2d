@@ -1,6 +1,6 @@
 using System;
 using Intro2DGame.Game.Scenes;
-using Intro2DGame.Game.Sprites.Enemies.Orbs;
+using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

@@ -83,11 +83,11 @@
     <Compile Include="Game\Scenes\Transition\AbstractTransition.cs" />
     <Compile Include="Game\Scenes\Transition\TestTransition.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />
-    <Compile Include="Game\Sprites\Enemies\Orbs\AbstractOrb.cs" />
-    <Compile Include="Game\Sprites\Enemies\Orbs\CurvingOrb.cs" />
-    <Compile Include="Game\Sprites\Enemies\Orbs\LaserOrb.cs" />
-    <Compile Include="Game\Sprites\Enemies\Orbs\LinearIncreasingOrb.cs" />
-    <Compile Include="Game\Sprites\Enemies\Orbs\LinearOrb.cs" />
+    <Compile Include="Game\Sprites\Orbs\AbstractOrb.cs" />
+    <Compile Include="Game\Sprites\Orbs\CurvingOrb.cs" />
+    <Compile Include="Game\Sprites\Orbs\LaserOrb.cs" />
+    <Compile Include="Game\Sprites\Orbs\LinearIncreasingOrb.cs" />
+    <Compile Include="Game\Sprites\Orbs\LinearOrb.cs" />
     <Compile Include="Game\Scenes\Scene.cs" />
     <Compile Include="Game\Scenes\SceneManager.cs" />
     <Compile Include="Game\Sprites\AbstractAnimatedSprite.cs" />

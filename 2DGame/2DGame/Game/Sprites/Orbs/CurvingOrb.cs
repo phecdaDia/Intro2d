@@ -2,7 +2,7 @@ using System;
 using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 
-namespace Intro2DGame.Game.Sprites.Enemies.Orbs
+namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
 	/// Orbs that slowly changes <see cref="AbstractAnimatedOrb.Direction"/> and curves

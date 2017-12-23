@@ -1,7 +1,7 @@
 using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 
-namespace Intro2DGame.Game.Sprites.Enemies.Orbs
+namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
 	/// A normal orb that does nothing special.
