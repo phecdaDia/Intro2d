@@ -24,7 +24,7 @@ namespace Intro2DGame.Game.Sprites
 		private Rectangle PlayArea = new Rectangle(0, 100, Game.RenderSize.X, Game.RenderSize.Y - 100);
 
 
-		private readonly DirectionMarker DirectionMarker;
+		//private readonly DirectionMarker DirectionMarker;
 
 		public PlayerSprite(Vector2 position, bool addChilds = true) : base("player", position)
 		{
@@ -37,7 +37,7 @@ namespace Intro2DGame.Game.Sprites
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 			}
 
-			this.DirectionMarker = new DirectionMarker(this);
+			//this.DirectionMarker = new DirectionMarker(this);
 
 			MaxHealth = 1000;
 			Health = 1000;
@@ -69,7 +69,7 @@ namespace Intro2DGame.Game.Sprites
 				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
 				{
-					SpawnSprite(new PlayerOrb(this.DirectionMarker.GetPosition(), ShootDirection));
+					//SpawnSprite(new PlayerOrb(this.DirectionMarker.GetPosition(), ShootDirection));
 					ShootDelay = SHOOT_DELAY;
 
 					Shot = SHOOT_DELAY + 5;
@@ -83,8 +83,8 @@ namespace Intro2DGame.Game.Sprites
 			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
 
 			if (KeyboardManager.IsKeyPressed(Keys.Q)) this.ShootDirection = ShootDirection.AddDegrees(-180 * gameTime.ElapsedGameTime.TotalSeconds);
-			if (KeyboardManager.IsKeyPressed(Keys.E)) this.ShootDirection = ShootDirection.AddDegrees(180 * gameTime.ElapsedGameTime.TotalSeconds);
-			if (KeyboardManager.IsKeyPressed(Keys.R)) this.ShootDirection = Vector2.UnitX;
+			//if (KeyboardManager.IsKeyPressed(Keys.E)) this.ShootDirection = ShootDirection.AddDegrees(180 * gameTime.ElapsedGameTime.TotalSeconds);
+			//if (KeyboardManager.IsKeyPressed(Keys.R)) this.ShootDirection = Vector2.UnitX;
 
 			// normalizing movement
 			if (movement.LengthSquared() > 0f) movement.Normalize();
@@ -111,7 +111,7 @@ namespace Intro2DGame.Game.Sprites
 
 			if (Health <= 0) SceneManager.CloseScene(new TestTransition(1000));
 
-			DirectionMarker.Update(gameTime);
+			//DirectionMarker.Update(gameTime);
 
 		}
 
@@ -137,7 +137,7 @@ namespace Intro2DGame.Game.Sprites
 			base.Draw(spriteBatch);
 			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), this.Position - new Vector2(4), Color.White);
 
-			this.DirectionMarker.Draw(spriteBatch);
+			//this.DirectionMarker.Draw(spriteBatch);
 
 		}
 	}
@@ -227,20 +227,20 @@ namespace Intro2DGame.Game.Sprites
 		}
 	}
 
-	internal class DirectionMarker : AbstractSprite
-	{
-		private readonly PlayerSprite Player;
+	//internal class DirectionMarker : AbstractSprite
+	//{
+	//	private readonly PlayerSprite Player;
 
-		internal DirectionMarker(PlayerSprite player) : base("orb3")
-		{
-			this.Player = player;
-		}
+	//	internal DirectionMarker(PlayerSprite player) : base("orb3")
+	//	{
+	//		this.Player = player;
+	//	}
 
-		public override void Update(GameTime gameTime)
-		{
-			Vector2 FloatToVector2(float degrees) => new Vector2((float)Math.Cos(degrees), (float)Math.Sin(degrees));
-			this.Rotation = (float) Player.ShootDirection.ToAngle();
-			this.Position = Player.GetPosition() + FloatToVector2(this.Rotation) * 7.5f;
-		}
-	}
+	//	public override void Update(GameTime gameTime)
+	//	{
+	//		Vector2 FloatToVector2(float degrees) => new Vector2((float)Math.Cos(degrees), (float)Math.Sin(degrees));
+	//		this.Rotation = (float) Player.ShootDirection.ToAngle();
+	//		this.Position = Player.GetPosition() + FloatToVector2(this.Rotation) * 7.5f;
+	//	}
+	//}
 }
