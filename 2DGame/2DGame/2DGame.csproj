@@ -73,8 +73,6 @@
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
-    <Compile Include="Game\Patterns\ExamplePattern.cs" />
-    <Compile Include="Game\Patterns\IPattern.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene2.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene.cs" />
