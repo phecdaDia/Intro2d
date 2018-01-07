@@ -61,30 +61,25 @@ namespace Intro2DGame.Game.Scenes.Stages
 			this.LayerDepth = 1;
 
 			this.Pattern = new Queue<IPattern>();
-			
+			AddStates();
+
 		}
 
 		protected override void AddFrames()
 		{
-			AddAnimation(new Point[] {new Point(), });
+			AddAnimation(new [] {new Point(), });
 		}
 
 		public override void Update(GameTime gameTime)
 		{
 			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
-
+			
 			if (Pattern.Count == 0)
 			{
-				UpdateState(gameTime);
-
-				// check if we're still empty
-				if (Pattern.Count == 0)
-				{
-					// just don't do anything this frame. This should never execute!
-					Console.WriteLine($"Queue is empty, Bulletstate {BulletState}");
-					BulletState = 0;
-					return;
-				}
+				// just don't do anything this frame. This should never execute!
+				Console.WriteLine($"Queue is empty, Bulletstate {BulletState}");
+				BulletState = 0;
+				return;
 			}
 
 			if (Pattern.Peek().Execute(this, gameTime))
@@ -96,13 +91,13 @@ namespace Intro2DGame.Game.Scenes.Stages
 					BulletState++;
 
 					// Add the new states. 
-					UpdateState(gameTime);
+					AddStates();
 				} // else we still have patterns left. 
 			}
 
 		}
 
-		private void UpdateState(GameTime gameTime)
+		private void AddStates()
 		{
 
 			if (BulletState == 0)
@@ -133,7 +128,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 			else if (BulletState == 4)
 			{
-				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, 200), 0.1d));
+				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, 200), 0.25d));
 			}
 			else if (BulletState == 5)
 			{

@@ -47,7 +47,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			//this.Hue = new Color(r ^ 0xff, g ^ 0xff, b ^ 0xff);
 
 
-			Direction *= Speed2;
+			Direction = Direction * (1.0f + Speed2 * (float)gameTime.ElapsedGameTime.TotalSeconds);
 			return Direction;
 		}
 
