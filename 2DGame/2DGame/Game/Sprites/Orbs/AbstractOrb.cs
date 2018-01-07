@@ -59,7 +59,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			var up = UpdatePosition(gameTime);
 			if (up.LengthSquared() > 0) Rotation = (float) Math.Atan2(up.Y, up.X);
 
-			Position += up;
+			Position += up * 60.0f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 		}
 
 		/// <summary>

@@ -150,7 +150,7 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Update(GameTime gameTime)
 		{
-			SceneManager.AddScene(this.SceneKey, new TestTransition(1000));
+			SceneManager.AddScene(this.SceneKey, new TestTransition(1.0d));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

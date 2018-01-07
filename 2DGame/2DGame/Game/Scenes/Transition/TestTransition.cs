@@ -14,13 +14,13 @@ namespace Intro2DGame.Game.Scenes.Transition
 	/// </summary>
 	public class TestTransition : AbstractTransition
 	{
-		private readonly int Milliseconds;
-		private int Elapsed = 0;
+		private readonly double Timeout;
+		private double Elapsed = 0;
 		private Texture2D Texture;
 
-		public TestTransition(int milliseconds)
+		public TestTransition(double delay)
 		{
-			this.Milliseconds = milliseconds;
+			this.Timeout = delay;
 		}
 
 		protected override void CreateScene()
@@ -28,11 +28,11 @@ namespace Intro2DGame.Game.Scenes.Transition
 
 		public override void Update(GameTime gameTime)
 		{
-			this.Elapsed += gameTime.ElapsedGameTime.Milliseconds;
+			this.Elapsed += gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (Elapsed >= Milliseconds / 2) RunLambda();
+			if (Elapsed >= Timeout / 2) RunLambda();
 
-			if (Elapsed >= Milliseconds) SceneManager.CloseTransition();
+			if (Elapsed >= Timeout) SceneManager.CloseTransition();
 		}
 
 		/// <inheritdoc />
@@ -40,9 +40,9 @@ namespace Intro2DGame.Game.Scenes.Transition
 		{
 			// Drawing the texture over the entire graphics area. 
 			// Recoloring it to be black with 255 alpha.
-			var alpha = 1f - Math.Abs(Milliseconds / 2f - Elapsed) / (Milliseconds / 2f);
+			var alpha = 1f - Math.Abs(Timeout / 2f - Elapsed) / (Timeout / 2f);
 
-			spriteBatch.Draw(this.Texture, new Rectangle(new Point(), Game.RenderSize), new Color(Color.Black, alpha));
+			spriteBatch.Draw(this.Texture, new Rectangle(new Point(), Game.RenderSize), new Color(Color.Black, (float) alpha));
 		}
 
 		/// <inheritdoc />

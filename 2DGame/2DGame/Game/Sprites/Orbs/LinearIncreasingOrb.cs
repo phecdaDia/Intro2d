@@ -11,7 +11,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 	public class LinearIncreasingOrb : AbstractOrb
 	{
 		private readonly float Speed2;
-
+		
+		// Don't use this with uncapped framerate yet. 
 		public LinearIncreasingOrb(Vector2 position, Vector2 direction, float speed, float speed2) : base("orb3", position,
 			direction)
 		{

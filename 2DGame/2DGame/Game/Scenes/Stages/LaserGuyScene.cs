@@ -107,7 +107,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 			if (BulletState == 0)
 			{
-				Pattern.Enqueue(new SingleLaserPattern());
+				//Pattern.Enqueue(new SingleLaserPattern());
 				Pattern.Enqueue(new SleepPattern(0.5f));
 			}
 			else if (BulletState == 1)
@@ -120,7 +120,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 			else if (BulletState == 2)
 			{
-				Pattern.Enqueue(new LinearMovePattern(new Vector2(-100, 0), 0.5d));
+				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, -100), 0.5d));
 			}
 			else if (BulletState == 3)
 			{
@@ -133,7 +133,20 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 			else if (BulletState == 4)
 			{
-				Pattern.Enqueue(new LinearMovePattern(new Vector2(100, 0), 0.5d));
+				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, 200), 0.1d));
+			}
+			else if (BulletState == 5)
+			{
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+				Pattern.Enqueue(new SleepPattern(0.5f));
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+				Pattern.Enqueue(new SleepPattern(0.5f));
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+
+			}
+			else if (BulletState == 6)
+			{
+				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, -100), 0.5d));
 			}
 		}
 

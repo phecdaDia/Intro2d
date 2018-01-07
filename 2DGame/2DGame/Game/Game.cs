@@ -83,6 +83,7 @@ namespace Intro2DGame.Game
 			//IsMouseVisible = true;
 
 			this.IsFixedTimeStep = false;
+			//Graphics.SynchronizeWithVerticalRetrace = false; // testing with uncapped framerate
 
 			this.FrameCounter = new FrameCounter();
 		}
@@ -164,7 +165,7 @@ namespace Intro2DGame.Game
 			KeyboardManager.Update();
 
 			if (KeyboardManager.IsKeyDown(Keys.Escape))
-				SceneManager.CloseScene(new TestTransition(1000));
+				SceneManager.CloseScene(new TestTransition(1.0d));
 
 
 

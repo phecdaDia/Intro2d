@@ -13,11 +13,11 @@ namespace Intro2DGame.Game.Sprites
 {
 	public class PlayerSprite : AbstractSprite
 	{
-		private const int SHOOT_DELAY = 7;
-		private int ShootDelay;
+		private const double SHOOT_DELAY = 0.15d;
+		private double ShootDelay;
 
-		private int Invulnerable;
-		private int Shot;
+		private double Invulnerable;
+		private double Shot;
 
 		private Vector2 ShootDirection = new Vector2(1, 0);
 
@@ -58,15 +58,16 @@ namespace Intro2DGame.Game.Sprites
 
 			var movement = new Vector2();
 
+			if (Invulnerable > 0) Invulnerable -= gameTime.ElapsedGameTime.TotalSeconds;
+			if (Shot > 0) Shot -= gameTime.ElapsedGameTime.TotalSeconds;
+			if (ShootDelay > 0) ShootDelay -= gameTime.ElapsedGameTime.TotalSeconds;
 
 			// Shoots bullets
 
 			var ms = Mouse.GetState();
-			Shot -= Shot > 0 ? 1 : 0;
-			ShootDelay -= ShootDelay > 0 ? 1 : 0;
 
 
-			if (ShootDelay <= 0 || KeyboardManager.IsKeyDown(Keys.Space))
+			if (ShootDelay <= 0.0d || KeyboardManager.IsKeyDown(Keys.Space))
 			{
 				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
@@ -74,7 +75,7 @@ namespace Intro2DGame.Game.Sprites
 					SpawnSprite(new PlayerOrb(this.Position, ShootDirection));
 					ShootDelay = SHOOT_DELAY;
 
-					Shot = SHOOT_DELAY + 5;
+					Shot = SHOOT_DELAY + 0.25d;
 				}
 			}
 
@@ -89,10 +90,18 @@ namespace Intro2DGame.Game.Sprites
 			//if (KeyboardManager.IsKeyPressed(Keys.R)) this.ShootDirection = Vector2.UnitX;
 
 			// normalizing movement
-			if (movement.LengthSquared() > 0f) movement.Normalize();
+			if (movement.LengthSquared() > 0f)
+			{
+				movement.Normalize();
+				movement *= new Vector2(1.0f, 1.1f);
 
-			movement *= new Vector2(1.0f, 1.1f);
-			Position += movement * (Shot > 0 ? 2.75f : 4.25f);
+				// now normalize it for uncapped frames
+				movement *= 60.0f; // we aimed for 60 fps
+				movement *= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+				Position += movement * (Shot > 0 ? 2.75f : 4.25f);
+			}
+
 
 			// Prevents player from leaving the screen
 			var halfTextureWidth = this.Texture.Width / 2;
@@ -106,12 +115,11 @@ namespace Intro2DGame.Game.Sprites
 
 
 
-			if (Invulnerable > 0) Invulnerable--;
 			
 
 			if (Health >= MaxHealth) Health = MaxHealth;
 
-			if (Health <= 0) SceneManager.CloseScene(new TestTransition(1000));
+			if (Health <= 0) SceneManager.CloseScene(new TestTransition(1.0d));
 
 			//DirectionMarker.Update(gameTime);
 
@@ -131,7 +139,7 @@ namespace Intro2DGame.Game.Sprites
 		{
 			if (Invulnerable > 0) return;
 			this.Health -= amount;
-			this.Invulnerable = 15;
+			this.Invulnerable = 0.25f;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -212,7 +220,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Update(GameTime gameTime)
 		{
-			Position += UpdatePosition(gameTime);
+			Position += UpdatePosition(gameTime) * 60.0f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 			var sprites = SceneManager.GetAllSprites();
 
