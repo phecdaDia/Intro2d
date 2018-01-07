@@ -207,7 +207,7 @@ namespace Intro2DGame.Game
 			var players = SceneManager.GetSprites<PlayerSprite>();
 			var player = players.FirstOrDefault();
 			if (player != null)
-				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.GetPosition().X:F2} - {player.GetPosition().Y:F2}", new Vector2(40, RenderSize.Y - 80), Color.Black);
+				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.Position.X:F2} - {player.Position.Y:F2}", new Vector2(40, RenderSize.Y - 80), Color.Black);
 
 			SpriteBatch.End();
 

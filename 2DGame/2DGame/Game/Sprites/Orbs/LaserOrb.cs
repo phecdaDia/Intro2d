@@ -66,8 +66,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 					var ex = Position.X;
 					var ey = Position.Y;
 
-					var px = player.GetPosition().X;
-					var py = player.GetPosition().Y;
+					var px = player.Position.X;
+					var py = player.Position.Y;
 
 					var dx = Direction.X;
 					var dy = Direction.Y;
@@ -89,7 +89,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 					// a = (px - py d2q - ex + d2q ey)/(dx - dy d2q)
 					var a = (px - py * d2q - ex + d2q * ey) / (dx - dy * d2q);
 
-					var q = GetPosition() + a * Direction;
+					var q = Position + a * Direction;
 
 					//Console.WriteLine($"Distance: {(player.GetPosition() - q).Length()}");
 

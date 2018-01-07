@@ -106,10 +106,10 @@ namespace Intro2DGame.Game.Scenes
 			{
 				foreach (var menuEntry in MenuEntries)
 				{
-					if (!(playerOrb.GetPosition().X >= menuEntry.GetPosition().X) || playerOrb.IsDeleted()) continue;
+					if (!(playerOrb.Position.X >= menuEntry.Position.X) || playerOrb.IsDeleted()) continue;
 
-					if (!(playerOrb.GetPosition().Y >= menuEntry.GetPosition().Y) ||
-					    !(playerOrb.GetPosition().Y <= menuEntry.GetPosition().Y + 32)) continue;
+					if (!(playerOrb.Position.Y >= menuEntry.Position.Y) ||
+					    !(playerOrb.Position.Y <= menuEntry.Position.Y + 32)) continue;
 
 					foreach (var po in playerOrbs) po.Delete();
 

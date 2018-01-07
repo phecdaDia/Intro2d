@@ -53,7 +53,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 				var players = SceneManager.GetSprites<PlayerSprite>();
 				foreach (var ps in players)
 				{
-					var dir = ps.GetPosition() - GetPosition();
+					var dir = ps.Position - Position;
 					var tan = 17.5d * 2 * Math.PI; // Math.Atan2(dir.X, dir.Y);
 					//var degrees = 2 * Math.PI * (22.5f / 360f);
 					tan += q;
@@ -80,9 +80,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			return (position - this.GetPosition()).Length() <= 16 ||
-			       (position - this.GetPosition() - new Vector2(0, 16)).Length() <= 16 ||
-			       (position - this.GetPosition() + new Vector2(0, 16)).Length() <= 16
+			return (position - this.Position).Length() <= 16 ||
+			       (position - this.Position - new Vector2(0, 16)).Length() <= 16 ||
+			       (position - this.Position + new Vector2(0, 16)).Length() <= 16
 			;
 		}
 	}

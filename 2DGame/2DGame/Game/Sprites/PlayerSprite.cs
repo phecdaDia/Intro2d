@@ -19,7 +19,7 @@ namespace Intro2DGame.Game.Sprites
 		private int Invulnerable;
 		private int Shot;
 
-		internal Vector2 ShootDirection = new Vector2(1, 0);
+		private Vector2 ShootDirection = new Vector2(1, 0);
 
 		private Rectangle PlayArea = new Rectangle(0, 100, Game.RenderSize.X, Game.RenderSize.Y - 100);
 
@@ -63,13 +63,15 @@ namespace Intro2DGame.Game.Sprites
 
 			var ms = Mouse.GetState();
 			Shot -= Shot > 0 ? 1 : 0;
+			ShootDelay -= ShootDelay > 0 ? 1 : 0;
 
-			if (ShootDelay-- <= 0 || KeyboardManager.IsKeyDown(Keys.Space))
+
+			if (ShootDelay <= 0 || KeyboardManager.IsKeyDown(Keys.Space))
 			{
 				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
 				{
-					//SpawnSprite(new PlayerOrb(this.DirectionMarker.GetPosition(), ShootDirection));
+					SpawnSprite(new PlayerOrb(this.Position, ShootDirection));
 					ShootDelay = SHOOT_DELAY;
 
 					Shot = SHOOT_DELAY + 5;
@@ -122,7 +124,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public bool DoesCollide(AbstractSprite sprite)
 		{
-			return (sprite.GetPosition() - this.Position).LengthSquared() < (16 + sprite.TextureSize.LengthSquared() * 0.5f);
+			return (sprite.Position - this.Position).LengthSquared() < (16 + sprite.TextureSize.LengthSquared() * 0.5f);
 		}
 
 		public void Damage(int amount)
@@ -219,7 +221,7 @@ namespace Intro2DGame.Game.Sprites
 			{
 				if (!sprite.Enemy) continue;
 
-				if (sprite.DoesCollide(this.GetPosition())) {
+				if (sprite.DoesCollide(this.Position)) {
 					sprite.Health -= 1;
 					Delete();
 				}

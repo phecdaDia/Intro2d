@@ -85,7 +85,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 					{
 						t.Delete();
 						// spawn a new sprite that aims at StarGuy
-						SpawnSprite(new PlayerOrb(t.GetPosition(), this.GetPosition()));
+						SpawnSprite(new PlayerOrb(t.Position, this.Position));
 					}
 				}
 			}

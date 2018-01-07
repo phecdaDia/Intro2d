@@ -68,7 +68,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Current <see cref="Position"/> of the <see cref="AbstractSprite"/>
 		/// </summary>
-		protected Vector2 Position;
+		public Vector2 Position;
 
 		/// <summary>
 		/// Current <see cref="Texture2D"/> rotation
@@ -126,6 +126,7 @@ namespace Intro2DGame.Game.Sprites
 		/// Returns <see cref="Position"/>
 		/// </summary>
 		/// <returns></returns>
+		[Obsolete("Use Position directly please")]
 		public Vector2 GetPosition()
 		{
 			return Position;

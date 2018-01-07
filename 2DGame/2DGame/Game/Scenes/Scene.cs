@@ -147,8 +147,8 @@ namespace Intro2DGame.Game.Scenes
 					c.Update(gameTime);
 
 					if (!c.Persistence)
-						if (c.GetPosition().X < 0 || c.GetPosition().Y < 0) c.Delete();
-						else if (c.GetPosition().X > Game.RenderSize.X || c.GetPosition().Y > Game.RenderSize.Y) c.Delete();
+						if (c.Position.X < 0 || c.Position.Y < 0) c.Delete();
+						else if (c.Position.X > Game.RenderSize.X || c.Position.Y > Game.RenderSize.Y) c.Delete();
 
 
 					if (c.Health >= c.MaxHealth) c.Health = c.MaxHealth;

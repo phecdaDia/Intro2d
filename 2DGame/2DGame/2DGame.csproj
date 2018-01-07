@@ -64,6 +64,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Game\ExtensionMethods\DoubleExtensionMethods.cs" />
     <Compile Include="Game\ExtensionMethods\Vector2Extension.cs" />
     <Compile Include="Game\Fonts\CustomFont.cs" />
     <Compile Include="Game\Fonts\ExampleFont.cs" />
@@ -73,6 +74,12 @@
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
+    <Compile Include="Game\Pattern\IPattern.cs" />
+    <Compile Include="Game\Pattern\Movement\InstantMovePattern.cs" />
+    <Compile Include="Game\Pattern\Movement\LinearMovePattern.cs" />
+    <Compile Include="Game\Pattern\Orbs\BarrageLinearPattern.cs" />
+    <Compile Include="Game\Pattern\Orbs\SingleLaserPattern.cs" />
+    <Compile Include="Game\Pattern\SleepPattern.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene2.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene.cs" />

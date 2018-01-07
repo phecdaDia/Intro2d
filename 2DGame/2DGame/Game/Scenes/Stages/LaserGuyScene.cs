@@ -8,6 +8,9 @@ using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Orbs;
 using Intro2DGame.Game.Fonts;
+using Intro2DGame.Game.Pattern;
+using Intro2DGame.Game.Pattern.Movement;
+using Intro2DGame.Game.Pattern.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,16 +40,15 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 	internal class LaserGuySprite : AbstractAnimatedSprite
 	{
-		private float OrbRotation;
+		//private float OrbRotation;
 
-		private double ElapsedStateSeconds, ElapsedBulletSeconds;
+		private double ElapsedSeconds;
 
 		// This is the current state our enemy is in.
 
-		private int BulletState, State, BulletHelpState, HelpState;
+		private int BulletState, BulletHelpState;
 
-		private const int TOTAL_STATES = 3;
-		private const int TOTAL_BULLET_STATES = 2;
+		private readonly Queue<IPattern> Pattern;
 
 
 		public LaserGuySprite(Vector2 position):base("Enemies/LSprite-0001", position)
@@ -57,6 +59,9 @@ namespace Intro2DGame.Game.Scenes.Stages
 			this.Enemy = true;
 			this.Persistence = true;
 			this.LayerDepth = 1;
+
+			this.Pattern = new Queue<IPattern>();
+			
 		}
 
 		protected override void AddFrames()
@@ -66,110 +71,79 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		public override void Update(GameTime gameTime)
 		{
-			ElapsedStateSeconds += gameTime.ElapsedGameTime.TotalSeconds;
-			ElapsedBulletSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
 
-			UpdateState(gameTime);
-			UpdateBulletState(gameTime);
-			
+			if (Pattern.Count == 0)
+			{
+				UpdateState(gameTime);
+
+				// check if we're still empty
+				if (Pattern.Count == 0)
+				{
+					// just don't do anything this frame. This should never execute!
+					Console.WriteLine($"Queue is empty, Bulletstate {BulletState}");
+					BulletState = 0;
+					return;
+				}
+			}
+
+			if (Pattern.Peek().Execute(this, gameTime))
+			{
+				Pattern.Dequeue();
+
+				if (Pattern.Count == 0)
+				{
+					BulletState++;
+
+					// Add the new states. 
+					UpdateState(gameTime);
+				} // else we still have patterns left. 
+			}
+
 		}
 
 		private void UpdateState(GameTime gameTime)
 		{
 
-			
-		}
-
-		private void UpdateBulletState(GameTime gameTime)
-		{
-			var player = SceneManager.GetSprites<PlayerSprite>().First();
-
 			if (BulletState == 0)
 			{
-				//Shoots a ring of bullets
-				if (ElapsedBulletSeconds <= 0.4f) return;
-				ElapsedBulletSeconds -= 0.4f;
-
-				var totalBullets = 24;
-				var increment = 360f / totalBullets;
-				var direction = -Vector2.UnitX;
-
-				if ((BulletHelpState & 1) == 1) direction = direction.AddDegrees(0.5f * increment);
-
-				for (var i = 0; i < totalBullets; i++)
-					SpawnSprite(new LinearOrb(this.Position, direction.AddDegrees(i * increment), 3.5f));
-
-				BulletHelpState++;
-
-				if (BulletHelpState < 2) return;
-
-				BulletState = 1;
-				BulletHelpState = 0;
+				Pattern.Enqueue(new SingleLaserPattern());
+				Pattern.Enqueue(new SleepPattern(0.5f));
 			}
 			else if (BulletState == 1)
 			{
-				SpawnSprite(new LinearTracer1(this.Position, -Vector2.UnitX.AddDegrees(35d)));
-				SpawnSprite(new LinearTracer1(this.Position, -Vector2.UnitX.AddDegrees(-35d)));
-
-				BulletState = 0;
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+				Pattern.Enqueue(new SleepPattern(0.5f));
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+				Pattern.Enqueue(new SleepPattern(0.5f));
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
 			}
+			else if (BulletState == 2)
+			{
+				Pattern.Enqueue(new LinearMovePattern(new Vector2(-100, 0), 0.5d));
+			}
+			else if (BulletState == 3)
+			{
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+				Pattern.Enqueue(new SleepPattern(0.5f));
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+				Pattern.Enqueue(new SleepPattern(0.5f));
+				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
 
-			//while (true)
-			//{
-			//	var player = SceneManager.GetSprites<PlayerSprite>().First();
-
-			//	if (BulletState == 0)
-			//	{
-			//		// Shoots a ring of bullets
-			//		if (ElapsedBulletSeconds <= 0.4f) return;
-			//		ElapsedBulletSeconds -= 0.4f;
-
-			//		var totalBullets = 24;
-			//		var increment = 360f / totalBullets;
-			//		var direction = -Vector2.UnitX;
-
-			//		if ((BulletHelpState & 1) == 1) direction = direction.AddDegrees(0.5f * increment);
-
-			//		for (var i = 0; i < totalBullets; i++)
-			//			SpawnSprite(new LinearOrb(this.Position, direction.AddDegrees(i * increment), 3.5f));
-
-			//		BulletHelpState++;
-
-			//		if (BulletHelpState < 2) return;
-			//	}
-			//	else if (BulletState == 1)
-			//	{
-			//		// shoots a barrage
-			//		// does not have a cooldown.
-			//		var direction = player.GetPosition() - this.Position;
-
-			//		for (var i = -4; i <= 4; i++)
-			//			SpawnSprite(new LinearOrb(this.Position, direction.AddDegrees(-0.5f * i), 5f));
-
-			//		do
-			//			BulletState = GameConstants.Random.Next(TOTAL_BULLET_STATES);
-			//		while (BulletState == 1);
-
-			//		// Execute the next state in the same frame.
-			//		continue;
-			//	}
-			//	else if (BulletState == 2)
-			//	{
-
-			//	}
-
-			//	BulletState = GameConstants.Random.Next(TOTAL_BULLET_STATES);
-			//	break;
-			//}
+			}
+			else if (BulletState == 4)
+			{
+				Pattern.Enqueue(new LinearMovePattern(new Vector2(100, 0), 0.5d));
+			}
 		}
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			return (position - this.GetPosition()).Length() <= 16 ||
-			       (position - this.GetPosition() - new Vector2(0, 16)).Length() <= 16 ||
-			       (position - this.GetPosition() - new Vector2(0, 32)).Length() <= 16 ||
-			       (position - this.GetPosition() + new Vector2(0, 16)).Length() <= 16 ||
-			       (position - this.GetPosition() + new Vector2(0, 32)).Length() <= 16;
+			return (position - this.Position).Length() <= 16 ||
+			       (position - this.Position - new Vector2(0, 16)).Length() <= 16 ||
+			       (position - this.Position - new Vector2(0, 32)).Length() <= 16 ||
+			       (position - this.Position + new Vector2(0, 16)).Length() <= 16 ||
+			       (position - this.Position + new Vector2(0, 32)).Length() <= 16;
 		}
 	}
 
@@ -185,7 +159,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			this.Direction = direction;
 
 			var player = SceneManager.GetSprites<PlayerSprite>().First();
-			this.Goal = player.GetPosition();
+			this.Goal = player.Position;
 		}
 
 		public override void Update(GameTime gameTime)
