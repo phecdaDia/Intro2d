@@ -132,7 +132,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public bool DoesCollide(AbstractSprite sprite)
 		{
-			return (sprite.Position - this.Position).LengthSquared() < (16 + sprite.TextureSize.LengthSquared() * 0.5f);
+			return (sprite.Position - this.Position).LengthSquared() < (sprite.TextureSize.X * 0.5f);
 		}
 
 		public void Damage(int amount)

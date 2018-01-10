@@ -79,6 +79,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 				// just don't do anything this frame. This should never execute!
 				Console.WriteLine($"Queue is empty, Bulletstate {BulletState}");
 				BulletState = 0;
+
+				AddStates();
 				return;
 			}
 
