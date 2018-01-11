@@ -75,8 +75,9 @@
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
     <Compile Include="Game\Pattern\IPattern.cs" />
-    <Compile Include="Game\Pattern\Movement\InstantMovePattern.cs" />
-    <Compile Include="Game\Pattern\Movement\LinearMovePattern.cs" />
+    <Compile Include="Game\Pattern\Movement\InstantMovementPattern.cs" />
+    <Compile Include="Game\Pattern\Movement\LinearMovementPattern.cs" />
+    <Compile Include="Game\Pattern\Movement\RadialMovementPattern.cs" />
     <Compile Include="Game\Pattern\Orbs\BarrageLinearPattern.cs" />
     <Compile Include="Game\Pattern\Orbs\SingleLaserPattern.cs" />
     <Compile Include="Game\Pattern\SleepPattern.cs" />

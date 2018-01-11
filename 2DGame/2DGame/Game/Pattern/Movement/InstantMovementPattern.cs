@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Pattern.Movement
 {
-	public class InstantMovePattern : IPattern
+	public class InstantMovementPattern : IPattern
 	{
-		private Vector2 Delta;
+		private readonly Vector2 Delta;
 
-		public InstantMovePattern(Vector2 delta)
+		public InstantMovementPattern(Vector2 delta)
 		{
 			this.Delta = delta;
 		}

@@ -22,7 +22,7 @@ namespace Intro2DGame.Game.Scenes
 		protected override void CreateScene()
 		{
 			AddSprite(new MainMenuSprite());
-			AddSprite(new ImageSprite("title", new Vector2(400, 40)));
+			AddSprite(new ImageSprite("title", new Vector2(300, 40)));
 			AddSprite(new PlayerSprite(new Vector2(35, 200), false));
 		}
 
@@ -60,7 +60,7 @@ namespace Intro2DGame.Game.Scenes
 		public MainMenuSprite()
 		{
 
-			var x = 500;
+			var x = 200;
 			var y = 85;
 			var spacing = 45;
 

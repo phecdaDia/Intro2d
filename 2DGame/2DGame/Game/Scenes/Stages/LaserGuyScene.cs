@@ -46,7 +46,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		// This is the current state our enemy is in.
 
-		private int BulletState, BulletHelpState;
+		private int BulletState;
 
 		private readonly Queue<IPattern> Pattern;
 
@@ -81,6 +81,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 				BulletState = 0;
 
 				AddStates();
+				Update(gameTime);
 				return;
 			}
 
@@ -104,7 +105,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 			if (BulletState == 0)
 			{
-				//Pattern.Enqueue(new SingleLaserPattern());
+				Pattern.Enqueue(new SingleLaserPattern());
 				Pattern.Enqueue(new SleepPattern(0.5f));
 			}
 			else if (BulletState == 1)
@@ -117,7 +118,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 			else if (BulletState == 2)
 			{
-				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, -100), 0.5d));
+				Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
 			}
 			else if (BulletState == 3)
 			{
@@ -130,7 +131,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 			else if (BulletState == 4)
 			{
-				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, 200), 0.25d));
+				Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, 200), 0.25d));
 			}
 			else if (BulletState == 5)
 			{
@@ -143,7 +144,11 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 			else if (BulletState == 6)
 			{
-				Pattern.Enqueue(new LinearMovePattern(new Vector2(0, -100), 0.5d));
+				Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
+			}
+			else if (BulletState == 7)
+			{
+				Pattern.Enqueue(new RadialMovementPattern(this.Position, new Vector2(-50, 0), 360d, 1.0d));
 			}
 		}
 

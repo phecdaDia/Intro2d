@@ -32,8 +32,8 @@ namespace Intro2DGame.Game.Sprites
 
 			if (addChilds)
 			{
-				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
-				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
+				//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
+				//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 			}
 

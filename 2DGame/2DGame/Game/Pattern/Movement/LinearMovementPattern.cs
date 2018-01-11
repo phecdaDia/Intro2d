@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Pattern.Movement
 {
-	public class LinearMovePattern : IPattern
+	public class LinearMovementPattern : IPattern
 	{
 		private readonly Vector2 DeltaMovement;
 		private double Timespan;
 
-		public LinearMovePattern(Vector2 delta, double timespan)
+		public LinearMovementPattern(Vector2 delta, double timespan)
 		{
 			this.DeltaMovement = delta / (float)timespan;
 			this.Timespan = timespan;
