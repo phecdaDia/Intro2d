@@ -33,8 +33,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 		{
 			base.Draw(spriteBatch);
 
-			var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
-			FontManager.DrawString(spriteBatch, "example", new Vector2(510, 10), $"Gegner:{lg?.Health ?? 0}");
+			//var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
+			//FontManager.DrawString(spriteBatch, "example", new Vector2(510, 10), $"Gegner:{lg?.Health ?? 0}");
 		}
 	}
 
@@ -59,6 +59,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 			this.Pattern = new Queue<IPattern>();
 			AddStates();
+
+			SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(510, 50), 50, 800));
 
 		}
 

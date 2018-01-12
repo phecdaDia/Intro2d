@@ -22,7 +22,7 @@ namespace Intro2DGame.Game.Scenes
 		protected override void CreateScene()
 		{
 			AddSprite(new MainMenuSprite());
-			AddSprite(new ImageSprite("title", new Vector2(300, 40)));
+			AddSprite(new ImageSprite("title", new Vector2(350, 40)));
 			AddSprite(new PlayerSprite(new Vector2(35, 200), true));
 		}
 
