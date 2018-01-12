@@ -19,30 +19,27 @@ namespace Intro2DGame.Game.Scenes.Stages
 {
 	public class LaserGuyScene : Scene
 	{
-		private LaserGuySprite LaserGuy;
 		public LaserGuyScene() : base("laserguy")
 		{
 		}
 
 		protected override void CreateScene()
 		{
-			AddSprite(new PlayerSprite(new Vector2(100, 360)));
-			this.LaserGuy=new LaserGuySprite(new Vector2(1180, 360));
-			AddSprite(this.LaserGuy);
+			AddSprite(new PlayerSprite(new Vector2(250, 750)));
+			AddSprite(new LaserGuySprite(new Vector2(250, 150)));
 
 		}
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			FontManager.DrawString(spriteBatch, "example", new Vector2(200, 10), $"Gegner:{LaserGuy.Health}");
+
+			var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
+			FontManager.DrawString(spriteBatch, "example", new Vector2(510, 10), $"Gegner:{lg?.Health ?? 0}");
 		}
 	}
 
 	internal class LaserGuySprite : AbstractAnimatedSprite
 	{
-		//private float OrbRotation;
-
-		private double ElapsedSeconds;
 
 		// This is the current state our enemy is in.
 
@@ -72,7 +69,6 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		public override void Update(GameTime gameTime)
 		{
-			ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
 			
 			if (Pattern.Count == 0)
 			{
@@ -81,10 +77,14 @@ namespace Intro2DGame.Game.Scenes.Stages
 				BulletState = 0;
 
 				AddStates();
-				Update(gameTime);
-				return;
 			}
 
+			ExecutePattern(gameTime);
+
+		}
+
+		private void ExecutePattern(GameTime gameTime)
+		{
 			if (Pattern.Peek().Execute(this, gameTime))
 			{
 				Pattern.Dequeue();
@@ -97,58 +97,49 @@ namespace Intro2DGame.Game.Scenes.Stages
 					AddStates();
 				} // else we still have patterns left. 
 			}
-
 		}
 
 		private void AddStates()
 		{
-
-			if (BulletState == 0)
+			switch (BulletState)
 			{
-				Pattern.Enqueue(new SingleLaserPattern());
-				Pattern.Enqueue(new SleepPattern(0.5f));
-			}
-			else if (BulletState == 1)
-			{
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-				Pattern.Enqueue(new SleepPattern(0.5f));
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-				Pattern.Enqueue(new SleepPattern(0.5f));
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-			}
-			else if (BulletState == 2)
-			{
-				Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
-			}
-			else if (BulletState == 3)
-			{
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-				Pattern.Enqueue(new SleepPattern(0.5f));
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-				Pattern.Enqueue(new SleepPattern(0.5f));
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-
-			}
-			else if (BulletState == 4)
-			{
-				Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, 200), 0.25d));
-			}
-			else if (BulletState == 5)
-			{
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-				Pattern.Enqueue(new SleepPattern(0.5f));
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-				Pattern.Enqueue(new SleepPattern(0.5f));
-				Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-
-			}
-			else if (BulletState == 6)
-			{
-				Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
-			}
-			else if (BulletState == 7)
-			{
-				Pattern.Enqueue(new RadialMovementPattern(this.Position, new Vector2(-50, 0), 360d, 1.0d));
+				case 0:
+					Pattern.Enqueue(new SingleLaserPattern());
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					break;
+				case 1:
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+					break;
+				case 2:
+					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
+					break;
+				case 3:
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+					break;
+				case 4:
+					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, 200), 0.25d));
+					break;
+				case 5:
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
+					Pattern.Enqueue(new SleepPattern(0.5f));
+					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
+					break;
+				case 6:
+					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
+					break;
+				case 7:
+					Pattern.Enqueue(new RadialMovementPattern(this.Position, new Vector2(-50, 0), 360d, 1.0d));
+					break;
 			}
 		}
 
@@ -159,49 +150,6 @@ namespace Intro2DGame.Game.Scenes.Stages
 			       (position - this.Position - new Vector2(0, 32)).Length() <= 16 ||
 			       (position - this.Position + new Vector2(0, 16)).Length() <= 16 ||
 			       (position - this.Position + new Vector2(0, 32)).Length() <= 16;
-		}
-	}
-
-	internal class LinearTracer1 : AbstractSprite
-	{
-		private readonly Vector2 Direction;
-		private double ElapsedSeconds, TotalElapsedSeconds;
-
-		private readonly Vector2 Goal;
-
-		public LinearTracer1(Vector2 position, Vector2 direction) : base(position)
-		{
-			this.Direction = direction;
-
-			var player = SceneManager.GetSprites<PlayerSprite>().First();
-			this.Goal = player.Position;
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			this.Position += Direction * 5f;
-			this.ElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
-			this.TotalElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
-
-
-			if (ElapsedSeconds >= 1.5f)
-			{
-				ElapsedSeconds -= 1.5f;
-
-				SpawnSprite(new LaserOrb(this.Position, this.Goal - this.Position, (float) (3f - TotalElapsedSeconds), 0.5f));
-			}
-
-			if (TotalElapsedSeconds >= 3.0f)
-			{
-				this.Delete();
-				return;
-			}
-		}
-
-		public override void Draw(SpriteBatch spriteBatch)
-		{
-			base.Draw(spriteBatch);
-			spriteBatch.Draw(Game.WhitePixel, this.Position, Color.Red);
 		}
 	}
 }

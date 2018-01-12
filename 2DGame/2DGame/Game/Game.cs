@@ -48,7 +48,7 @@ namespace Intro2DGame.Game
 		/// <summary>
 		/// This is the size at which we render the game.
 		/// </summary>
-		public static readonly Point RenderSize = new Point(600, 700);
+		public static readonly Point RenderSize = new Point(700, 900);
 
 		/// <summary>
 		/// This allows us to change the size of the window without changing the render size.
@@ -201,14 +201,14 @@ namespace Intro2DGame.Game
 
 			// Only add something here if it affects the game globally!
 
-			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(40, RenderSize.Y - 20), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(40, RenderSize.Y - 40), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(40, RenderSize.Y - 60), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(20, RenderSize.Y - 20), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(20, RenderSize.Y - 40), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(20, RenderSize.Y - 60), Color.Black);
 
 			var players = SceneManager.GetSprites<PlayerSprite>();
 			var player = players.FirstOrDefault();
 			if (player != null)
-				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.Position.X:F2} - {player.Position.Y:F2}", new Vector2(40, RenderSize.Y - 80), Color.Black);
+				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.Position.X:F2} - {player.Position.Y:F2}", new Vector2(20, RenderSize.Y - 80), Color.Black);
 
 			SpriteBatch.End();
 

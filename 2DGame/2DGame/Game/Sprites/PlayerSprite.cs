@@ -19,21 +19,26 @@ namespace Intro2DGame.Game.Sprites
 		private double Invulnerable;
 		private double Shot;
 
-		private Vector2 ShootDirection = new Vector2(1, 0);
+		private Vector2 ShootDirection = new Vector2(0, -1);
 
-		private Rectangle PlayArea = new Rectangle(0, 100, Game.RenderSize.X, Game.RenderSize.Y - 100);
+		private Rectangle PlayArea = new Rectangle(0, 0, Game.RenderSize.X - 200, Game.RenderSize.Y);
 
 
 		//private readonly DirectionMarker DirectionMarker;
 
-		public PlayerSprite(Vector2 position, bool addChilds = true) : base("player", position)
+		public PlayerSprite(Vector2 position, bool isMainMenu = false) : base("player", position)
 		{
 			LayerDepth = 0;
 
-			if (addChilds)
+			if (isMainMenu)
 			{
-				//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this)); // This adds the banner
-				//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
+				PlayArea = new Rectangle(50, 100, 150, 500);
+				ShootDirection = new Vector2(1, 0);
+			}
+			else
+			{
+				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, new Vector2(500, 0))); // This adds the banner
+																				  //SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 			}
 
@@ -85,7 +90,7 @@ namespace Intro2DGame.Game.Sprites
 			if (KeyboardManager.IsKeyPressed(Keys.A)) movement += new Vector2(-1, 0);
 			if (KeyboardManager.IsKeyPressed(Keys.D)) movement += new Vector2(1, 0);
 
-			if (KeyboardManager.IsKeyPressed(Keys.Q)) this.ShootDirection = ShootDirection.AddDegrees(-180 * gameTime.ElapsedGameTime.TotalSeconds);
+			//if (KeyboardManager.IsKeyPressed(Keys.Q)) this.ShootDirection = ShootDirection.AddDegrees(-180 * gameTime.ElapsedGameTime.TotalSeconds);
 			//if (KeyboardManager.IsKeyPressed(Keys.E)) this.ShootDirection = ShootDirection.AddDegrees(180 * gameTime.ElapsedGameTime.TotalSeconds);
 			//if (KeyboardManager.IsKeyPressed(Keys.R)) this.ShootDirection = Vector2.UnitX;
 
@@ -156,19 +161,14 @@ namespace Intro2DGame.Game.Sprites
 	{
 		private readonly PlayerSprite Player;
 
-		public BannerSprite(PlayerSprite player) : base("banner", new Vector2())
+		public BannerSprite(PlayerSprite player, Vector2 position) : base("banner2", new Vector2())
 		{
 			this.Player = player;
 
 			Persistence = true;
-			
-			this.Position = new Vector2(0, 0);
-			LayerDepth = 10;
-		}
 
-		public BannerSprite(PlayerSprite player, int w) : this(player)
-		{
-			this.Position = new Vector2(0, w);
+			this.Position = position;
+			LayerDepth = 10;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

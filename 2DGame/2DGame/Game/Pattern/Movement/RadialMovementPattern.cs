@@ -38,7 +38,7 @@ namespace Intro2DGame.Game.Pattern.Movement
 			this.Timespan = timespan;
 			
 			this.Radius = normal.Length();
-			this.InitialAngle = normal.ToAngle();
+			this.InitialAngle = normal.ToAngle() + Math.PI;
 
 			Console.WriteLine($"{this.CenterVector} - {this.DeltaAngle} - {this.Radius} - {this.InitialAngle}");
 

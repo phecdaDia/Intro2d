@@ -23,7 +23,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			AddSprite(new MainMenuSprite());
 			AddSprite(new ImageSprite("title", new Vector2(300, 40)));
-			AddSprite(new PlayerSprite(new Vector2(35, 200), false));
+			AddSprite(new PlayerSprite(new Vector2(35, 200), true));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -72,7 +72,7 @@ namespace Intro2DGame.Game.Scenes
 				new MainMenuEntry("Laser guy Round", FONT_NAME, "laserguy", new Vector2(x, y += spacing)),
 
 				//
-				new MainMenuEntry("Second Round", FONT_NAME, "starguy", new Vector2(x, y += spacing)),
+				new MainMenuEntry("Second Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
 
 				//
 				new MainMenuEntry("Final Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),

@@ -87,7 +87,6 @@
     <Compile Include="Game\Scenes\MainMenuScene.cs" />
     <Compile Include="Game\Scenes\MenuScene.cs" />
     <Compile Include="Game\Scenes\Stages\LaserGuyScene.cs" />
-    <Compile Include="Game\Scenes\Stages\StarGuyScene.cs" />
     <Compile Include="Game\Scenes\Transition\AbstractTransition.cs" />
     <Compile Include="Game\Scenes\Transition\TestTransition.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />

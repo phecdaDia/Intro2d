@@ -16,6 +16,8 @@ namespace Intro2DGame.Game
 		public int BackbufferWidth { get; private set; }
 		public int BackbufferHeight { get; private set; }
 
+		public string LoadStage { get; private set; }
+
 		public GameArguments(params string[] args)
 		{
 			Queue<string> argsQueue = new Queue<string>(args);
@@ -24,6 +26,7 @@ namespace Intro2DGame.Game
 			this.BackbufferWidth = Game.RenderSize.X;
 			this.BackbufferHeight = Game.RenderSize.Y;
 
+			this.LoadStage = "mainmenu";
 
 			while (argsQueue.Count > 0)
 			{
@@ -51,6 +54,10 @@ namespace Intro2DGame.Game
 						int i = 0;
 						int.TryParse(param, out i);
 						BackbufferHeight = i;
+					}
+					else if (arg == "-stage")
+					{
+						this.LoadStage = argsQueue.Dequeue();
 					}
 
 				}
