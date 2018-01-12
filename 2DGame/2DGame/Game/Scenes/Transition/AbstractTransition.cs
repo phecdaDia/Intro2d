@@ -13,7 +13,8 @@ namespace Intro2DGame.Game.Scenes.Transition
 		private Action Lambda;
 
 		protected AbstractTransition() : base("transition")
-		{}
+		{
+		}
 
 		public void SetLambda(Action lambda) => Lambda = lambda;
 
@@ -23,6 +24,5 @@ namespace Intro2DGame.Game.Scenes.Transition
 			DidLambda = true;
 			Lambda();
 		}
-
 	}
 }

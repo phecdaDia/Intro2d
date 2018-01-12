@@ -76,7 +76,7 @@ namespace Intro2DGame.Game
 			// Changing the window size
 			Graphics.PreferredBackBufferWidth = GameArguments.BackbufferWidth;
 			Graphics.PreferredBackBufferHeight = GameArguments.BackbufferHeight;
-			
+
 
 			if (GameArguments.IsFullScreen) Graphics.ToggleFullScreen();
 
@@ -141,7 +141,7 @@ namespace Intro2DGame.Game
 			// Images are loaded when needed. Don't load them here! We use the ImageManager.
 
 			WhitePixel = new Texture2D(GraphicsDevice, 1, 1);
-			WhitePixel.SetData(new [] {Color.White});
+			WhitePixel.SetData(new[] {Color.White});
 		}
 
 		/// <summary>
@@ -166,7 +166,6 @@ namespace Intro2DGame.Game
 
 			if (KeyboardManager.IsKeyDown(Keys.Escape))
 				SceneManager.CloseScene(new TestTransition(1.0d));
-
 
 
 			if (KeyboardManager.IsKeyDown(Keys.P)) SceneManager.AddScene("menu");
@@ -201,21 +200,28 @@ namespace Intro2DGame.Game
 
 			// Only add something here if it affects the game globally!
 
-			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}", new Vector2(20, RenderSize.Y - 20), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})", new Vector2(20, RenderSize.Y - 40), Color.Black);
-			SpriteBatch.DrawString(FontConsolas, $"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})", new Vector2(20, RenderSize.Y - 60), Color.Black);
+			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}",
+				new Vector2(20, RenderSize.Y - 20), Color.Black);
+			SpriteBatch.DrawString(FontConsolas,
+				$"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})",
+				new Vector2(20, RenderSize.Y - 40), Color.Black);
+			SpriteBatch.DrawString(FontConsolas,
+				$"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})",
+				new Vector2(20, RenderSize.Y - 60), Color.Black);
 
 			var players = SceneManager.GetSprites<PlayerSprite>();
 			var player = players.FirstOrDefault();
 			if (player != null)
-				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.Position.X:F2} - {player.Position.Y:F2}", new Vector2(20, RenderSize.Y - 80), Color.Black);
+				SpriteBatch.DrawString(FontConsolas, $"Player   : {player.Position.X:F2} - {player.Position.Y:F2}",
+					new Vector2(20, RenderSize.Y - 80), Color.Black);
 
 			SpriteBatch.End();
 
 			GraphicsDevice.SetRenderTarget(null);
 
 			SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
-			SpriteBatch.Draw(NativeRenderTarget, new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
+			SpriteBatch.Draw(NativeRenderTarget,
+				new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight), Color.White);
 			SpriteBatch.End();
 
 			base.Draw(gameTime);
@@ -243,7 +249,7 @@ namespace Intro2DGame.Game
 
 			if (DeltaBuffer.Count > DELTA_BUFFER_SIZE) DeltaBuffer.Dequeue();
 			DeltaBuffer.Enqueue(framerate);
-			
+
 
 			if (KeyboardManager.IsKeyDown(Keys.NumPad0)) Reset();
 			if (AverageFramerate <= MinimumFramerate || MinimumFramerate < 0.0d) MinimumFramerate = AverageFramerate;

@@ -15,6 +15,7 @@ namespace Intro2DGame.Game.Fonts
 		/// Dictionary where all symbols are positioned
 		/// </summary>
 		protected readonly Dictionary<char, Point> SymbolPosition;
+
 		/// <summary>
 		/// Key for the texture
 		/// </summary>
@@ -24,10 +25,12 @@ namespace Intro2DGame.Game.Fonts
 		/// Amount of pixels for every character
 		/// </summary>
 		private readonly int TotalPixelAmount;
+
 		/// <summary>
 		/// Current selecting rectangle.
 		/// </summary>
 		private Rectangle Rectangle;
+
 		/// <summary>
 		/// Size of the characters
 		/// </summary>
@@ -52,8 +55,8 @@ namespace Intro2DGame.Game.Fonts
 			SymbolPosition = new Dictionary<char, Point>();
 
 			// Calculate the total pixels. 
-			TotalPixelAmount = (int)(symbolSize.X * symbolSize.Y);
-			Rectangle = new Rectangle(0, 0, (int)symbolSize.X, (int)symbolSize.Y);
+			TotalPixelAmount = (int) (symbolSize.X * symbolSize.Y);
+			Rectangle = new Rectangle(0, 0, (int) symbolSize.X, (int) symbolSize.Y);
 
 			FontManager.GetInstance().RegisterFont(fontName, this);
 
@@ -88,7 +91,7 @@ namespace Intro2DGame.Game.Fonts
 			}
 
 			var result = new Texture2D(Game.GetInstance().Graphics.GraphicsDevice,
-				(int)SymbolSize.X * maxLength, (int)SymbolSize.Y * lines.Length);
+				(int) SymbolSize.X * maxLength, (int) SymbolSize.Y * lines.Length);
 
 			var line = 0;
 			foreach (var s in lines)
@@ -104,18 +107,19 @@ namespace Intro2DGame.Game.Fonts
 
 						ImageManager.GetTexture2D(TextureKey).GetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 
-						Rectangle.Location = new Point(character * (int)SymbolSize.X, line * (int)SymbolSize.Y);
+						Rectangle.Location = new Point(character * (int) SymbolSize.X, line * (int) SymbolSize.Y);
 						result.SetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 					}
 					else
 					{
 						var colorData = new Color[TotalPixelAmount];
-						Rectangle.Location = new Point(character * (int)SymbolSize.X, line * (int)SymbolSize.Y);
+						Rectangle.Location = new Point(character * (int) SymbolSize.X, line * (int) SymbolSize.Y);
 						result.SetData(0, Rectangle, colorData, 0, TotalPixelAmount);
 					}
 
 					character++;
 				}
+
 				line++;
 			}
 

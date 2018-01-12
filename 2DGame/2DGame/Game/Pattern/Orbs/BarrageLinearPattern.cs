@@ -24,9 +24,9 @@ namespace Intro2DGame.Game.Pattern.Orbs
 
 			this.Speed = speed;
 		}
+
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
-			
 			var curr = this.Offset;
 			var limit = 2 * Math.PI + this.Distance + this.Offset;
 

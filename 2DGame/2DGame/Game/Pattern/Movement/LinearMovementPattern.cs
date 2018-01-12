@@ -15,7 +15,7 @@ namespace Intro2DGame.Game.Pattern.Movement
 
 		public LinearMovementPattern(Vector2 delta, double timespan)
 		{
-			this.DeltaMovement = delta / (float)timespan;
+			this.DeltaMovement = delta / (float) timespan;
 			this.Timespan = timespan;
 		}
 
@@ -28,17 +28,14 @@ namespace Intro2DGame.Game.Pattern.Movement
 			if (this.Timespan < 0.0d)
 			{
 				delta += this.Timespan;
-				host.Position += DeltaMovement * (float)delta;
+				host.Position += DeltaMovement * (float) delta;
 				return true;
 			}
 			else
 			{
-
-				host.Position += DeltaMovement * (float)delta;
+				host.Position += DeltaMovement * (float) delta;
 				return false;
 			}
-
-
 		}
 	}
 }

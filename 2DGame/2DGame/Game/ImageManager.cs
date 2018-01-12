@@ -111,7 +111,7 @@ namespace Intro2DGame.Game
 			Console.WriteLine("[ImageManager] Texture2D could not be loaded: {0}", key);
 			Console.WriteLine("\tUsing fallback texture");
 			GetInstance().TextureDictionary.TryGetValue("fallback", out output);
-			
+
 			return output;
 		}
 	}

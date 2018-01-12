@@ -17,7 +17,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 		private readonly float LifeSpan;
 		private bool Used;
 
-		public LaserOrb(Vector2 position, Vector2 direction, float chargeSpan = 1.0f, float lifeSpan = 2.5f) : base("OrbLaser", position, direction,
+		public LaserOrb(Vector2 position, Vector2 direction, float chargeSpan = 1.0f, float lifeSpan = 2.5f) : base(
+			"OrbLaser", position, direction,
 			new Point(32, 8))
 		{
 			this.ChargeSpan = chargeSpan;
@@ -26,13 +27,11 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			Scale.X = 100;
 			Used = false;
 			Hue = Color.Red;
-			
-			
 		}
 
 		protected override void AddFrames()
 		{
-			AddAnimation(new []
+			AddAnimation(new[]
 			{
 				new Point(0, 0),
 				new Point(32, 0),
@@ -42,8 +41,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 		protected override Vector2 UpdatePosition(GameTime gameTime)
 		{
 			return Vector2.Zero;
-
 		}
+
 		public override void Update(GameTime gameTime)
 		{
 			//base.Update(gameTime);
@@ -96,14 +95,11 @@ namespace Intro2DGame.Game.Sprites.Orbs
 					// Change this to different hitboxes. 
 					if (player.DoesCollide(q))
 					{
-						player.Damage((int)GameConstants.Difficulty);
+						player.Damage((int) GameConstants.Difficulty);
 						Used = true;
 					}
-
 				}
 			}
-
 		}
-		
 	}
 }

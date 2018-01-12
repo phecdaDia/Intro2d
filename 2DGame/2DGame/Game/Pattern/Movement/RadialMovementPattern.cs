@@ -36,12 +36,11 @@ namespace Intro2DGame.Game.Pattern.Movement
 			this.CenterVector = position + normal;
 			this.DeltaAngle = deltaAngle.ToDegrees();
 			this.Timespan = timespan;
-			
+
 			this.Radius = normal.Length();
 			this.InitialAngle = normal.ToAngle() + Math.PI;
 
 			Console.WriteLine($"{this.CenterVector} - {this.DeltaAngle} - {this.Radius} - {this.InitialAngle}");
-
 		}
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
@@ -57,7 +56,6 @@ namespace Intro2DGame.Game.Pattern.Movement
 			host.Position = CenterVector + tempAngle.ToVector2() * Radius;
 
 			return isOver;
-
 		}
 	}
 }

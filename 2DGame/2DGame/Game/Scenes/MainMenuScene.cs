@@ -29,7 +29,7 @@ namespace Intro2DGame.Game.Scenes
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			if (SceneManager.GetCurrentScene().SceneKey != this.SceneKey) return;
-				base.Draw(spriteBatch);
+			base.Draw(spriteBatch);
 		}
 	}
 
@@ -59,7 +59,6 @@ namespace Intro2DGame.Game.Scenes
 		/// </summary>
 		public MainMenuSprite()
 		{
-
 			var x = 200;
 			var y = 85;
 			var spacing = 45;
@@ -67,7 +66,6 @@ namespace Intro2DGame.Game.Scenes
 			// Adding all entries to the list
 			MenuEntries = new List<MainMenuEntry>
 			{
-
 				//
 				new MainMenuEntry("Laser guy Round", FONT_NAME, "laserguy", new Vector2(x, y += spacing)),
 
@@ -82,13 +80,15 @@ namespace Intro2DGame.Game.Scenes
 
 				// entry for the second debug scene
 				new MainMenuEntry("example fight 2", FONT_NAME, "example2", new Vector2(x, y += spacing)),
-				
+
 				// Lambda expression for dialog generation
-				new LambdaMainMenuEntry("dialog test", FONT_NAME, () => {
+				new LambdaMainMenuEntry("dialog test", FONT_NAME, () =>
+				{
 					var random = new Random();
 					for (var i = 0; i < 10; i++)
 					{
-						SceneManager.AddScene(new DialogScene($"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
+						SceneManager.AddScene(new DialogScene(
+							$"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
 					}
 				}, new Vector2(x, y += spacing)),
 
@@ -99,7 +99,6 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Update(GameTime gameTime)
 		{
-
 			var playerOrbs = SceneManager.GetSprites<PlayerOrb>();
 
 			foreach (var playerOrb in playerOrbs)
@@ -121,9 +120,8 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-
 			var d = MenuEntries.Count > MAX_MENU_ENTRIES ? MAX_MENU_ENTRIES : MenuEntries.Count;
-			
+
 			if (MenuEntries.Count <= MAX_MENU_ENTRIES)
 			{
 				foreach (var menuItem in MenuEntries)
@@ -176,7 +174,6 @@ namespace Intro2DGame.Game.Scenes
 
 	internal class DifficultyMainMenuEntry : MainMenuEntry
 	{
-
 		public DifficultyMainMenuEntry(string text, string font, Vector2 position) : base(text, font, "", position)
 		{
 		}

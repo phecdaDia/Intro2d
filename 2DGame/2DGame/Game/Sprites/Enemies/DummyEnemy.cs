@@ -18,9 +18,10 @@ namespace Intro2DGame.Game.Sprites.Enemies
 		private readonly double FrameDelay;
 		private readonly int LayerDifficulty;
 
-	    private double Milliseconds;
+		private double Milliseconds;
 
-		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("tutorialplayer", position)
+		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("tutorialplayer",
+			position)
 		{
 			Hue = Color.Red;
 
@@ -36,7 +37,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override void Update(GameTime gameTime)
 		{
-		    Milliseconds += gameTime.ElapsedGameTime.Milliseconds;
+			Milliseconds += gameTime.ElapsedGameTime.Milliseconds;
 
 			float c = 0;
 			var p = new Vector2((float) Math.Sin(c), (float) Math.Cos(c));
@@ -48,7 +49,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 			if (Milliseconds > FrameDelay)
 			{
-			    Milliseconds %= FrameDelay;
+				Milliseconds %= FrameDelay;
 				// Shoot something
 				var players = SceneManager.GetSprites<PlayerSprite>();
 				foreach (var ps in players)
@@ -61,7 +62,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 					q += temp_;
 					z += temp_ / 2f;
 
-					var degrees2 = 2 * Math.PI * (Health * (Health+1) / 1.95f / LayerDifficulty);
+					var degrees2 = 2 * Math.PI * (Health * (Health + 1) / 1.95f / LayerDifficulty);
 
 					for (var i = 0; i < LayerDifficulty; i++)
 					{
@@ -83,7 +84,7 @@ namespace Intro2DGame.Game.Sprites.Enemies
 			return (position - this.Position).Length() <= 16 ||
 			       (position - this.Position - new Vector2(0, 16)).Length() <= 16 ||
 			       (position - this.Position + new Vector2(0, 16)).Length() <= 16
-			;
+				;
 		}
 	}
 }

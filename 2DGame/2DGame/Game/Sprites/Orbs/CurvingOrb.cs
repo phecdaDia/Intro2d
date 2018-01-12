@@ -32,7 +32,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			{
 				if (!ps.DoesCollide(this)) continue;
 
-				ps.Damage((int)GameConstants.Difficulty);
+				ps.Damage((int) GameConstants.Difficulty);
 				this.Delete();
 			}
 		}

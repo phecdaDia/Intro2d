@@ -18,7 +18,6 @@ namespace Intro2DGame.Game.Scenes
 	{
 		public MenuScene() : base("menu")
 		{
-			
 		}
 
 		protected override void CreateScene()

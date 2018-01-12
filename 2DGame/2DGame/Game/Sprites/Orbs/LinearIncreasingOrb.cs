@@ -11,7 +11,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 	public class LinearIncreasingOrb : AbstractOrb
 	{
 		private readonly float Speed2;
-		
+
 		// Don't use this with uncapped framerate yet. 
 		public LinearIncreasingOrb(Vector2 position, Vector2 direction, float speed, float speed2) : base("orb3", position,
 			direction)
@@ -47,7 +47,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			//this.Hue = new Color(r ^ 0xff, g ^ 0xff, b ^ 0xff);
 
 
-			Direction = Direction * (1.0f + Speed2 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+			Direction = Direction * (1.0f + Speed2 * (float) gameTime.ElapsedGameTime.TotalSeconds);
 			return Direction;
 		}
 
@@ -60,7 +60,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			{
 				if (!ps.DoesCollide(this)) continue;
 
-				ps.Damage((int)GameConstants.Difficulty);
+				ps.Damage((int) GameConstants.Difficulty);
 				this.Delete();
 			}
 		}

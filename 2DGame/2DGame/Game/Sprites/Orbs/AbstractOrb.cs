@@ -24,28 +24,30 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			// default values
 			Direction = direction;
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
-			Rotation = (float)Math.Atan2(direction.Y, direction.X);
+			Rotation = (float) Math.Atan2(direction.Y, direction.X);
 		}
 
-		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, float delay, Point size) : base(textureKey, position, size, delay)
+		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, float delay, Point size) : base(
+			textureKey, position, size, delay)
 		{
 			// default values
 			Direction = direction;
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
-			Rotation = (float)Math.Atan2(direction.Y, direction.X);
+			Rotation = (float) Math.Atan2(direction.Y, direction.X);
 		}
 
-		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, Point size) : base(textureKey, position, size)
+		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, Point size) : base(textureKey, position,
+			size)
 		{
 			// default values
 			Direction = direction;
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
-			Rotation = (float)Math.Atan2(direction.Y, direction.X);
+			Rotation = (float) Math.Atan2(direction.Y, direction.X);
 		}
 
 		protected override void AddFrames()
 		{
-			AddAnimation(new Point[] { new Point() });
+			AddAnimation(new Point[] {new Point()});
 		}
 
 		/// <summary>
@@ -59,7 +61,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			var up = UpdatePosition(gameTime);
 			if (up.LengthSquared() > 0) Rotation = (float) Math.Atan2(up.Y, up.X);
 
-			Position += up * 60.0f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			Position += up * 60.0f * (float) gameTime.ElapsedGameTime.TotalSeconds;
 		}
 
 		/// <summary>

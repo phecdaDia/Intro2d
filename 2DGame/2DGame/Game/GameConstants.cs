@@ -16,7 +16,6 @@ namespace Intro2DGame.Game
 		public static Difficulty Difficulty = Difficulty.Normal;
 
 		public static Random Random = new Random();
-
 	}
 
 	public enum Difficulty

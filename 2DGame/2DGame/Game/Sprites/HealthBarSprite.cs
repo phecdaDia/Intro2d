@@ -29,21 +29,24 @@ namespace Intro2DGame.Game.Sprites
 		{
 			if (ReferenceSprite.IsDeleted())
 			{
-
 			}
-
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-
 			const int borderSize = 5;
 			var borderVector = new Vector2(borderSize);
 
-			spriteBatch.Draw(Game.WhitePixel, Position, null, Color.Black, 0.0f, new Vector2(), new Vector2(Width, Height), SpriteEffects.None, 0.0f);
-			spriteBatch.Draw(Game.WhitePixel, Position + borderVector, null, Color.Red, 0.0f, new Vector2(), new Vector2(Width, Height) - 2 * borderVector, SpriteEffects.None, 0.0f);
+			spriteBatch.Draw(Game.WhitePixel, Position, null, Color.Black, 0.0f, new Vector2(), new Vector2(Width, Height),
+				SpriteEffects.None, 0.0f);
+			spriteBatch.Draw(Game.WhitePixel, Position + borderVector, null, Color.Red, 0.0f, new Vector2(),
+				new Vector2(Width, Height) - 2 * borderVector, SpriteEffects.None, 0.0f);
 
-			spriteBatch.Draw(Game.WhitePixel, this.Position + new Vector2(borderSize, this.Height - borderSize), null, Color.Green, 0.0f, new Vector2(0, 1), new Vector2(this.Width - 2 * borderSize, ((float)ReferenceSprite.Health / ReferenceSprite.MaxHealth) * (this.Height - 2 * borderSize)), SpriteEffects.None, 0.0f);
+			spriteBatch.Draw(Game.WhitePixel, this.Position + new Vector2(borderSize, this.Height - borderSize), null,
+				Color.Green, 0.0f, new Vector2(0, 1),
+				new Vector2(this.Width - 2 * borderSize,
+					((float) ReferenceSprite.Health / ReferenceSprite.MaxHealth) * (this.Height - 2 * borderSize)), SpriteEffects.None,
+				0.0f);
 		}
 	}
 }

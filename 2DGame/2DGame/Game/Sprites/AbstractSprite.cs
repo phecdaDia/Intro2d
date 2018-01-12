@@ -54,11 +54,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Maximum amount of <see cref="Health"/>
 		/// </summary>
-		public int MaxHealth
-		{
-			get;
-			protected set;
-		}
+		public int MaxHealth { get; protected set; }
 
 		/// <summary>
 		/// <see cref="true"/> when the <see cref="AbstractSprite"/> is not deleted when exiting the <see cref="Scene"/>
@@ -219,11 +215,15 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		/// Loads all custom content
 		/// </summary>
-		public virtual void LoadContent() { }
+		public virtual void LoadContent()
+		{
+		}
 
 		/// <summary>
 		/// Should unload all custom content
 		/// </summary>
-		public virtual void UnloadContent() { }
+		public virtual void UnloadContent()
+		{
+		}
 	}
 }

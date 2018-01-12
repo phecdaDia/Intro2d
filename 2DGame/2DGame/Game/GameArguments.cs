@@ -35,7 +35,8 @@ namespace Intro2DGame.Game
 				{
 					// flag
 					if (arg == "--fullscreen") IsFullScreen = true;
-					else if (arg == "--mynameisclucht") IsCheatsEnabled = true;
+					else if (arg == "--mynameisclucht")
+						IsCheatsEnabled = true;
 				}
 				else if (arg.StartsWith("-"))
 				{
@@ -59,10 +60,8 @@ namespace Intro2DGame.Game
 					{
 						this.LoadStage = argsQueue.Dequeue();
 					}
-
 				}
 			}
 		}
-
 	}
 }

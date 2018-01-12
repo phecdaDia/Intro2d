@@ -24,7 +24,8 @@ namespace Intro2DGame.Game.Scenes.Transition
 		}
 
 		protected override void CreateScene()
-		{}
+		{
+		}
 
 		public override void Update(GameTime gameTime)
 		{
@@ -50,7 +51,7 @@ namespace Intro2DGame.Game.Scenes.Transition
 		{
 			// Creating a 1x1 pixel texture that is white so we can recolor it in the spriteBatch.Draw();
 			Texture = new Texture2D(Game.GetInstance().GraphicsDevice, 1, 1);
-			Texture.SetData(new [] { Color.White });
+			Texture.SetData(new[] {Color.White});
 		}
 
 		/// <inheritdoc />

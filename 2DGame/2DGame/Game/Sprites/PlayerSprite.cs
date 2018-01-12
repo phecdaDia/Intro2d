@@ -38,7 +38,7 @@ namespace Intro2DGame.Game.Sprites
 			else
 			{
 				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, new Vector2(500, 0))); // This adds the banner
-																				  //SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
+				//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 			}
 
@@ -50,10 +50,9 @@ namespace Intro2DGame.Game.Sprites
 
 			this.Persistence = true;
 		}
-		
+
 		public override void Update(GameTime gameTime)
 		{
-
 			if (Game.GameArguments.IsCheatsEnabled && KeyboardManager.IsKeyPressed(Keys.F4))
 			{
 				Health = MaxHealth;
@@ -102,7 +101,7 @@ namespace Intro2DGame.Game.Sprites
 
 				// now normalize it for uncapped frames
 				movement *= 60.0f; // we aimed for 60 fps
-				movement *= (float)gameTime.ElapsedGameTime.TotalSeconds;
+				movement *= (float) gameTime.ElapsedGameTime.TotalSeconds;
 
 				Position += movement * (Shot > 0 ? 2.75f : 4.25f);
 			}
@@ -119,15 +118,11 @@ namespace Intro2DGame.Game.Sprites
 			if (Position.Y + halfTextureHeight > PlayArea.Size.Y) Position.Y = PlayArea.Size.Y - halfTextureHeight;
 
 
-
-			
-
 			if (Health >= MaxHealth) Health = MaxHealth;
 
 			if (Health <= 0) SceneManager.CloseScene(new TestTransition(1.0d));
 
 			//DirectionMarker.Update(gameTime);
-
 		}
 
 		public override bool DoesCollide(Vector2 position)
@@ -153,7 +148,6 @@ namespace Intro2DGame.Game.Sprites
 			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), this.Position - new Vector2(4), Color.White);
 
 			//this.DirectionMarker.Draw(spriteBatch);
-
 		}
 	}
 
@@ -220,7 +214,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public override void Update(GameTime gameTime)
 		{
-			Position += UpdatePosition(gameTime) * 60.0f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			Position += UpdatePosition(gameTime) * 60.0f * (float) gameTime.ElapsedGameTime.TotalSeconds;
 
 			var sprites = SceneManager.GetAllSprites();
 
@@ -229,7 +223,8 @@ namespace Intro2DGame.Game.Sprites
 			{
 				if (!sprite.Enemy) continue;
 
-				if (sprite.DoesCollide(this.Position)) {
+				if (sprite.DoesCollide(this.Position))
+				{
 					sprite.Health -= 1;
 					Delete();
 				}

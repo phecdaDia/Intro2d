@@ -50,7 +50,7 @@ namespace Intro2DGame.Game.Scenes
 			// Checks if the scene is in the Dictionary. 
 			if (!SpriteDictionary.ContainsKey(this.SceneKey)) SpriteDictionary[this.SceneKey] = new Dictionary<Type, IList>();
 			//if (!BufferedSpriteDictionary.ContainsKey(this.GetType())) BufferedSpriteDictionary[this.GetType()] = new List<AbstractSprite>();
-			
+
 			this.LifeTime = new GameTime();
 		}
 
@@ -61,7 +61,8 @@ namespace Intro2DGame.Game.Scenes
 		public List<T> GetSprites<T>()
 		{
 			// If we have a List of sprites return it, otherwise give a blank list to avoid NPE
-			if (SpriteDictionary[this.SceneKey].ContainsKey(typeof(T))) return (List<T>) SpriteDictionary[this.SceneKey][typeof(T)];
+			if (SpriteDictionary[this.SceneKey].ContainsKey(typeof(T)))
+				return (List<T>) SpriteDictionary[this.SceneKey][typeof(T)];
 			return new List<T>();
 		}
 
@@ -74,7 +75,6 @@ namespace Intro2DGame.Game.Scenes
 			if (!BufferedSpriteDictionary.ContainsKey(this.SceneKey))
 				BufferedSpriteDictionary[this.SceneKey] = new List<AbstractSprite>();
 			BufferedSpriteDictionary[this.SceneKey].Add(s);
-
 		}
 
 		/// <summary>
@@ -85,9 +85,8 @@ namespace Intro2DGame.Game.Scenes
 		{
 			if (!SpriteDictionary[this.SceneKey].ContainsKey(s.GetType()))
 			{
-
 				var listType = typeof(List<>).MakeGenericType(s.GetType());
-				var list = (IList)Activator.CreateInstance(listType);
+				var list = (IList) Activator.CreateInstance(listType);
 				SpriteDictionary[this.SceneKey][s.GetType()] = list;
 			}
 
@@ -147,8 +146,10 @@ namespace Intro2DGame.Game.Scenes
 					c.Update(gameTime);
 
 					if (!c.Persistence)
-						if (c.Position.X < 0 || c.Position.Y < 0) c.Delete();
-						else if (c.Position.X > Game.RenderSize.X || c.Position.Y > Game.RenderSize.Y) c.Delete();
+						if (c.Position.X < 0 || c.Position.Y < 0)
+							c.Delete();
+						else if (c.Position.X > Game.RenderSize.X || c.Position.Y > Game.RenderSize.Y)
+							c.Delete();
 
 
 					if (c.Health >= c.MaxHealth) c.Health = c.MaxHealth;
@@ -250,10 +251,9 @@ namespace Intro2DGame.Game.Scenes
 			{
 				foreach (var sprite in spriteDict.Value)
 				{
-					((AbstractSprite)sprite).UnloadContent();
+					((AbstractSprite) sprite).UnloadContent();
 				}
 			}
 		}
-
 	}
 }

@@ -10,6 +10,8 @@ namespace Intro2DGame.Game.ExtensionMethods
 	public static class Vector2Extension
 	{
 		public static double ToAngle(this Vector2 vector) => Math.Atan2(vector.Y, vector.X);
-		public static Vector2 AddDegrees(this Vector2 vector, double degrees) => (vector.ToAngle() + degrees.ToDegrees()).ToVector2();
+
+		public static Vector2 AddDegrees(this Vector2 vector, double degrees) =>
+			(vector.ToAngle() + degrees.ToDegrees()).ToVector2();
 	}
 }

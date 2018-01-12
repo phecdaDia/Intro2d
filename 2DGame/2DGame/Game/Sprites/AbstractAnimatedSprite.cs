@@ -59,9 +59,8 @@ namespace Intro2DGame.Game.Sprites
 			AddFrames();
 		}
 
-		public AbstractAnimatedSprite(string key, Vector2 position): base(key, position)
+		public AbstractAnimatedSprite(string key, Vector2 position) : base(key, position)
 		{
-
 			// Check if we already created our dictionary
 			if (FrameDictionary == null) FrameDictionary = new Dictionary<Type, Dictionary<string, Point[]>>();
 
@@ -118,7 +117,8 @@ namespace Intro2DGame.Game.Sprites
 				CurrentOffset -= Delay;
 				CurrentFrame++;
 
-				if (CurrentFrame >= FrameDictionary[t][CurrentAnimation].Length) CurrentFrame %= FrameDictionary[t][CurrentAnimation].Length;
+				if (CurrentFrame >= FrameDictionary[t][CurrentAnimation].Length)
+					CurrentFrame %= FrameDictionary[t][CurrentAnimation].Length;
 			}
 		}
 

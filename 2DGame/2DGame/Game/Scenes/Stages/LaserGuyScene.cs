@@ -27,8 +27,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 		{
 			AddSprite(new PlayerSprite(new Vector2(250, 750)));
 			AddSprite(new LaserGuySprite(new Vector2(250, 150)));
-
 		}
+
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
@@ -40,7 +40,6 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 	internal class LaserGuySprite : AbstractAnimatedSprite
 	{
-
 		// This is the current state our enemy is in.
 
 		private int BulletState;
@@ -48,9 +47,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 		private readonly Queue<IPattern> Pattern;
 
 
-		public LaserGuySprite(Vector2 position):base("Enemies/LSprite-0001", position)
+		public LaserGuySprite(Vector2 position) : base("Enemies/LSprite-0001", position)
 		{
-
 			this.MaxHealth = 750;
 			this.Health = 750;
 			this.Enemy = true;
@@ -61,17 +59,15 @@ namespace Intro2DGame.Game.Scenes.Stages
 			AddStates();
 
 			SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(510, 50), 50, 800));
-
 		}
 
 		protected override void AddFrames()
 		{
-			AddAnimation(new [] {new Point(), });
+			AddAnimation(new[] {new Point(),});
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			
 			if (Pattern.Count == 0)
 			{
 				// just don't do anything this frame. This should never execute!
@@ -82,7 +78,6 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 
 			ExecutePattern(gameTime);
-
 		}
 
 		private void ExecutePattern(GameTime gameTime)
@@ -155,4 +150,3 @@ namespace Intro2DGame.Game.Scenes.Stages
 		}
 	}
 }
-

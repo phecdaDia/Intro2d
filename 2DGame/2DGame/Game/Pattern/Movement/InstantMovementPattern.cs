@@ -16,6 +16,7 @@ namespace Intro2DGame.Game.Pattern.Movement
 		{
 			this.Delta = delta;
 		}
+
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
 			host.Position += this.Delta;

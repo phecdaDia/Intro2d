@@ -54,7 +54,6 @@ namespace Intro2DGame.Game.Fonts
 
 		public static void DrawString(SpriteBatch spriteBatch, string font, Vector2 position, params string[] text)
 		{
-
 			if (font == null) throw new ArgumentNullException(nameof(font));
 			if (text == null) throw new ArgumentNullException(nameof(text));
 

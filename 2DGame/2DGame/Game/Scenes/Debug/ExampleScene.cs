@@ -38,7 +38,8 @@ namespace Intro2DGame.Game.Scenes.Debug
 				foreach (AbstractSprite de in GetAllSprites()[t])
 				{
 					if (!de.Enemy) continue;
-					spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}", new Vector2(30, 110 + (i++ * 20)), Color.Black);
+					spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}",
+						new Vector2(30, 110 + (i++ * 20)), Color.Black);
 				}
 			}
 		}

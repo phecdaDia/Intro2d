@@ -34,7 +34,7 @@ namespace Intro2DGame.Game.Scenes
 		/// It's not actually a <see cref="Stack{Scene}"/>. It's a <see cref="List{Scene}"/> to draw all scenes in order.
 		/// </summary>
 		private readonly List<Scene> SceneStack;
-		
+
 		/// <summary>
 		/// The current top scene.
 		/// </summary>
@@ -50,7 +50,6 @@ namespace Intro2DGame.Game.Scenes
 
 		private SceneManager()
 		{
-
 			// Creates the SceneDictionary Dictionary
 			SceneDictionary = new Dictionary<string, Scene>();
 			SceneStack = new List<Scene>();
@@ -97,7 +96,6 @@ namespace Intro2DGame.Game.Scenes
 			sm.SceneStack.Add(sm.SceneDictionary[key]);
 			sm.CurrentScene.ResetScene();
 			sm.CurrentScene.LoadContent();
-
 		}
 
 		/// <summary>
@@ -135,7 +133,6 @@ namespace Intro2DGame.Game.Scenes
 				transition.SetLambda(() => RemoveScene());
 				AddTransition(transition);
 			}
-
 		}
 
 		/// <summary>
@@ -162,7 +159,6 @@ namespace Intro2DGame.Game.Scenes
 				transition.SetLambda(() => AddScene(key));
 				AddTransition(transition);
 			}
-
 		}
 
 		/// <summary>
@@ -224,6 +220,7 @@ namespace Intro2DGame.Game.Scenes
 				Instance = new SceneManager();
 				Instance.CreateScenes();
 			}
+
 			return Instance;
 		}
 
@@ -264,7 +261,8 @@ namespace Intro2DGame.Game.Scenes
 			return GetInstance().SceneStack.Count;
 		}
 
-		public static int GetTotalSpriteCount() => GetInstance().SceneStack.Sum(x => x.GetAllSprites().Values.Sum(y => y.Count));
+		public static int GetTotalSpriteCount() =>
+			GetInstance().SceneStack.Sum(x => x.GetAllSprites().Values.Sum(y => y.Count));
 
 		/// <summary>
 		/// Updates <see cref="CurrentScene"/> and closes all closed <see cref="Scene"/>
@@ -286,7 +284,7 @@ namespace Intro2DGame.Game.Scenes
 				sm.CurrentScene?.Update(gameTime);
 			}
 
-			while (ClosingScene > 0 )
+			while (ClosingScene > 0)
 			{
 				ClosingScene -= 1;
 				RemoveScene(GetInstance().CurrentTransition);
