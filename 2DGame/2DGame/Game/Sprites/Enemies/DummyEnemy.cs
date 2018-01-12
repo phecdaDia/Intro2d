@@ -2,23 +2,21 @@ using System;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites.Enemies
 {
 	/// <summary>
-	/// First debug enemy
+	///     First debug enemy
 	/// </summary>
 	public class DummyEnemy : AbstractSprite
 	{
-		private double q;
-		private double z;
-
 		private readonly double FrameDelay;
 		private readonly int LayerDifficulty;
 
 		private double Milliseconds;
+		private double q;
+		private double z;
 
 		public DummyEnemy(Vector2 position, int maxHealth, double frameDelay, int layerDifficulty) : base("tutorialplayer",
 			position)
@@ -31,8 +29,8 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 			LayerDepth = 1;
 
-			this.FrameDelay = frameDelay;
-			this.LayerDifficulty = layerDifficulty;
+			FrameDelay = frameDelay;
+			LayerDifficulty = layerDifficulty;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -81,9 +79,9 @@ namespace Intro2DGame.Game.Sprites.Enemies
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			return (position - this.Position).Length() <= 16 ||
-			       (position - this.Position - new Vector2(0, 16)).Length() <= 16 ||
-			       (position - this.Position + new Vector2(0, 16)).Length() <= 16
+			return (position - Position).Length() <= 16 ||
+			       (position - Position - new Vector2(0, 16)).Length() <= 16 ||
+			       (position - Position + new Vector2(0, 16)).Length() <= 16
 				;
 		}
 	}

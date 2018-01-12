@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Intro2DGame.Game.Scenes;
+﻿using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 
 namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
-	/// Orb that slowly accelerates
+	///     Orb that slowly accelerates
 	/// </summary>
 	public class LinearIncreasingOrb : AbstractOrb
 	{
@@ -61,7 +59,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 				if (!ps.DoesCollide(this)) continue;
 
 				ps.Damage((int) GameConstants.Difficulty);
-				this.Delete();
+				Delete();
 			}
 		}
 	}

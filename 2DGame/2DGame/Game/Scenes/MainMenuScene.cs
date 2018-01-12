@@ -1,17 +1,15 @@
-﻿using Intro2DGame.Game.Sprites;
-using Microsoft.Xna.Framework;
+﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Intro2DGame.Game.Fonts;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using Intro2DGame.Game.Scenes.Transition;
+using Intro2DGame.Game.Sprites;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Scenes
 {
 	/// <summary>
-	/// Scene containing the main menu when the game is startet.
+	///     Scene containing the main menu when the game is startet.
 	/// </summary>
 	public class MainMenuScene : Scene
 	{
@@ -28,34 +26,34 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			if (SceneManager.GetCurrentScene().SceneKey != this.SceneKey) return;
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 			base.Draw(spriteBatch);
 		}
 	}
 
 	/// <summary>
-	/// Main menu control sprite
-	/// Controls the logic of the main menu
+	///     Main menu control sprite
+	///     Controls the logic of the main menu
 	/// </summary>
 	internal class MainMenuSprite : AbstractSprite
 	{
 		/// <summary>
-		/// Number of menu entries to be displayed at the same time
+		///     Number of menu entries to be displayed at the same time
 		/// </summary>
 		private const int MAX_MENU_ENTRIES = 10;
 
 		/// <summary>
-		/// List of menu entries
-		/// </summary>
-		private readonly List<MainMenuEntry> MenuEntries;
-
-		/// <summary>
-		/// Font used to autogenerate the textures
+		///     Font used to autogenerate the textures
 		/// </summary>
 		private const string FONT_NAME = "example";
 
 		/// <summary>
-		/// Creates the main menu and initialized all fields
+		///     List of menu entries
+		/// </summary>
+		private readonly List<MainMenuEntry> MenuEntries;
+
+		/// <summary>
+		///     Creates the main menu and initialized all fields
 		/// </summary>
 		public MainMenuSprite()
 		{
@@ -86,14 +84,12 @@ namespace Intro2DGame.Game.Scenes
 				{
 					var random = new Random();
 					for (var i = 0; i < 10; i++)
-					{
 						SceneManager.AddScene(new DialogScene(
 							$"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
-					}
 				}, new Vector2(x, y += spacing)),
 
 				// difficulty
-				new DifficultyMainMenuEntry("Difficulty: Normal", FONT_NAME, new Vector2(x, y += spacing)),
+				new DifficultyMainMenuEntry("Difficulty: Normal", FONT_NAME, new Vector2(x, y += spacing))
 			};
 		}
 
@@ -102,19 +98,17 @@ namespace Intro2DGame.Game.Scenes
 			var playerOrbs = SceneManager.GetSprites<PlayerOrb>();
 
 			foreach (var playerOrb in playerOrbs)
+			foreach (var menuEntry in MenuEntries)
 			{
-				foreach (var menuEntry in MenuEntries)
-				{
-					if (!(playerOrb.Position.X >= menuEntry.Position.X) || playerOrb.IsDeleted()) continue;
+				if (!(playerOrb.Position.X >= menuEntry.Position.X) || playerOrb.IsDeleted()) continue;
 
-					if (!(playerOrb.Position.Y >= menuEntry.Position.Y) ||
-					    !(playerOrb.Position.Y <= menuEntry.Position.Y + 32)) continue;
+				if (!(playerOrb.Position.Y >= menuEntry.Position.Y) ||
+				    !(playerOrb.Position.Y <= menuEntry.Position.Y + 32)) continue;
 
-					foreach (var po in playerOrbs) po.Delete();
+				foreach (var po in playerOrbs) po.Delete();
 
-					menuEntry.Update(gameTime);
-					return;
-				}
+				menuEntry.Update(gameTime);
+				return;
 			}
 		}
 
@@ -123,32 +117,28 @@ namespace Intro2DGame.Game.Scenes
 			var d = MenuEntries.Count > MAX_MENU_ENTRIES ? MAX_MENU_ENTRIES : MenuEntries.Count;
 
 			if (MenuEntries.Count <= MAX_MENU_ENTRIES)
-			{
 				foreach (var menuItem in MenuEntries)
-				{
 					menuItem.Draw(spriteBatch);
-				}
-			}
 		}
 	}
 
 	internal class MainMenuEntry : AbstractSprite
 	{
-		protected string Text;
 		private readonly string Font;
 		private readonly string SceneKey;
+		protected string Text;
 
 		public MainMenuEntry(string text, string font, string sceneKey, Vector2 position)
 		{
-			this.Text = text;
-			this.Font = font;
-			this.SceneKey = sceneKey;
-			this.Position = position;
+			Text = text;
+			Font = font;
+			SceneKey = sceneKey;
+			Position = position;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			SceneManager.AddScene(this.SceneKey, new TestTransition(1.0d));
+			SceneManager.AddScene(SceneKey, new TestTransition(1.0d));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -163,12 +153,12 @@ namespace Intro2DGame.Game.Scenes
 
 		public LambdaMainMenuEntry(string text, string font, Action lambda, Vector2 position) : base(text, font, "", position)
 		{
-			this.Lambda = lambda;
+			Lambda = lambda;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			this.Lambda.Invoke();
+			Lambda.Invoke();
 		}
 	}
 
@@ -196,7 +186,7 @@ namespace Intro2DGame.Game.Scenes
 					break;
 			}
 
-			this.Text = $"Difficulty: {GameConstants.Difficulty.ToString()}";
+			Text = $"Difficulty: {GameConstants.Difficulty.ToString()}";
 		}
 	}
 }

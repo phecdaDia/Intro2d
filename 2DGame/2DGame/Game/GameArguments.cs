@@ -1,32 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Intro2DGame.Game
 {
 	public class GameArguments
 	{
-		public bool IsFullScreen { get; private set; }
-
-		public bool IsCheatsEnabled { get; private set; }
-
-
-		public int BackbufferWidth { get; private set; }
-		public int BackbufferHeight { get; private set; }
-
-		public string LoadStage { get; private set; }
-
 		public GameArguments(params string[] args)
 		{
-			Queue<string> argsQueue = new Queue<string>(args);
+			var argsQueue = new Queue<string>(args);
 
 			// setting default values
-			this.BackbufferWidth = Game.RenderSize.X;
-			this.BackbufferHeight = Game.RenderSize.Y;
+			BackbufferWidth = Game.RenderSize.X;
+			BackbufferHeight = Game.RenderSize.Y;
 
-			this.LoadStage = "mainmenu";
+			LoadStage = "mainmenu";
 
 			while (argsQueue.Count > 0)
 			{
@@ -42,26 +28,36 @@ namespace Intro2DGame.Game
 				{
 					if (argsQueue.Count == 0) continue;
 
-					string param = argsQueue.Dequeue();
+					var param = argsQueue.Dequeue();
 
 					if (arg == "-backbufferwidth")
 					{
-						int i = 0;
+						var i = 0;
 						int.TryParse(param, out i);
 						BackbufferWidth = i;
 					}
 					else if (arg == "-backbufferheight")
 					{
-						int i = 0;
+						var i = 0;
 						int.TryParse(param, out i);
 						BackbufferHeight = i;
 					}
 					else if (arg == "-stage")
 					{
-						this.LoadStage = argsQueue.Dequeue();
+						LoadStage = argsQueue.Dequeue();
 					}
 				}
 			}
 		}
+
+		public bool IsFullScreen { get; }
+
+		public bool IsCheatsEnabled { get; }
+
+
+		public int BackbufferWidth { get; }
+		public int BackbufferHeight { get; }
+
+		public string LoadStage { get; }
 	}
 }

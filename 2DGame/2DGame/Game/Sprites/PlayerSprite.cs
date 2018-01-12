@@ -1,11 +1,7 @@
-﻿using System;
-using Intro2DGame.Game.ExtensionMethods;
-using Intro2DGame.Game.Fonts;
-using Intro2DGame.Game.Scenes;
+﻿using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Scenes.Transition;
 using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,14 +10,14 @@ namespace Intro2DGame.Game.Sprites
 	public class PlayerSprite : AbstractSprite
 	{
 		private const double SHOOT_DELAY = 0.15d;
-		private double ShootDelay;
 
 		private double Invulnerable;
-		private double Shot;
-
-		private Vector2 ShootDirection = new Vector2(0, -1);
 
 		private Rectangle PlayArea = new Rectangle(0, 0, Game.RenderSize.X - 200, Game.RenderSize.Y);
+		private double ShootDelay;
+
+		private readonly Vector2 ShootDirection = new Vector2(0, -1);
+		private double Shot;
 
 
 		//private readonly DirectionMarker DirectionMarker;
@@ -48,7 +44,7 @@ namespace Intro2DGame.Game.Sprites
 			Health = 1000;
 
 
-			this.Persistence = true;
+			Persistence = true;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -72,16 +68,14 @@ namespace Intro2DGame.Game.Sprites
 
 
 			if (ShootDelay <= 0.0d || KeyboardManager.IsKeyDown(Keys.Space))
-			{
 				if (KeyboardManager.IsKeyPressed(Keys.Space) || ms.LeftButton == ButtonState.Pressed)
 
 				{
-					SpawnSprite(new PlayerOrb(this.Position, ShootDirection));
+					SpawnSprite(new PlayerOrb(Position, ShootDirection));
 					ShootDelay = SHOOT_DELAY;
 
 					Shot = SHOOT_DELAY + 0.25d;
 				}
-			}
 
 			// buffering movement
 			if (KeyboardManager.IsKeyPressed(Keys.W)) movement += new Vector2(0, -1);
@@ -108,8 +102,8 @@ namespace Intro2DGame.Game.Sprites
 
 
 			// Prevents player from leaving the screen
-			var halfTextureWidth = this.Texture.Width / 2;
-			var halfTextureHeight = this.Texture.Height / 2;
+			var halfTextureWidth = Texture.Width / 2;
+			var halfTextureHeight = Texture.Height / 2;
 
 			if (Position.X < halfTextureWidth + PlayArea.Location.X) Position.X = halfTextureWidth + +PlayArea.Location.X;
 			if (Position.Y < halfTextureHeight + PlayArea.Location.Y) Position.Y = halfTextureHeight + PlayArea.Location.Y;
@@ -127,25 +121,25 @@ namespace Intro2DGame.Game.Sprites
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			return (position - this.Position).LengthSquared() < 16;
+			return (position - Position).LengthSquared() < 16;
 		}
 
 		public bool DoesCollide(AbstractSprite sprite)
 		{
-			return (sprite.Position - this.Position).LengthSquared() < (sprite.TextureSize.X * 0.5f);
+			return (sprite.Position - Position).LengthSquared() < sprite.TextureSize.X * 0.5f;
 		}
 
 		public void Damage(int amount)
 		{
 			if (Invulnerable > 0) return;
-			this.Health -= amount;
-			this.Invulnerable = 0.25f;
+			Health -= amount;
+			Invulnerable = 0.25f;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), this.Position - new Vector2(4), Color.White);
+			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), Position - new Vector2(4), Color.White);
 
 			//this.DirectionMarker.Draw(spriteBatch);
 		}
@@ -157,11 +151,11 @@ namespace Intro2DGame.Game.Sprites
 
 		public BannerSprite(PlayerSprite player, Vector2 position) : base("banner2", new Vector2())
 		{
-			this.Player = player;
+			Player = player;
 
 			Persistence = true;
 
-			this.Position = position;
+			Position = position;
 			LayerDepth = 10;
 		}
 
@@ -179,25 +173,25 @@ namespace Intro2DGame.Game.Sprites
 
 		public ViginetteSprite(PlayerSprite player) : base("viginette", new Vector2())
 		{
-			this.Player = player;
+			Player = player;
 
 			Persistence = true;
 			LayerDepth = 11;
 
-			this.Hue = Color.Transparent;
+			Hue = Color.Transparent;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(this.Texture, new Rectangle(0, 0, Game.RenderSize.X, Game.RenderSize.Y), null, this.Hue);
+			spriteBatch.Draw(Texture, new Rectangle(0, 0, Game.RenderSize.X, Game.RenderSize.Y), null, Hue);
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			var k = (this.Player.MaxHealth - this.Player.Health) / ((float) this.Player.MaxHealth);
+			var k = (Player.MaxHealth - Player.Health) / (float) Player.MaxHealth;
 			var c = new Color((int) (255f * k), 0, 0, (int) (64f * k));
 
-			this.Hue = c;
+			Hue = c;
 		}
 	}
 
@@ -223,7 +217,7 @@ namespace Intro2DGame.Game.Sprites
 			{
 				if (!sprite.Enemy) continue;
 
-				if (sprite.DoesCollide(this.Position))
+				if (sprite.DoesCollide(Position))
 				{
 					sprite.Health -= 1;
 					Delete();

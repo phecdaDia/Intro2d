@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Intro2DGame.Game.Sprites;
+﻿using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Pattern.Movement
@@ -15,27 +10,25 @@ namespace Intro2DGame.Game.Pattern.Movement
 
 		public LinearMovementPattern(Vector2 delta, double timespan)
 		{
-			this.DeltaMovement = delta / (float) timespan;
-			this.Timespan = timespan;
+			DeltaMovement = delta / (float) timespan;
+			Timespan = timespan;
 		}
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
-			this.Timespan -= gameTime.ElapsedGameTime.TotalSeconds;
+			Timespan -= gameTime.ElapsedGameTime.TotalSeconds;
 
 			var delta = gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (this.Timespan < 0.0d)
+			if (Timespan < 0.0d)
 			{
-				delta += this.Timespan;
+				delta += Timespan;
 				host.Position += DeltaMovement * (float) delta;
 				return true;
 			}
-			else
-			{
-				host.Position += DeltaMovement * (float) delta;
-				return false;
-			}
+
+			host.Position += DeltaMovement * (float) delta;
+			return false;
 		}
 	}
 }

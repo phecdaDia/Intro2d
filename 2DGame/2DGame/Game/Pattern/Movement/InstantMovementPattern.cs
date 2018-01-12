@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Intro2DGame.Game.Sprites;
+﻿using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Pattern.Movement
@@ -14,12 +9,12 @@ namespace Intro2DGame.Game.Pattern.Movement
 
 		public InstantMovementPattern(Vector2 delta)
 		{
-			this.Delta = delta;
+			Delta = delta;
 		}
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
-			host.Position += this.Delta;
+			host.Position += Delta;
 			return true;
 		}
 	}

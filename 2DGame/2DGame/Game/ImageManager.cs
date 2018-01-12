@@ -6,22 +6,22 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Intro2DGame.Game
 {
 	/// <summary>
-	/// Loads <see cref="Texture2D"/> from the ContentPipeline
+	///     Loads <see cref="Texture2D" /> from the ContentPipeline
 	/// </summary>
 	public class ImageManager
 	{
 		/// <summary>
-		/// Singleton Instance
+		///     Singleton Instance
 		/// </summary>
 		private static ImageManager Instance;
 
 		/// <summary>
-		/// Provided ContentPipeline
+		///     Provided ContentPipeline
 		/// </summary>
 		private static ContentManager Content;
 
 		/// <summary>
-		/// Cached <see cref="Dictionary{string, Texture2D}"/>
+		///     Cached <see cref="Dictionary{string, Texture2D}" />
 		/// </summary>
 		private readonly Dictionary<string, Texture2D> TextureDictionary;
 
@@ -39,7 +39,7 @@ namespace Intro2DGame.Game
 		}
 
 		/// <summary>
-		/// Sets the <see cref="ContentManager"/>
+		///     Sets the <see cref="ContentManager" />
 		/// </summary>
 		/// <param name="contentManager"></param>
 		public static void SetContentManager(ContentManager contentManager)
@@ -48,7 +48,7 @@ namespace Intro2DGame.Game
 		}
 
 		/// <summary>
-		/// Returns Singleton Instance
+		///     Returns Singleton Instance
 		/// </summary>
 		/// <returns></returns>
 		private static ImageManager GetInstance()
@@ -59,7 +59,7 @@ namespace Intro2DGame.Game
 		}
 
 		/// <summary>
-		/// Loads <see cref="Texture2D"/> by <paramref name="key"/>
+		///     Loads <see cref="Texture2D" /> by <paramref name="key" />
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
@@ -84,7 +84,8 @@ namespace Intro2DGame.Game
 		}
 
 		/// <summary>
-		/// Returns the <see cref="Texture2D"/> and if not yet cached in <see cref="TextureDictionary"/> calls <see cref="LoadTexture(string)"/>
+		///     Returns the <see cref="Texture2D" /> and if not yet cached in <see cref="TextureDictionary" /> calls
+		///     <see cref="LoadTexture(string)" />
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>

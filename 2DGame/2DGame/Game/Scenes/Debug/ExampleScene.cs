@@ -1,15 +1,15 @@
-﻿using Intro2DGame.Game.Sprites;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Enemies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Intro2DGame.Game.Scenes.Debug
 {
 	/// <summary>
-	/// This scene is used for a debug fight
+	///     This scene is used for a debug fight
 	/// </summary>
 	public class ExampleScene : Scene
 	{
@@ -34,13 +34,11 @@ namespace Intro2DGame.Game.Scenes.Debug
 
 			var i = 0;
 			foreach (var t in new List<Type>(GetAllSprites().Keys))
+			foreach (AbstractSprite de in GetAllSprites()[t])
 			{
-				foreach (AbstractSprite de in GetAllSprites()[t])
-				{
-					if (!de.Enemy) continue;
-					spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}",
-						new Vector2(30, 110 + (i++ * 20)), Color.Black);
-				}
+				if (!de.Enemy) continue;
+				spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}",
+					new Vector2(30, 110 + i++ * 20), Color.Black);
 			}
 		}
 	}

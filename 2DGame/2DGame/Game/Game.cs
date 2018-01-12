@@ -1,17 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Scenes;
+using Intro2DGame.Game.Scenes.Transition;
+using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using Intro2DGame.Game.Scenes.Transition;
-using Intro2DGame.Game.Sprites;
 
 namespace Intro2DGame.Game
 {
@@ -21,48 +16,48 @@ namespace Intro2DGame.Game
 	public class Game : Microsoft.Xna.Framework.Game
 	{
 		/// <summary>
-		/// Static instance of the game
+		///     Static instance of the game
 		/// </summary>
 		private static Game GameInstance;
 
 		/// <summary>
-		/// Arial Font
+		///     Arial Font
 		/// </summary>
 		public static SpriteFont FontArial;
 
 		/// <summary>
-		/// Consolas Font
+		///     Consolas Font
 		/// </summary>
 		public static SpriteFont FontConsolas;
 
 		/// <summary>
-		/// Our <see cref="GraphicsDeviceManager"/>
-		/// </summary>
-		public readonly GraphicsDeviceManager Graphics;
-
-		/// <summary>
-		/// <see cref="SpriteBatch"/> used for drawing
-		/// </summary>
-		private SpriteBatch SpriteBatch;
-
-		/// <summary>
-		/// This is the size at which we render the game.
+		///     This is the size at which we render the game.
 		/// </summary>
 		public static readonly Point RenderSize = new Point(700, 900);
 
 		/// <summary>
-		/// This allows us to change the size of the window without changing the render size.
+		///     Parsed arguments which were supplied by the commandline
+		/// </summary>
+		public static GameArguments GameArguments;
+
+		public static Texture2D WhitePixel;
+
+		private readonly FrameCounter FrameCounter;
+
+		/// <summary>
+		///     Our <see cref="GraphicsDeviceManager" />
+		/// </summary>
+		public readonly GraphicsDeviceManager Graphics;
+
+		/// <summary>
+		///     This allows us to change the size of the window without changing the render size.
 		/// </summary>
 		private RenderTarget2D NativeRenderTarget;
 
 		/// <summary>
-		/// Parsed arguments which were supplied by the commandline
+		///     <see cref="SpriteBatch" /> used for drawing
 		/// </summary>
-		public static GameArguments GameArguments;
-
-		private readonly FrameCounter FrameCounter;
-
-		public static Texture2D WhitePixel;
+		private SpriteBatch SpriteBatch;
 
 		public Game(params string[] args)
 		{
@@ -82,10 +77,10 @@ namespace Intro2DGame.Game
 
 			//IsMouseVisible = true;
 
-			this.IsFixedTimeStep = false;
+			IsFixedTimeStep = false;
 			Graphics.SynchronizeWithVerticalRetrace = false; // testing with uncapped framerate
 
-			this.FrameCounter = new FrameCounter();
+			FrameCounter = new FrameCounter();
 		}
 
 		public static Game GetInstance()
@@ -99,7 +94,7 @@ namespace Intro2DGame.Game
 		}
 
 		/// <summary>
-		/// Closes the game.
+		///     Closes the game.
 		/// </summary>
 		public static void ExitGame()
 		{
@@ -203,7 +198,7 @@ namespace Intro2DGame.Game
 			SpriteBatch.DrawString(FontConsolas, $"SceneKey : {SceneManager.GetCurrentScene().SceneKey}",
 				new Vector2(20, RenderSize.Y - 20), Color.Black);
 			SpriteBatch.DrawString(FontConsolas,
-				$"Framerate: {this.FrameCounter.AverageFramerate:F2} ({this.FrameCounter.MinimumFramerate:F2})",
+				$"Framerate: {FrameCounter.AverageFramerate:F2} ({FrameCounter.MinimumFramerate:F2})",
 				new Vector2(20, RenderSize.Y - 40), Color.Black);
 			SpriteBatch.DrawString(FontConsolas,
 				$"Sprites  : {SceneManager.GetAllSprites().Sum(x => x.Value.Count)} ({SceneManager.GetTotalSpriteCount()})",
@@ -232,16 +227,20 @@ namespace Intro2DGame.Game
 	{
 		private readonly int DELTA_BUFFER_SIZE = 100;
 
+		private readonly Queue<double> DeltaBuffer;
+		internal double MinimumFramerate;
+
 
 		public FrameCounter()
 		{
-			this.DeltaBuffer = new Queue<double>();
-			this.MinimumFramerate = 1000f;
+			DeltaBuffer = new Queue<double>();
+			MinimumFramerate = 1000f;
 		}
 
-		private readonly Queue<double> DeltaBuffer;
-		internal double MinimumFramerate;
-		internal double AverageFramerate => GetAverageFramerate();
+		internal double AverageFramerate
+		{
+			get { return GetAverageFramerate(); }
+		}
 
 		public void Update(GameTime gameTime)
 		{

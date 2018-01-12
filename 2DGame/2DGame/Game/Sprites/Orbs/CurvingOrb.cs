@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
-	/// Orbs that slowly changes <see cref="AbstractAnimatedOrb.Direction"/> and curves
+	///     Orbs that slowly changes <see cref="AbstractAnimatedOrb.Direction" /> and curves
 	/// </summary>
 	public class CurvingOrb : AbstractOrb
 	{
@@ -33,7 +33,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 				if (!ps.DoesCollide(this)) continue;
 
 				ps.Damage((int) GameConstants.Difficulty);
-				this.Delete();
+				Delete();
 			}
 		}
 	}

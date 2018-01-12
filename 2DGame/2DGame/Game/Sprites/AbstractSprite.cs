@@ -1,82 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Intro2DGame.Game.Scenes;
-using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Sprites
 {
 	/// <summary>
-	/// Base class for all Sprites.
+	///     Base class for all Sprites.
 	/// </summary>
 	public abstract class AbstractSprite
 	{
 		/// <summary>
-		/// <see cref="Dictionary{Type, Texture2D}"/> of static <see cref="Texture2D"/>
+		///     <see cref="Dictionary{TKey,TValue}" /> of static <see cref="Texture2D" />
 		/// </summary>
 		private static Dictionary<Type, Texture2D> TextureDictionary;
 
+		public readonly GameTime LifeTime;
+
 		/// <summary>
-		/// <see cref="true"/> when the <see cref="AbstractSprite"/> is marked for deletion
+		///     <see cref="true" /> when the <see cref="AbstractSprite" /> is marked for deletion
 		/// </summary>
 		private bool Deleted;
 
 		/// <summary>
-		/// <see cref="true"/> when the <see cref="AbstractSprite"/> is marked as enemy
+		///     <see cref="true" /> when the <see cref="AbstractSprite" /> is marked as enemy
 		/// </summary>
 		public bool Enemy;
 
 		/// <summary>
-		/// Amount of <see cref="Health"/> a <see cref="AbstractSprite"/> has.
-		/// <para/>
-		/// Can never be more than <see cref="MaxHealth"/>
+		///     Amount of <see cref="Health" /> a <see cref="AbstractSprite" /> has.
+		///     <para />
+		///     Can never be more than <see cref="MaxHealth" />
 		/// </summary>
 		public int Health;
 
 		/// <summary>
-		/// Color of the <see cref="AbstractSprite"/>
+		///     Color of the <see cref="AbstractSprite" />
 		/// </summary>
 		public Color Hue;
 
 		/// <summary>
-		/// Depth of the <see cref="AbstractSprite"/>
-		/// <para/>
-		/// Minimum value must be <see cref="0"/>
-		/// <para />
-		/// Higher values will be drawn later resulting in being in the foreground
+		///     Depth of the <see cref="AbstractSprite" />
+		///     <para />
+		///     Minimum value must be <see cref="0" />
+		///     <para />
+		///     Higher values will be drawn later resulting in being in the foreground
 		/// </summary>
 		public int LayerDepth;
 
-		public Vector2 TextureSize => new Vector2(Texture.Width, Texture.Height) * Scale;
-
 		/// <summary>
-		/// Maximum amount of <see cref="Health"/>
-		/// </summary>
-		public int MaxHealth { get; protected set; }
-
-		/// <summary>
-		/// <see cref="true"/> when the <see cref="AbstractSprite"/> is not deleted when exiting the <see cref="Scene"/>
+		///     <see cref="true" /> when the <see cref="AbstractSprite" /> is not deleted when exiting the <see cref="Scene" />
 		/// </summary>
 		public bool Persistence;
 
 		/// <summary>
-		/// Current <see cref="Position"/> of the <see cref="AbstractSprite"/>
+		///     Current <see cref="Position" /> of the <see cref="AbstractSprite" />
 		/// </summary>
 		public Vector2 Position;
 
 		/// <summary>
-		/// Current <see cref="Texture2D"/> rotation
+		///     Current <see cref="Texture2D" /> rotation
 		/// </summary>
 		public float Rotation = 0f;
 
 		/// <summary>
-		/// Current <see cref="Texture2D"/> scale
+		///     Current <see cref="Texture2D" /> scale
 		/// </summary>
 		protected Vector2 Scale = new Vector2(1);
-
-		public readonly GameTime LifeTime;
 
 		protected AbstractSprite()
 		{
@@ -85,9 +76,9 @@ namespace Intro2DGame.Game.Sprites
 
 			Hue = Color.White;
 
-			this.Health = -1;
+			Health = -1;
 
-			this.LifeTime = new GameTime();
+			LifeTime = new GameTime();
 		}
 
 		public AbstractSprite(string textureKey, Vector2 position) : this()
@@ -104,11 +95,21 @@ namespace Intro2DGame.Game.Sprites
 
 		public AbstractSprite(Vector2 position) : this()
 		{
-			this.Position = position;
+			Position = position;
+		}
+
+		public Vector2 TextureSize
+		{
+			get { return new Vector2(Texture.Width, Texture.Height) * Scale; }
 		}
 
 		/// <summary>
-		/// Current <see cref="Texture2D"/> of the <see cref="AbstractSprite"/>
+		///     Maximum amount of <see cref="Health" />
+		/// </summary>
+		public int MaxHealth { get; protected set; }
+
+		/// <summary>
+		///     Current <see cref="Texture2D" /> of the <see cref="AbstractSprite" />
 		/// </summary>
 		protected Texture2D Texture
 		{
@@ -119,7 +120,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Returns <see cref="Position"/>
+		///     Returns <see cref="Position" />
 		/// </summary>
 		/// <returns></returns>
 		[Obsolete("Use Position directly please")]
@@ -129,7 +130,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Marks a <see cref="AbstractSprite"/> as deleted
+		///     Marks a <see cref="AbstractSprite" /> as deleted
 		/// </summary>
 		public void Delete()
 		{
@@ -137,7 +138,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Returns true if the <see cref="AbstractSprite"/> is marked for deletion by <see cref="Delete()"/>
+		///     Returns true if the <see cref="AbstractSprite" /> is marked for deletion by <see cref="Delete()" />
 		/// </summary>
 		/// <returns></returns>
 		public bool IsDeleted()
@@ -146,13 +147,13 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Updates <see cref="AbstractSprite"/> logic
+		///     Updates <see cref="AbstractSprite" /> logic
 		/// </summary>
 		/// <param name="gameTime"></param>
 		public abstract void Update(GameTime gameTime);
 
 		/// <summary>
-		/// Draws the <see cref="AbstractSprite"/> with <see cref="SpriteBatch"/>
+		///     Draws the <see cref="AbstractSprite" /> with <see cref="SpriteBatch" />
 		/// </summary>
 		/// <param name="spriteBatch"></param>
 		public virtual void Draw(SpriteBatch spriteBatch)
@@ -192,7 +193,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Spawns a <see cref="AbstractSprite"/> in the <see cref="SceneManager.CurrentScene"/>
+		///     Spawns a <see cref="AbstractSprite" /> in the <see cref="SceneManager.CurrentScene" />
 		/// </summary>
 		/// <param name="sprite"></param>
 		protected static void SpawnSprite(AbstractSprite sprite)
@@ -201,26 +202,26 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// Default method for collision checks
-		/// <para/>
-		/// This method should be overwritten by more complex <see cref="AbstractSprite"/>
+		///     Default method for collision checks
+		///     <para />
+		///     This method should be overwritten by more complex <see cref="AbstractSprite" />
 		/// </summary>
 		/// <param name="position"></param>
 		/// <returns></returns>
 		public virtual bool DoesCollide(Vector2 position)
 		{
-			return (position - Position).Length() < (Texture.Width / 2f);
+			return (position - Position).Length() < Texture.Width / 2f;
 		}
 
 		/// <summary>
-		/// Loads all custom content
+		///     Loads all custom content
 		/// </summary>
 		public virtual void LoadContent()
 		{
 		}
 
 		/// <summary>
-		/// Should unload all custom content
+		///     Should unload all custom content
 		/// </summary>
 		public virtual void UnloadContent()
 		{

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 namespace Intro2DGame.Game.Sprites
 {
 	/// <summary>
-	/// <see cref="AbstractSprite"/> that displays a static image
+	///     <see cref="AbstractSprite" /> that displays a static image
 	/// </summary>
 	public class ImageSprite : AbstractSprite
 	{
@@ -12,7 +12,7 @@ namespace Intro2DGame.Game.Sprites
 		}
 
 		/// <summary>
-		/// <see cref="ImageSprite"/> don't Update.
+		///     <see cref="ImageSprite" /> don't Update.
 		/// </summary>
 		/// <param name="gameTime"></param>
 		public override void Update(GameTime gameTime)

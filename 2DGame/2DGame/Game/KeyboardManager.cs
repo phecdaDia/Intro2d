@@ -17,7 +17,14 @@ namespace Intro2DGame.Game
 			CurrentPressedKeys = ks.GetPressedKeys();
 		}
 
-		public static bool IsKeyDown(Keys key) => CurrentPressedKeys.Contains(key) && !LastPressedKeys.Contains(key);
-		public static bool IsKeyPressed(Keys key) => CurrentPressedKeys.Contains(key);
+		public static bool IsKeyDown(Keys key)
+		{
+			return CurrentPressedKeys.Contains(key) && !LastPressedKeys.Contains(key);
+		}
+
+		public static bool IsKeyPressed(Keys key)
+		{
+			return CurrentPressedKeys.Contains(key);
+		}
 	}
 }

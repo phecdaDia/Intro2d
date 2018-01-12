@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intro2DGame.Game.Scenes.Transition
 {
@@ -16,7 +12,10 @@ namespace Intro2DGame.Game.Scenes.Transition
 		{
 		}
 
-		public void SetLambda(Action lambda) => Lambda = lambda;
+		public void SetLambda(Action lambda)
+		{
+			Lambda = lambda;
+		}
 
 		protected void RunLambda()
 		{

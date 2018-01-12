@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Sprites;
@@ -17,13 +13,13 @@ namespace Intro2DGame.Game.Pattern.Orbs
 
 		public SingleLaserPattern(double rotation = 0.0d)
 		{
-			this.Rotation = rotation;
+			Rotation = rotation;
 		}
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
 			var player = SceneManager.GetSprites<PlayerSprite>().First();
-			SceneManager.GetCurrentScene().BufferedAddSprite(new LaserOrb(host.Position, this.Rotation.ToVector2()));
+			SceneManager.GetCurrentScene().BufferedAddSprite(new LaserOrb(host.Position, Rotation.ToVector2()));
 			return true;
 		}
 	}

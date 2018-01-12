@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intro2DGame.Game
 {
 	/// <summary>
-	/// All fields must be const.
+	///     All fields must be const.
 	/// </summary>
 	public static class GameConstants
 	{
@@ -23,6 +19,6 @@ namespace Intro2DGame.Game
 		Easy = 100,
 		Normal = 200,
 		Difficult = 400,
-		Lunatic = 1000,
+		Lunatic = 1000
 	}
 }

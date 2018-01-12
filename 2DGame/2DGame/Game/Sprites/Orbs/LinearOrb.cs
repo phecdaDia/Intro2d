@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 namespace Intro2DGame.Game.Sprites.Orbs
 {
 	/// <summary>
-	/// A normal orb that does nothing special.
+	///     A normal orb that does nothing special.
 	/// </summary>
 	public class LinearOrb : AbstractOrb
 	{
@@ -17,7 +17,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 		public LinearOrb(string textureKey, Vector2 position, Vector2 direction, float speed) : base(textureKey, position,
 			direction)
 		{
-			this.Speed = speed;
+			Speed = speed;
 		}
 
 		protected override Vector2 UpdatePosition(GameTime gameTime)
@@ -35,7 +35,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 				if (!ps.DoesCollide(this)) continue;
 
 				ps.Damage((int) GameConstants.Difficulty);
-				this.Delete();
+				Delete();
 			}
 		}
 	}

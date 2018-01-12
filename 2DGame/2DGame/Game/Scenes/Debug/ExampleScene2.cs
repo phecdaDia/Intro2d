@@ -1,17 +1,15 @@
-﻿using Intro2DGame.Game.Sprites;
-using Intro2DGame.Game.Sprites.Enemies;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Intro2DGame.Game.Fonts;
+using Intro2DGame.Game.Sprites;
 using Intro2DGame.Game.Sprites.Orbs;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Scenes.Debug
 {
 	/// <summary>
-	/// This scene is used for the second debug fight.
+	///     This scene is used for the second debug fight.
 	/// </summary>
 	public class Example2Scene : Scene
 	{
@@ -33,15 +31,13 @@ namespace Intro2DGame.Game.Scenes.Debug
 		{
 			base.Draw(spriteBatch);
 
-			int i = 0;
-			foreach (Type t in new List<Type>(GetAllSprites().Keys))
+			var i = 0;
+			foreach (var t in new List<Type>(GetAllSprites().Keys))
+			foreach (AbstractSprite de in GetAllSprites()[t])
 			{
-				foreach (AbstractSprite de in GetAllSprites()[t])
-				{
-					if (!de.Enemy) continue;
-					spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}",
-						new Vector2(30, 110 + (i++ * 20)), Color.Black);
-				}
+				if (!de.Enemy) continue;
+				spriteBatch.DrawString(Game.FontArial, $"{de.GetType().FullName?.Split('.').Last()}: {de.Health}",
+					new Vector2(30, 110 + i++ * 20), Color.Black);
 			}
 		}
 	}
@@ -53,19 +49,19 @@ namespace Intro2DGame.Game.Scenes.Debug
 
 		public DemoSprite1(float speed, Vector2 position) : base("orb", position)
 		{
-			this.Speed = speed;
-			this.Hue = Color.Red;
+			Speed = speed;
+			Hue = Color.Red;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			this.Milliseconds += this.LifeTime.ElapsedGameTime.Milliseconds;
+			Milliseconds += LifeTime.ElapsedGameTime.Milliseconds;
 
-			if (this.Milliseconds > 250)
+			if (Milliseconds > 250)
 			{
 				Milliseconds %= 250;
 				/* DIRECTION | NOT SPEED */
-				SpawnSprite(new LinearOrb(this.Position, Vector2.UnitX * this.Speed, /* This is the actual speed */ 1f));
+				SpawnSprite(new LinearOrb(Position, Vector2.UnitX * Speed, /* This is the actual speed */ 1f));
 			}
 		}
 	}

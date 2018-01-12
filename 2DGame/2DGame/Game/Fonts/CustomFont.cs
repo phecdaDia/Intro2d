@@ -6,38 +6,38 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Intro2DGame.Game.Fonts
 {
 	/// <summary>
-	/// Allows implementation of custom fonts.
-	/// Not recommended but works if implemented properly
+	///     Allows implementation of custom fonts.
+	///     Not recommended but works if implemented properly
 	/// </summary>
 	public abstract class CustomFont
 	{
 		/// <summary>
-		/// Dictionary where all symbols are positioned
+		///     Dictionary where all symbols are positioned
 		/// </summary>
 		protected readonly Dictionary<char, Point> SymbolPosition;
 
 		/// <summary>
-		/// Key for the texture
+		///     Key for the texture
 		/// </summary>
 		private readonly string TextureKey;
 
 		/// <summary>
-		/// Amount of pixels for every character
+		///     Amount of pixels for every character
 		/// </summary>
 		private readonly int TotalPixelAmount;
 
 		/// <summary>
-		/// Current selecting rectangle.
+		///     Current selecting rectangle.
 		/// </summary>
 		private Rectangle Rectangle;
 
 		/// <summary>
-		/// Size of the characters
+		///     Size of the characters
 		/// </summary>
 		private Vector2 SymbolSize;
 
 		/// <summary>
-		/// Creates a new CustomFont
+		///     Creates a new CustomFont
 		/// </summary>
 		/// <param name="fontName">Key</param>
 		/// <param name="textureKey">Texture name in the production pipeline</param>
@@ -65,18 +65,18 @@ namespace Intro2DGame.Game.Fonts
 		}
 
 		/// <summary>
-		/// Returns if the font ignores case
+		///     Returns if the font ignores case
 		/// </summary>
 		/// <returns></returns>
 		protected abstract bool IsIgnoreCase();
 
 		/// <summary>
-		/// Populating the SymbolPositions
+		///     Populating the SymbolPositions
 		/// </summary>
 		protected abstract void SetSymbolPositions();
 
 		/// <summary>
-		/// Creates texture from string
+		///     Creates texture from string
 		/// </summary>
 		/// <param name="lines"></param>
 		/// <returns></returns>
@@ -134,14 +134,12 @@ namespace Intro2DGame.Game.Fonts
 				foreach (var c in s.ToLower())
 				{
 					if (SymbolPosition.ContainsKey(c))
-					{
 						spriteBatch.Draw(
 							ImageManager.GetTexture2D(TextureKey),
-							new Rectangle((position + dispPosition).ToPoint(), this.SymbolSize.ToPoint()),
-							new Rectangle(SymbolPosition[c], this.SymbolSize.ToPoint()),
+							new Rectangle((position + dispPosition).ToPoint(), SymbolSize.ToPoint()),
+							new Rectangle(SymbolPosition[c], SymbolSize.ToPoint()),
 							Color.White
 						);
-					}
 
 
 					dispPosition.X += SymbolSize.X;

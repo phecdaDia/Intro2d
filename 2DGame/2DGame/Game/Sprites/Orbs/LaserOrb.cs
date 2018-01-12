@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Intro2DGame.Game.Scenes;
+﻿using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Intro2DGame.Game.Sprites.Orbs
 {
@@ -21,8 +13,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			"OrbLaser", position, direction,
 			new Point(32, 8))
 		{
-			this.ChargeSpan = chargeSpan;
-			this.LifeSpan = lifeSpan + chargeSpan;
+			ChargeSpan = chargeSpan;
+			LifeSpan = lifeSpan + chargeSpan;
 
 			Scale.X = 100;
 			Used = false;
@@ -34,7 +26,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			AddAnimation(new[]
 			{
 				new Point(0, 0),
-				new Point(32, 0),
+				new Point(32, 0)
 			});
 		}
 
@@ -47,10 +39,13 @@ namespace Intro2DGame.Game.Sprites.Orbs
 		{
 			//base.Update(gameTime);
 
-			if (LifeTime.TotalGameTime.TotalSeconds > this.LifeSpan) this.Delete();
-			else if (LifeTime.TotalGameTime.TotalSeconds > this.ChargeSpan && !Used)
+			if (LifeTime.TotalGameTime.TotalSeconds > LifeSpan)
 			{
-				this.CurrentFrame = 1;
+				Delete();
+			}
+			else if (LifeTime.TotalGameTime.TotalSeconds > ChargeSpan && !Used)
+			{
+				CurrentFrame = 1;
 
 				foreach (var player in SceneManager.GetSprites<PlayerSprite>())
 				{

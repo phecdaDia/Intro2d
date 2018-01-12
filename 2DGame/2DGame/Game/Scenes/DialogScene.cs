@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,35 +8,34 @@ namespace Intro2DGame.Game.Scenes
 {
 	public class DialogScene : Scene
 	{
+		private static readonly Random Random = new Random();
 		private readonly string DialogText;
 
-		private static readonly Random Random = new Random();
-
 		/// <summary>
-		/// Dialog textbox
-		/// The scenekey has to be unique. Therefor we generate some random numbers.
+		///     Dialog textbox
+		///     The scenekey has to be unique. Therefor we generate some random numbers.
 		/// </summary>
 		/// <param name="dialogText">Text to be displayed</param>
 		public DialogScene(string dialogText) : base($"dialog-{Random.Next(0x7fffffff):X08}-{DateTime.Now.Ticks:X016}")
 		{
-			this.DialogText = dialogText;
+			DialogText = dialogText;
 		}
 
 		protected override void CreateScene()
 		{
-			AddSprite(new DialogBoxSprite(this.DialogText));
+			AddSprite(new DialogBoxSprite(DialogText));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			if (SceneManager.GetCurrentScene().SceneKey != this.SceneKey) return;
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 
 			base.Draw(spriteBatch);
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			if (SceneManager.GetCurrentScene().SceneKey != this.SceneKey) return;
+			if (SceneManager.GetCurrentScene().SceneKey != SceneKey) return;
 
 			base.Update(gameTime);
 		}
@@ -51,12 +46,12 @@ namespace Intro2DGame.Game.Scenes
 		private readonly string DialogText;
 
 		/// <summary>
-		/// Basic sprite that displays the dialogbox with text
+		///     Basic sprite that displays the dialogbox with text
 		/// </summary>
 		/// <param name="dialogText">Text to be displayed</param>
 		public DialogBoxSprite(string dialogText) : base("title", new Vector2(400, 400))
 		{
-			this.DialogText = dialogText;
+			DialogText = dialogText;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -67,7 +62,7 @@ namespace Intro2DGame.Game.Scenes
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			spriteBatch.DrawString(Game.FontArial, this.DialogText, this.Position - new Vector2(300, 25), Color.Black);
+			spriteBatch.DrawString(Game.FontArial, DialogText, Position - new Vector2(300, 25), Color.Black);
 		}
 	}
 }

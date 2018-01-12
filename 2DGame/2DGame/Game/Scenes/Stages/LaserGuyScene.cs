@@ -1,19 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Intro2DGame.Game.ExtensionMethods;
-using Intro2DGame.Game.Sprites;
-using Intro2DGame.Game.Sprites.Orbs;
-using Intro2DGame.Game.Fonts;
 using Intro2DGame.Game.Pattern;
 using Intro2DGame.Game.Pattern.Movement;
 using Intro2DGame.Game.Pattern.Orbs;
+using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Scenes.Stages
 {
@@ -40,22 +32,21 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 	internal class LaserGuySprite : AbstractAnimatedSprite
 	{
+		private readonly Queue<IPattern> Pattern;
 		// This is the current state our enemy is in.
 
 		private int BulletState;
 
-		private readonly Queue<IPattern> Pattern;
-
 
 		public LaserGuySprite(Vector2 position) : base("Enemies/LSprite-0001", position)
 		{
-			this.MaxHealth = 750;
-			this.Health = 750;
-			this.Enemy = true;
-			this.Persistence = true;
-			this.LayerDepth = 1;
+			MaxHealth = 750;
+			Health = 750;
+			Enemy = true;
+			Persistence = true;
+			LayerDepth = 1;
 
-			this.Pattern = new Queue<IPattern>();
+			Pattern = new Queue<IPattern>();
 			AddStates();
 
 			SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(510, 50), 50, 800));
@@ -63,7 +54,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		protected override void AddFrames()
 		{
-			AddAnimation(new[] {new Point(),});
+			AddAnimation(new[] {new Point()});
 		}
 
 		public override void Update(GameTime gameTime)
@@ -135,18 +126,18 @@ namespace Intro2DGame.Game.Scenes.Stages
 					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
 					break;
 				case 7:
-					Pattern.Enqueue(new RadialMovementPattern(this.Position, new Vector2(-50, 0), 360d, 1.0d));
+					Pattern.Enqueue(new RadialMovementPattern(Position, new Vector2(-50, 0), 360d, 1.0d));
 					break;
 			}
 		}
 
 		public override bool DoesCollide(Vector2 position)
 		{
-			return (position - this.Position).Length() <= 16 ||
-			       (position - this.Position - new Vector2(0, 16)).Length() <= 16 ||
-			       (position - this.Position - new Vector2(0, 32)).Length() <= 16 ||
-			       (position - this.Position + new Vector2(0, 16)).Length() <= 16 ||
-			       (position - this.Position + new Vector2(0, 32)).Length() <= 16;
+			return (position - Position).Length() <= 16 ||
+			       (position - Position - new Vector2(0, 16)).Length() <= 16 ||
+			       (position - Position - new Vector2(0, 32)).Length() <= 16 ||
+			       (position - Position + new Vector2(0, 16)).Length() <= 16 ||
+			       (position - Position + new Vector2(0, 32)).Length() <= 16;
 		}
 	}
 }
