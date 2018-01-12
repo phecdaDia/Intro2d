@@ -9,10 +9,12 @@ namespace Intro2DGame.Game
 			var argsQueue = new Queue<string>(args);
 
 			// setting default values
-			BackbufferWidth = Game.RenderSize.X;
-			BackbufferHeight = Game.RenderSize.Y;
+			this.BackbufferWidth = Game.RenderSize.X;
+			this.BackbufferHeight = Game.RenderSize.Y;
 
-			LoadStage = "mainmenu";
+			this.LoadStage = "mainmenu";
+
+			this.IsVSyncEnabled = true;
 
 			while (argsQueue.Count > 0)
 			{
@@ -22,7 +24,9 @@ namespace Intro2DGame.Game
 					// flag
 					if (arg == "--fullscreen") IsFullScreen = true;
 					else if (arg == "--mynameisclucht")
-						IsCheatsEnabled = true;
+						this.IsCheatsEnabled = true;
+					else if (arg == "--vsync")
+						this.IsVSyncEnabled = false;
 				}
 				else if (arg.StartsWith("-"))
 				{
@@ -34,17 +38,17 @@ namespace Intro2DGame.Game
 					{
 						var i = 0;
 						int.TryParse(param, out i);
-						BackbufferWidth = i;
+						this.BackbufferWidth = i;
 					}
 					else if (arg == "-backbufferheight")
 					{
 						var i = 0;
 						int.TryParse(param, out i);
-						BackbufferHeight = i;
+						this.BackbufferHeight = i;
 					}
 					else if (arg == "-stage")
 					{
-						LoadStage = argsQueue.Dequeue();
+						this.LoadStage = argsQueue.Dequeue();
 					}
 				}
 			}
@@ -53,6 +57,8 @@ namespace Intro2DGame.Game
 		public bool IsFullScreen { get; }
 
 		public bool IsCheatsEnabled { get; }
+
+		public bool IsVSyncEnabled { get; }
 
 
 		public int BackbufferWidth { get; }

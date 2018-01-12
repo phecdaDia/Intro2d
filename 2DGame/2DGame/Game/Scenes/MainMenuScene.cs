@@ -65,31 +65,26 @@ namespace Intro2DGame.Game.Scenes
 			MenuEntries = new List<MainMenuEntry>
 			{
 				//
-				new MainMenuEntry("Laser guy Round", FONT_NAME, "laserguy", new Vector2(x, y += spacing)),
+				new MainMenuEntry("Enter the arena", FONT_NAME, "laserguy", new Vector2(x, y += spacing)),
 
-				//
-				new MainMenuEntry("Second Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+				//// Lambda expression for dialog generation
+				//new LambdaMainMenuEntry("dialog test", FONT_NAME, () =>
+				//{
+				//	var random = new Random();
+				//	for (var i = 0; i < 10; i++)
+				//		SceneManager.AddScene(new DialogScene(
+				//			$"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
+				//}, new Vector2(x, y += spacing)),
 
-				//
-				new MainMenuEntry("Final Round", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
-
-				// entry for the first debug scene
-				new MainMenuEntry("example fight HARD", FONT_NAME, "example", new Vector2(x, y += spacing)),
-
-				// entry for the second debug scene
-				new MainMenuEntry("example fight 2", FONT_NAME, "example2", new Vector2(x, y += spacing)),
-
-				// Lambda expression for dialog generation
-				new LambdaMainMenuEntry("dialog test", FONT_NAME, () =>
-				{
-					var random = new Random();
-					for (var i = 0; i < 10; i++)
-						SceneManager.AddScene(new DialogScene(
-							$"Example Dialog Box #{i}\r\n{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}-{random.Next(0x7fffffff):X08}"));
-				}, new Vector2(x, y += spacing)),
-
+				
 				// difficulty
-				new DifficultyMainMenuEntry("Difficulty: Normal", FONT_NAME, new Vector2(x, y += spacing))
+				new DifficultyMainMenuEntry("Difficulty: Normal", FONT_NAME, new Vector2(x, y += spacing)),
+
+				new MainMenuEntry("Credits", FONT_NAME, "mainmenu", new Vector2(x, y += 2 * spacing)),
+
+				new MainMenuEntry("[Move with WASD]", FONT_NAME, "mainmenu", new Vector2(x, y += 2 * spacing)),
+				new MainMenuEntry("[Shoot with SPACE]", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
+				new MainMenuEntry("", FONT_NAME, "menu", new Vector2(x, y += spacing)), // easteregg?
 			};
 		}
 

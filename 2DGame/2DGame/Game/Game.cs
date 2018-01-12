@@ -78,7 +78,7 @@ namespace Intro2DGame.Game
 			//IsMouseVisible = true;
 
 			IsFixedTimeStep = false;
-			Graphics.SynchronizeWithVerticalRetrace = false; // testing with uncapped framerate
+			Graphics.SynchronizeWithVerticalRetrace = GameArguments.IsVSyncEnabled; // testing with uncapped framerate
 
 			FrameCounter = new FrameCounter();
 		}

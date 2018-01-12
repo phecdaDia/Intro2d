@@ -22,7 +22,7 @@ namespace Intro2DGame.Game.Scenes
 
 	internal class MenuSprite : AbstractAnimatedSprite
 	{
-		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 30)
+		public MenuSprite() : base("test/coin", new Vector2(400, 300), new Point(24), 0.033f)
 		{
 			Rotation = 45f;
 			Scale = new Vector2(2);
@@ -32,7 +32,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			if (KeyboardManager.IsKeyDown(Keys.Pause)) SceneManager.CloseScene();
 
-			Rotation += 3.6f * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+			Rotation += 36f * gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
 			Rotation %= 360f;
 
