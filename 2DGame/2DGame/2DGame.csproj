@@ -80,6 +80,8 @@
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
     <Compile Include="Game\Pattern\IPattern.cs" />
+    <Compile Include="Game\Pattern\FuncPattern.cs" />
+    <Compile Include="Game\Pattern\LambdaPattern.cs" />
     <Compile Include="Game\Pattern\Movement\InstantMovementPattern.cs" />
     <Compile Include="Game\Pattern\Movement\LinearMovementPattern.cs" />
     <Compile Include="Game\Pattern\Movement\RadialMovementPattern.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Game\Sprites\HealthBarSprite.cs" />
     <Compile Include="Game\Sprites\Orbs\AbstractOrb.cs" />
     <Compile Include="Game\Sprites\Orbs\CurvingOrb.cs" />
+    <Compile Include="Game\Sprites\Orbs\GravityOrb.cs" />
     <Compile Include="Game\Sprites\Orbs\LaserOrb.cs" />
     <Compile Include="Game\Sprites\Orbs\LinearIncreasingOrb.cs" />
     <Compile Include="Game\Sprites\Orbs\LinearOrb.cs" />
