@@ -36,6 +36,8 @@ namespace Intro2DGame.Game.Sprites
 				SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, new Vector2(500, 0))); // This adds the banner
 				//SceneManager.GetCurrentScene().AddSprite(new BannerSprite(this, 620)); // This adds the banner
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
+
+				SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(610, 50), 50, 800));
 			}
 
 			//this.DirectionMarker = new DirectionMarker(this);
@@ -126,7 +128,7 @@ namespace Intro2DGame.Game.Sprites
 
 		public bool DoesCollide(AbstractSprite sprite)
 		{
-			return (sprite.Position - Position).LengthSquared() < sprite.TextureSize.X * 0.5f;
+			return (sprite.Position - Position).Length() < (sprite.TextureSize.X * 0.5f + 4);
 		}
 
 		public void Damage(int amount)

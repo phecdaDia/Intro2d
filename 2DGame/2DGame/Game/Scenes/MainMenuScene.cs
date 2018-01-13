@@ -84,7 +84,7 @@ namespace Intro2DGame.Game.Scenes
 
 				new MainMenuEntry("[Move with WASD]", FONT_NAME, "mainmenu", new Vector2(x, y += 2 * spacing)),
 				new MainMenuEntry("[Shoot with SPACE]", FONT_NAME, "mainmenu", new Vector2(x, y += spacing)),
-				new MainMenuEntry("", FONT_NAME, "menu", new Vector2(x, y += spacing)), // easteregg?
+				new MainMenuEntry("", FONT_NAME, "example", new Vector2(x, y += spacing)), // easteregg?
 			};
 		}
 

@@ -49,7 +49,7 @@ namespace Intro2DGame.Game.Scenes
 		///     Basic sprite that displays the dialogbox with text
 		/// </summary>
 		/// <param name="dialogText">Text to be displayed</param>
-		public DialogBoxSprite(string dialogText) : base("title", new Vector2(400, 400))
+		public DialogBoxSprite(string dialogText) : base("title", new Vector2(350, 400))
 		{
 			DialogText = dialogText;
 		}

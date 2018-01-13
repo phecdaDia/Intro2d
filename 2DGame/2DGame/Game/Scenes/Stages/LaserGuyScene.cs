@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Intro2DGame.Game.Pattern;
 using Intro2DGame.Game.Pattern.Movement;
 using Intro2DGame.Game.Pattern.Orbs;
+using Intro2DGame.Game.Scenes.Transition;
 using Intro2DGame.Game.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +13,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 {
 	public class LaserGuyScene : Scene
 	{
+		private bool ShownDialog = false;
+
 		public LaserGuyScene() : base("laserguy")
 		{
 		}
@@ -19,6 +23,26 @@ namespace Intro2DGame.Game.Scenes.Stages
 		{
 			AddSprite(new PlayerSprite(new Vector2(250, 750)));
 			AddSprite(new LaserGuySprite(new Vector2(250, 150)));
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+
+			var lg = SceneManager.GetSprites<LaserGuySprite>().First();
+
+			if (lg.Health == 0 && !ShownDialog)
+			{
+				SceneManager.AddScene(new DialogScene("*** PLACEHOLDER TEXT *** YOU ARE WINNER"));
+				ShownDialog = true;
+
+				return;
+			}
+			else if (ShownDialog)
+			{
+				SceneManager.CloseScene(new TestTransition(1.0d));
+				return;
+			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -41,7 +65,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 		public LaserGuySprite(Vector2 position) : base("Enemies/LSprite-0001", position)
 		{
 			MaxHealth = 750;
-			Health = 750;
+			Health = 12;
 			Enemy = true;
 			Persistence = true;
 			LayerDepth = 1;
