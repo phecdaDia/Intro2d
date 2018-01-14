@@ -82,12 +82,14 @@
     <Compile Include="Game\Pattern\IPattern.cs" />
     <Compile Include="Game\Pattern\FuncPattern.cs" />
     <Compile Include="Game\Pattern\LambdaPattern.cs" />
+    <Compile Include="Game\Pattern\LaserGuy\SweepingLaserPattern.cs" />
     <Compile Include="Game\Pattern\Movement\InstantMovementPattern.cs" />
     <Compile Include="Game\Pattern\Movement\LinearMovementPattern.cs" />
     <Compile Include="Game\Pattern\Movement\RadialMovementPattern.cs" />
     <Compile Include="Game\Pattern\Orbs\BarrageLinearPattern.cs" />
     <Compile Include="Game\Pattern\Orbs\SingleLaserPattern.cs" />
     <Compile Include="Game\Pattern\SleepPattern.cs" />
+    <Compile Include="Game\Pattern\TandemPattern.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene2.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Game\Scenes\Transition\AbstractTransition.cs" />
     <Compile Include="Game\Scenes\Transition\TestTransition.cs" />
     <Compile Include="Game\Sprites\Enemies\DummyEnemy.cs" />
+    <Compile Include="Game\Sprites\HealthBar2Sprite.cs" />
     <Compile Include="Game\Sprites\HealthBarSprite.cs" />
     <Compile Include="Game\Sprites\Orbs\AbstractOrb.cs" />
     <Compile Include="Game\Sprites\Orbs\CurvingOrb.cs" />

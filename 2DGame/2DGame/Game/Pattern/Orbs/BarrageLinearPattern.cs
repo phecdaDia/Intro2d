@@ -15,8 +15,8 @@ namespace Intro2DGame.Game.Pattern.Orbs
 
 		public BarrageLinearPattern(float speed, double distance, double offset)
 		{
-			Distance = distance.ToDegrees();
-			Offset = offset.ToDegrees();
+			Distance = distance.ToRadiants();
+			Offset = offset.ToRadiants();
 
 			Speed = speed;
 		}

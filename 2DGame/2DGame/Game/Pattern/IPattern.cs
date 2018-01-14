@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Pattern
 {
-	internal interface IPattern
+	public interface IPattern
 	{
 		/// <summary>
 		///     Executes a pattern.

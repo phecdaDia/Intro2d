@@ -10,13 +10,13 @@ namespace Intro2DGame.Game.Pattern
 {
 	public class FuncPattern : IPattern
 	{
-		private readonly Func<GameTime, Boolean> LambdaFunc;
+		private readonly Func<AbstractSprite, GameTime, Boolean> LambdaFunc;
 
-		public FuncPattern(Func<GameTime, Boolean> lambdaFunc)
+		public FuncPattern(Func<AbstractSprite, GameTime, Boolean> lambdaFunc)
 		{
 			this.LambdaFunc = lambdaFunc;
 		}
 
-		public bool Execute(AbstractSprite host, GameTime gameTime) => LambdaFunc(gameTime);
+		public bool Execute(AbstractSprite host, GameTime gameTime) => LambdaFunc(host, gameTime);
 	}
 }

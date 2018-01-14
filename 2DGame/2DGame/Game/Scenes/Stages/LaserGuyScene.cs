@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Intro2DGame.Game.Pattern;
+using Intro2DGame.Game.Pattern.LaserGuy;
 using Intro2DGame.Game.Pattern.Movement;
 using Intro2DGame.Game.Pattern.Orbs;
 using Intro2DGame.Game.Scenes.Transition;
 using Intro2DGame.Game.Sprites;
+using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -65,7 +67,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 		public LaserGuySprite(Vector2 position) : base("Enemies/LSprite-0001", position)
 		{
 			MaxHealth = 750;
-			Health = 12;
+			Health = 750;
 			Enemy = true;
 			Persistence = true;
 			LayerDepth = 1;
@@ -74,6 +76,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			AddStates();
 
 			SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(510, 50), 50, 800));
+			SceneManager.GetCurrentScene().AddSprite(new HealthBar2Sprite(HealthBarPosition.ScreenTop, this));
 		}
 
 		protected override void AddFrames()
@@ -97,62 +100,32 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		private void ExecutePattern(GameTime gameTime)
 		{
-			if (Pattern.Peek().Execute(this, gameTime))
+			while (Pattern.Count > 0)
 			{
-				Pattern.Dequeue();
+				var success = Pattern.Peek().Execute(this, gameTime);
 
-				if (Pattern.Count == 0)
+				if (success)
 				{
-					BulletState++;
+					Pattern.Dequeue();
 
-					// Add the new states. 
-					AddStates();
-				} // else we still have patterns left. 
+					if (Pattern.Count == 0)
+					{
+						BulletState++;
+
+						// Add the new states. 
+						AddStates();
+					} // else we still have patterns left. 
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 
 		private void AddStates()
 		{
-			switch (BulletState)
-			{
-				case 0:
-					Pattern.Enqueue(new SingleLaserPattern());
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					break;
-				case 1:
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-					break;
-				case 2:
-					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
-					break;
-				case 3:
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-					break;
-				case 4:
-					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, 200), 0.25d));
-					break;
-				case 5:
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 0.0d));
-					Pattern.Enqueue(new SleepPattern(0.5f));
-					Pattern.Enqueue(new BarrageLinearPattern(5.0f, 12.0d, 6.0d));
-					break;
-				case 6:
-					Pattern.Enqueue(new LinearMovementPattern(new Vector2(0, -100), 0.5d));
-					break;
-				case 7:
-					Pattern.Enqueue(new RadialMovementPattern(Position, new Vector2(-50, 0), 360d, 1.0d));
-					break;
-			}
+			
 		}
 
 		public override bool DoesCollide(Vector2 position)

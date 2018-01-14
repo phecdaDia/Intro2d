@@ -1,4 +1,5 @@
-﻿using Intro2DGame.Game.Scenes;
+﻿using Intro2DGame.Game.ExtensionMethods;
+using Intro2DGame.Game.Scenes;
 using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Sprites.Orbs
@@ -38,6 +39,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 		public override void Update(GameTime gameTime)
 		{
 			//base.Update(gameTime);
+
+			this.Rotation = (float) this.Direction.ToAngle();
 
 			if (LifeTime.TotalGameTime.TotalSeconds > LifeSpan)
 			{

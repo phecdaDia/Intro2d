@@ -18,8 +18,8 @@ namespace Intro2DGame.Game.Pattern.Movement
 		public RadialMovementPattern(Vector2 position, float radius, double initialAngle, double deltaAngle, double timespan)
 		{
 			Radius = radius;
-			InitialAngle = initialAngle.ToDegrees();
-			DeltaAngle = deltaAngle.ToDegrees();
+			InitialAngle = initialAngle.ToRadiants();
+			DeltaAngle = deltaAngle.ToRadiants();
 			Timespan = timespan;
 
 			var normalVector = InitialAngle.ToVector2();
@@ -30,7 +30,7 @@ namespace Intro2DGame.Game.Pattern.Movement
 		public RadialMovementPattern(Vector2 position, Vector2 normal, double deltaAngle, double timespan)
 		{
 			CenterVector = position + normal;
-			DeltaAngle = deltaAngle.ToDegrees();
+			DeltaAngle = deltaAngle.ToRadiants();
 			Timespan = timespan;
 
 			Radius = normal.Length();

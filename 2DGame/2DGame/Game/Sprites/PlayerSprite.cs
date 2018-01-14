@@ -38,6 +38,8 @@ namespace Intro2DGame.Game.Sprites
 				SceneManager.GetCurrentScene().AddSprite(new ViginetteSprite(this)); // This adds the banner
 
 				SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(610, 50), 50, 800));
+
+				SceneManager.GetCurrentScene().AddSprite(new HealthBar2Sprite(HealthBarPosition.ScreenBottom, this));
 			}
 
 			//this.DirectionMarker = new DirectionMarker(this);

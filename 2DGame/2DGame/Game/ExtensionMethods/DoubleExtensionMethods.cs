@@ -5,9 +5,14 @@ namespace Intro2DGame.Game.ExtensionMethods
 {
 	public static class DoubleExtensionMethods
 	{
-		public static double ToDegrees(this double number)
+		public static double ToRadiants(this double number)
 		{
 			return number / 360d * 2 * Math.PI;
+		}
+
+		public static double ToDegrees(this double number)
+		{
+			return number * 360d / (2 * Math.PI);
 		}
 
 		public static Vector2 ToVector2(this double degrees)

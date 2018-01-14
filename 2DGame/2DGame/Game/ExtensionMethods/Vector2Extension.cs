@@ -12,7 +12,7 @@ namespace Intro2DGame.Game.ExtensionMethods
 
 		public static Vector2 AddDegrees(this Vector2 vector, double degrees)
 		{
-			return (vector.ToAngle() + degrees.ToDegrees()).ToVector2();
+			return (vector.ToAngle() + degrees.ToRadiants()).ToVector2();
 		}
 	}
 }

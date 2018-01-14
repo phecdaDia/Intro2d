@@ -8,20 +8,23 @@ using Microsoft.Xna.Framework;
 
 namespace Intro2DGame.Game.Pattern
 {
-	public class LambdaPattern : IPattern
+	public class TandemPattern : IPattern
 	{
-		private readonly Action<AbstractSprite, GameTime> LambdaAction;
+		private IPattern[] Patterns;
 
-		public LambdaPattern(Action<AbstractSprite, GameTime> lambdaAction)
+		public TandemPattern(params IPattern[] patterns)
 		{
-			this.LambdaAction = lambdaAction;
+			this.Patterns = patterns;
 		}
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
-			LambdaAction(host, gameTime);
+			var finished = true;
+			foreach (var pattern in this.Patterns)
+				if (!pattern.Execute(host, gameTime))
+					finished = false;
 
-			return true;
+			return finished;
 		}
 	}
 }

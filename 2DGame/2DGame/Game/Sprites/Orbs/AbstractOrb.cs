@@ -15,7 +15,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 		///     <para />
 		///     Used for <see cref="AbstractSprite.Rotation" />
 		/// </summary>
-		protected Vector2 Direction;
+		public Vector2 Direction;
 
 		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction) : base(textureKey, position)
 		{
