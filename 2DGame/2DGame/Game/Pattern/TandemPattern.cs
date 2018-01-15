@@ -11,18 +11,30 @@ namespace Intro2DGame.Game.Pattern
 	public class TandemPattern : IPattern
 	{
 		private IPattern[] Patterns;
+		private bool[] FinishedPatterns;
 
 		public TandemPattern(params IPattern[] patterns)
 		{
 			this.Patterns = patterns;
+			this.FinishedPatterns = new bool[Patterns.Length];
 		}
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
 			var finished = true;
-			foreach (var pattern in this.Patterns)
-				if (!pattern.Execute(host, gameTime))
+			for (var i=0; i<Patterns.Length; i++)
+			{
+				if (FinishedPatterns[i]) continue;
+
+				if (!Patterns[i].Execute(host, gameTime))
+				{
 					finished = false;
+				}
+				else
+				{
+					FinishedPatterns[i] = true;
+				}
+			}
 
 			return finished;
 		}

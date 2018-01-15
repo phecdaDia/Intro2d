@@ -15,6 +15,8 @@ namespace Intro2DGame.Game.Pattern.Movement
 
 		private double ElapsedTime;
 
+		private Vector2 LastResult;
+
 		public RadialMovementPattern(Vector2 position, float radius, double initialAngle, double deltaAngle, double timespan)
 		{
 			Radius = radius;
@@ -25,6 +27,8 @@ namespace Intro2DGame.Game.Pattern.Movement
 			var normalVector = InitialAngle.ToVector2();
 
 			CenterVector = position - normalVector * radius;
+
+			this.LastResult = normalVector;
 		}
 
 		public RadialMovementPattern(Vector2 position, Vector2 normal, double deltaAngle, double timespan)
@@ -34,24 +38,38 @@ namespace Intro2DGame.Game.Pattern.Movement
 			Timespan = timespan;
 
 			Radius = normal.Length();
-			InitialAngle = normal.ToAngle() + Math.PI;
+			InitialAngle = normal.ToAngle();
 
-			Console.WriteLine($"{CenterVector} - {DeltaAngle} - {Radius} - {InitialAngle}");
+			this.LastResult = normal;
+
+			//Console.WriteLine($"{CenterVector} - {DeltaAngle} - {Radius} - {InitialAngle}");
 		}
+
 
 		public bool Execute(AbstractSprite host, GameTime gameTime)
 		{
-			ElapsedTime += gameTime.ElapsedGameTime.TotalSeconds;
+			this.ElapsedTime += gameTime.ElapsedGameTime.TotalSeconds;
 
-			var isOver = ElapsedTime > Timespan;
+			var isOver = ElapsedTime > this.Timespan;
 
-			var delta = ElapsedTime / Timespan;
+			if (isOver)
+			{
+				host.Position += (this.InitialAngle + this.DeltaAngle).ToVector2() * Radius - LastResult;
 
-			var tempAngle = !isOver ? DeltaAngle * delta : DeltaAngle;
-			tempAngle += InitialAngle;
-			host.Position = CenterVector + tempAngle.ToVector2() * Radius;
 
-			return isOver;
+				return true;
+			}
+			else
+			{
+				var result = (this.InitialAngle + (this.DeltaAngle * (this.ElapsedTime / this.Timespan))).ToVector2() * Radius;
+				host.Position += result - LastResult;
+				this.LastResult = result;
+
+				return false;
+			}
+
+
+
 		}
 	}
 }

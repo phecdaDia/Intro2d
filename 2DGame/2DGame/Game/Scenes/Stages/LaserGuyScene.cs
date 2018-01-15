@@ -125,7 +125,13 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		private void AddStates()
 		{
-			
+			if (BulletState == 0)
+			{
+
+			} 
+			else if (BulletState == 1)
+			{
+			}
 		}
 
 		public override bool DoesCollide(Vector2 position)
