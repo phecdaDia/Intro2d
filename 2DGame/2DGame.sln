@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2DGame", "2DGame\2DGame.csproj", "{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}"
 EndProject
@@ -12,11 +12,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Laptop|Any CPU = Debug Laptop|Any CPU
 		Debug No VSync|Any CPU = Debug No VSync|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}.Debug Laptop|Any CPU.ActiveCfg = Debug Laptop|Any CPU
+		{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}.Debug Laptop|Any CPU.Build.0 = Debug Laptop|Any CPU
 		{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}.Debug No VSync|Any CPU.ActiveCfg = Debug No VSync|Any CPU
 		{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}.Debug No VSync|Any CPU.Build.0 = Debug No VSync|Any CPU
 		{474A4E4E-00B2-4D1C-8069-8BFF5EB4973A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

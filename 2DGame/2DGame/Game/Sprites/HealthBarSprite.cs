@@ -34,11 +34,11 @@ namespace Intro2DGame.Game.Sprites
 
 			spriteBatch.Draw(Game.WhitePixel, Position, null, Color.Black, 0.0f, new Vector2(), new Vector2(Width, Height),
 				SpriteEffects.None, 0.0f);
-			spriteBatch.Draw(Game.WhitePixel, Position + borderVector, null, Color.Red, 0.0f, new Vector2(),
+			spriteBatch.Draw(Game.WhitePixel, Position + borderVector, null, new Color(0x80, 0x80, 0x80), 0.0f, new Vector2(),
 				new Vector2(Width, Height) - 2 * borderVector, SpriteEffects.None, 0.0f);
 
 			spriteBatch.Draw(Game.WhitePixel, Position + new Vector2(borderSize, Height - borderSize), null,
-				Color.Green, 0.0f, new Vector2(0, 1),
+				new Color(0x20, 0xff, 0x20), 0.0f, new Vector2(0, 1),
 				new Vector2(Width - 2 * borderSize,
 					(float) ReferenceSprite.Health / ReferenceSprite.MaxHealth * (Height - 2 * borderSize)), SpriteEffects.None,
 				0.0f);

@@ -22,9 +22,10 @@ namespace Intro2DGame.Game.Scenes.Debug
 		{
 			AddSprite(new PlayerSprite(new Vector2(250, 750)));
 
+			for (var j = 0; j < 32; j++)
 			for (var i = 0; i < 32; i++)
 			{
-				AddSprite(new GravityOrb(new Vector2(i * (500 / 32f), 50)));
+				AddSprite(new GravityOrb(new Vector2(i * (500 / 32f), 50 + j * 5), new Vector2(0, 3f)));
 			}
 
 

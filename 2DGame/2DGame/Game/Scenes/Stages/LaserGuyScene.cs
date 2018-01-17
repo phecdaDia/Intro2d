@@ -132,8 +132,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 			if (BulletState == 0)
 			{
 				Pattern.EnqueueMany(
-					new SingleLaserPattern(90.0d, 1.0f, 1.0f),
-					new LinearMovementPattern(new Vector2(0, 100), 1.0f)
+					new SingleLaserPattern(90.0d, 1.0f, 1.0f)
+					//new LinearMovementPattern(new Vector2(0, 100), 1.0f)
 				);
 			} 
 			else if (BulletState == 1)
