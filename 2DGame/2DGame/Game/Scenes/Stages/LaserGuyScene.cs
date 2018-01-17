@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Pattern;
 using Intro2DGame.Game.Pattern.LaserGuy;
 using Intro2DGame.Game.Pattern.Movement;
@@ -125,9 +127,14 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		private void AddStates()
 		{
+
+
 			if (BulletState == 0)
 			{
-
+				Pattern.EnqueueMany(
+					new SingleLaserPattern(90.0d, 1.0f, 1.0f),
+					new LinearMovementPattern(new Vector2(0, 100), 1.0f)
+				);
 			} 
 			else if (BulletState == 1)
 			{

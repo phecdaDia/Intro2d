@@ -70,6 +70,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game\ExtensionMethods\DoubleExtensionMethods.cs" />
+    <Compile Include="Game\ExtensionMethods\QueueExtension.cs" />
     <Compile Include="Game\ExtensionMethods\Vector2Extension.cs" />
     <Compile Include="Game\Fonts\CustomFont.cs" />
     <Compile Include="Game\Fonts\ExampleFont.cs" />
