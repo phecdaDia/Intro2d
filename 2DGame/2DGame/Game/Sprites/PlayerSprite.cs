@@ -1,4 +1,5 @@
-﻿using Intro2DGame.Game.Scenes;
+﻿using System;
+using Intro2DGame.Game.Scenes;
 using Intro2DGame.Game.Scenes.Transition;
 using Intro2DGame.Game.Sprites.Orbs;
 using Microsoft.Xna.Framework;
@@ -7,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Intro2DGame.Game.Sprites
 {
-	public class PlayerSprite : AbstractSprite
+	public class PlayerSprite : AbstractAnimatedSprite
 	{
 		private const double SHOOT_DELAY = 0.15d;
 
@@ -18,17 +19,16 @@ namespace Intro2DGame.Game.Sprites
 
 		private readonly Vector2 ShootDirection = new Vector2(0, -1);
 		private double Shot;
-
+		
 
 		//private readonly DirectionMarker DirectionMarker;
 
-		public PlayerSprite(Vector2 position, bool isMainMenu = false) : base("player", position)
+		public PlayerSprite(Vector2 position, bool isMainMenu = false) : base("Enemies/Holly", position, new Point(60, 70), 0.2f)
 		{
 			LayerDepth = 0;
 
 			if (isMainMenu)
 			{
-				PlayArea = new Rectangle(50, 100, 150, 500);
 				ShootDirection = new Vector2(1, 0);
 			}
 			else
@@ -49,6 +49,19 @@ namespace Intro2DGame.Game.Sprites
 
 
 			Persistence = true;
+		}
+
+		public PlayerSprite(Vector2 position, Rectangle playArea, bool isMainMenu = false) : this(position, isMainMenu)
+		{
+			this.PlayArea = playArea;
+		}
+
+		protected override void AddFrames()
+		{
+			AddAnimation(new[] { new Point(0, 0) }, "default");
+			AddAnimation(new[] { new Point(60, 0) }, "default2");
+			AddAnimation(new[] { new Point(120, 0), new Point(180, 0), }, "walk-left");
+			AddAnimation(new[] { new Point(240, 0), new Point(300, 0), }, "walk-right");
 		}
 
 		public override void Update(GameTime gameTime)
@@ -91,29 +104,39 @@ namespace Intro2DGame.Game.Sprites
 			//if (KeyboardManager.IsKeyPressed(Keys.E)) this.ShootDirection = ShootDirection.AddDegrees(180 * gameTime.ElapsedGameTime.TotalSeconds);
 			//if (KeyboardManager.IsKeyPressed(Keys.R)) this.ShootDirection = Vector2.UnitX;
 
+
+			if (movement.X < -0.5f) SetAnimation("walk-left");
+			else if (movement.X > 0.5f) SetAnimation("walk-right");
+			else SetAnimation("default");
+
+
 			// normalizing movement
 			if (movement.LengthSquared() > 0f)
 			{
 				movement.Normalize();
+				
 				movement *= new Vector2(1.0f, 1.1f);
 
 				// now normalize it for uncapped frames
 				movement *= 60.0f; // we aimed for 60 fps
 				movement *= (float) gameTime.ElapsedGameTime.TotalSeconds;
+				
+				movement *= Shot > 0 ? 2.75f : 4.25f;
 
-				Position += movement * (Shot > 0 ? 2.75f : 4.25f);
+
+				Position += movement;
 			}
 
 
 			// Prevents player from leaving the screen
-			var halfTextureWidth = Texture.Width / 2;
-			var halfTextureHeight = Texture.Height / 2;
+			var halfTextureWidth = this.Size.X / 2;
+			var halfTextureHeight = this.Size.Y / 2;
 
 			if (Position.X < halfTextureWidth + PlayArea.Location.X) Position.X = halfTextureWidth + +PlayArea.Location.X;
 			if (Position.Y < halfTextureHeight + PlayArea.Location.Y) Position.Y = halfTextureHeight + PlayArea.Location.Y;
 
-			if (Position.X + halfTextureWidth > PlayArea.Size.X) Position.X = PlayArea.Size.X - halfTextureWidth;
-			if (Position.Y + halfTextureHeight > PlayArea.Size.Y) Position.Y = PlayArea.Size.Y - halfTextureHeight;
+			if (Position.X + halfTextureWidth > PlayArea.Location.X + PlayArea.Size.X) Position.X = PlayArea.Location.X + PlayArea.Size.X - halfTextureWidth;
+			if (Position.Y + halfTextureHeight > PlayArea.Location.Y + PlayArea.Size.Y) Position.Y = PlayArea.Location.Y + PlayArea.Size.Y - halfTextureHeight;
 
 
 			if (Health >= MaxHealth) Health = MaxHealth;

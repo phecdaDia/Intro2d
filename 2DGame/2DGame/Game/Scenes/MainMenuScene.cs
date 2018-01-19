@@ -21,7 +21,7 @@ namespace Intro2DGame.Game.Scenes
 		{
 			AddSprite(new MainMenuSprite());
 			AddSprite(new ImageSprite("title", new Vector2(350, 40)));
-			AddSprite(new PlayerSprite(new Vector2(35, 200), true));
+			AddSprite(new PlayerSprite(new Vector2(80, 135), new Rectangle(50, 100, 60, 500), true));
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

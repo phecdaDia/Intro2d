@@ -115,7 +115,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 						BulletState++;
 
 						// Add the new states. 
-						AddStates();
+						Pattern.EnqueueMany(AddStates());
 					} // else we still have patterns left. 
 				}
 				else
@@ -125,20 +125,23 @@ namespace Intro2DGame.Game.Scenes.Stages
 			}
 		}
 
-		private void AddStates()
+		private IPattern[] AddStates()
 		{
 
 
 			if (BulletState == 0)
 			{
-				Pattern.EnqueueMany(
-					new SingleLaserPattern(90.0d, 1.0f, 1.0f)
-					//new LinearMovementPattern(new Vector2(0, 100), 1.0f)
-				);
+				return new IPattern[]
+				{
+					new SingleLaserPattern(90.0f), 
+				};
 			} 
 			else if (BulletState == 1)
 			{
+
 			}
+			
+			return new IPattern[0];
 		}
 
 		public override bool DoesCollide(Vector2 position)

@@ -25,7 +25,7 @@ namespace Intro2DGame.Game.Sprites
 		/// <summary>
 		///     Size of a single frame
 		/// </summary>
-		private readonly Point Size;
+		public readonly Point Size;
 
 		/// <summary>
 		///     Default animation title.
