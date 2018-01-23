@@ -98,8 +98,10 @@
     <Compile Include="Game\Pattern\Movement\LinearMovementPattern.cs" />
     <Compile Include="Game\Pattern\Movement\RadialMovementPattern.cs" />
     <Compile Include="Game\Pattern\Orbs\BarrageLinearPattern.cs" />
+    <Compile Include="Game\Pattern\Orbs\CircleLinearPattern.cs" />
     <Compile Include="Game\Pattern\Orbs\SingleLaserPattern.cs" />
     <Compile Include="Game\Pattern\SleepPattern.cs" />
+    <Compile Include="Game\Pattern\SequencePattern.cs" />
     <Compile Include="Game\Pattern\TandemPattern.cs" />
     <Compile Include="Game\Scenes\DialogScene.cs" />
     <Compile Include="Game\Scenes\Debug\ExampleScene2.cs" />

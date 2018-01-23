@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
 using Intro2DGame.Game.ExtensionMethods;
 using Intro2DGame.Game.Pattern;
 using Intro2DGame.Game.Pattern.LaserGuy;
@@ -51,10 +52,20 @@ namespace Intro2DGame.Game.Scenes.Stages
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			base.Draw(spriteBatch);
 
-			//var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
+			var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
+			var anchor = new Vector2(250, 150);
+
+			var temp = 0.5f * (lg.Position - anchor);
+			var rotation = temp.ToAngle();
+			rotation += MathHelper.PiOver2 + MathHelper.Pi;
+			var scale = new Vector2(5, (lg.Position - anchor).Length());
+
+			// REMOVE THIS ON RELEASE
+			spriteBatch.Draw(Game.WhitePixel, anchor, null, Color.DarkRed, (float) rotation, new Vector2(0.5f, 0), scale, SpriteEffects.None, 0.0f);
+
 			//FontManager.DrawString(spriteBatch, "example", new Vector2(510, 10), $"Gegner:{lg?.Health ?? 0}");
+			base.Draw(spriteBatch);
 		}
 	}
 
@@ -94,7 +105,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 				Console.WriteLine($"Queue is empty, Bulletstate {BulletState}");
 				BulletState = 0;
 
-				AddStates();
+				Pattern.EnqueueMany(AddStates());
 			}
 
 			ExecutePattern(gameTime);
@@ -110,13 +121,14 @@ namespace Intro2DGame.Game.Scenes.Stages
 				{
 					Pattern.Dequeue();
 
-					if (Pattern.Count == 0)
-					{
-						BulletState++;
+					if (Pattern.Count != 0) continue;
 
-						// Add the new states. 
-						Pattern.EnqueueMany(AddStates());
-					} // else we still have patterns left. 
+					BulletState++;
+
+					// Add the new states. 
+					var patterns = AddStates();
+
+					Pattern.EnqueueMany(patterns);
 				}
 				else
 				{
@@ -124,24 +136,153 @@ namespace Intro2DGame.Game.Scenes.Stages
 				}
 			}
 		}
-
+		
 		private IPattern[] AddStates()
 		{
 
+			const float SPEED = 500;
 
-			if (BulletState == 0)
+			switch (BulletState)
 			{
-				return new IPattern[]
-				{
-					new SingleLaserPattern(90.0f), 
-				};
-			} 
-			else if (BulletState == 1)
-			{
+				case 0: // Do this pattern twice. 
+				case 1:
+				case 7: // and we do this pattern again sometimes
+				case 8:
+					return new IPattern[]
+					{
+						new SleepPattern(0.25d),
+						new BarragePattern(5.0f, 9, 45.0d, 90.0d),
+						LinearMovementPattern.GenerateFromVector2(new Vector2(100, 50), SPEED),
+						new CircleLinearPattern(2.0f, 36, 0.0d),
+						LinearMovementPattern.GenerateFromVector2(new Vector2(-200, 0), SPEED),
+						new CircleLinearPattern(2.5f, 36, 0.0d),
+						LinearMovementPattern.GenerateFromVector2(new Vector2(100, -50), SPEED),
+						new SleepPattern(0.25d),
+					};
+				case 2:
+					return new IPattern[]
+					{
+						// I'm sorry for these nested patterns
+						new SleepPattern(0.5d),
+						new TandemPattern(
+							//new SingleLaserPattern(90.0d, 1.25f, 2.5f), 
+							new SweepingLaserPattern(this.Position, 112.5d, -45d, 1.5f, 0.75f),
+							new SequencePattern(
+								new SleepPattern(1.0f),
+								new BarragePattern(5.0f, 32, 112.5d, 315d)
+							)
+						)
+					};
+				case 3:
+				case 4:
+					return new IPattern[]
+					{
+						new SleepPattern(0.5d),
+						new RadialMovementPattern(this.Position, new Vector2(0, -100), -90.0d, 0.4d),
+						new BarragePattern(2.0f, 10, 101.25d, -56.25d),
+						new TandemPattern( // This creates an ellipse
+							new RadialMovementPattern(this.Position, new Vector2(-50, 0), 180.0d, 0.6d),
+							new RadialMovementPattern(this.Position, new Vector2(-50, 0), 180.0d, 0.6d)
+						),
+						new BarragePattern(2.0f, 10, 78.75d, 56.25d),
+						new RadialMovementPattern(this.Position, new Vector2(0, 100), 90.0d, 0.4d),
 
+					};
+				case 5:
+					return new IPattern[]
+					{
+						// I am, again, so sorry for this heavy nesting and usage of LambdaPatterns. 
+						new TandemPattern(
+							new SequencePattern(
+								new CircleLinearPattern(4.0f, 36.0d, 0.0d),
+								new SleepPattern(0.75d),
+								new CircleLinearPattern(4.0f, 36.0d, 18.0d),
+								new SleepPattern(0.75d),
+								new CircleLinearPattern(4.0f, 36.0d, 0.0d),
+								new SleepPattern(0.75d),
+								new CircleLinearPattern(4.0f, 36.0d, 18.0d),
+								new SleepPattern(0.75d),
+								new CircleLinearPattern(4.0f, 36.0d, 0.0d),
+								new SleepPattern(0.75d),
+								new CircleLinearPattern(4.0f, 36.0d, 18.0d),
+								new SleepPattern(0.75d)
+							),
+							new SequencePattern( // it looks horrible, but works
+								new SingleLaserPattern(new Vector2(10, 25)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 75)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 125)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 175)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 225)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 275)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 325)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 375)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 425)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 475)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 525)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 575)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 625)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 675)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 725)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 775)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 825)),
+								new SleepPattern(0.25),
+								new SingleLaserPattern(new Vector2(10, 875))
+							)
+						)
+					};
+				case 6:
+					return new IPattern[]
+					{
+						LinearMovementPattern.GenerateFromVector2(new Vector2(0, 200), SPEED),
+						new CircleLinearPattern(2.0f, 36.0d, 0.0d),
+						new TandemPattern(
+							new RadialMovementPattern(this.Position, new Vector2(0, 25), -180d, 0.4d),
+							new RadialMovementPattern(this.Position, new Vector2(0, 25), -180d, 0.4d)
+						),
+						new CircleLinearPattern(2.0f, 36.0d, 0.0d),
+						new SleepPattern(0.1d),
+						new CircleLinearPattern(2.0f, 36.0d, 18.0d),
+						new TandemPattern(
+							new RadialMovementPattern(this.Position, new Vector2(0, 25), 180d, 0.4d),
+							new RadialMovementPattern(this.Position, new Vector2(0, 25), 180d, 0.4d)
+						),
+						new CircleLinearPattern(2.0f, 36.0d, 0.0d),
+						new SleepPattern(0.1d),
+						new CircleLinearPattern(2.0f, 36.0d, 18.0d),
+						new BarragePattern(5.0f, 10, 67.5d, 45.0d), 
+
+					};
+				case 9:
+					return new IPattern[]
+					{
+						new TandemPattern(
+							new SweepingLaserPattern(new Vector2(250, 0), 0.0d, 80.0d, 1.5f, 1f),
+							new SweepingLaserPattern(new Vector2(250, 0), 0.0d, -80.0d, 1.5f, 1f),
+							new SequencePattern(
+								new SleepPattern(0.25f),
+								new BarragePattern(2.0f, 10, 45d, 90d)
+							)
+						), 
+					};
+				default:
+					return new IPattern[0];
 			}
-			
-			return new IPattern[0];
 		}
 
 		public override bool DoesCollide(Vector2 position)

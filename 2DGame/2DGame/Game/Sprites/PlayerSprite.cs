@@ -166,7 +166,7 @@ namespace Intro2DGame.Game.Sprites
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), Position - new Vector2(4), Color.White);
+			spriteBatch.Draw(ImageManager.GetTexture2D("dot"), Position - new Vector2(4), Color.Green);
 
 			//this.DirectionMarker.Draw(spriteBatch);
 		}
