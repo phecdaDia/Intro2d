@@ -61,8 +61,11 @@ namespace Intro2DGame.Game.Scenes
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
+			spriteBatch.Draw(Game.WhitePixel, this.Position, null, Color.WhiteSmoke, 0.0f, new Vector2(0.5f, 0.5f),
+				new Vector2(640, 64), SpriteEffects.None, 0.0f);
 			base.Draw(spriteBatch);
 			spriteBatch.DrawString(Game.FontArial, DialogText, Position - new Vector2(300, 25), Color.Black);
+
 		}
 	}
 }

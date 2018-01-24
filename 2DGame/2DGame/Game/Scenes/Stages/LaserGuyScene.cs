@@ -80,6 +80,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 		// This is the current state our enemy is in.
 
 		private int BulletState;
+		private int Repeats;
 
 
 		public LaserGuySprite(Vector2 position) : base("Enemies/LSprite-0001", position)
@@ -91,7 +92,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 			LayerDepth = 1;
 
 			Pattern = new Queue<IPattern>();
-			AddStates();
+			Pattern.EnqueueMany(AddStates());
 
 			SceneManager.GetCurrentScene().AddSprite(new HealthBarSprite(this, new Vector2(510, 50), 50, 800));
 			SceneManager.GetCurrentScene().AddSprite(new HealthBar2Sprite(HealthBarPosition.ScreenTop, this));
@@ -109,6 +110,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 				// just don't do anything this frame. This should never execute!
 				Console.WriteLine($"Queue is empty, Bulletstate {BulletState}");
 				BulletState = 0;
+				++Repeats;
 
 				Pattern.EnqueueMany(AddStates());
 			}
@@ -137,6 +139,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 				}
 				else
 				{
+
 					break;
 				}
 			}
@@ -145,7 +148,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 		private IPattern[] AddStates()
 		{
 
-			float SPEED = 450;
+			float SPEED = 450 + 50 * this.Repeats;
 
 			switch (BulletState)
 			{
@@ -156,11 +159,11 @@ namespace Intro2DGame.Game.Scenes.Stages
 					return new IPattern[]
 					{
 						new SleepPattern(0.25d),
-						new BarragePattern(5.0f, 9, 45.0d, 90.0d),
+						new BarragePattern(5.0f, 9 + 2 * Repeats, 45.0d, 90.0d),
 						LinearMovementPattern.GenerateFromVector2(new Vector2(100, 50), SPEED),
-						new CircleLinearPattern(2.0f, 36, 0.0d),
+						new CircleLinearPattern(2.0f, 36 / (Repeats + 1) , 0.0d),
 						LinearMovementPattern.GenerateFromVector2(new Vector2(-200, 0), SPEED),
-						new CircleLinearPattern(2.5f, 36, 0.0d),
+						new CircleLinearPattern(2.5f, 36 / (Repeats + 1), 0.0d),
 						LinearMovementPattern.GenerateFromVector2(new Vector2(100, -50), SPEED),
 						new SleepPattern(0.25d),
 					};
@@ -171,10 +174,10 @@ namespace Intro2DGame.Game.Scenes.Stages
 						new SleepPattern(0.5d),
 						new TandemPattern(
 							//new SingleLaserPattern(90.0d, 1.25f, 2.5f), 
-							new SweepingLaserPattern(this.Position, 112.5d, -45d, 1.5f, 0.75f),
+							new SweepingLaserPattern(this.Position, 112.5d, -45d, 1.5f - 0.1f * Repeats, 0.75f),
 							new SequencePattern(
-								new SleepPattern(1.0f),
-								new BarragePattern(5.0f, 32, 112.5d, 315d)
+								new SleepPattern(1.0f - 0.1f * Repeats),
+								new BarragePattern(5.0f, 16 + 2 * Repeats, 112.5d, 315d)
 							)
 						)
 					};
@@ -184,32 +187,32 @@ namespace Intro2DGame.Game.Scenes.Stages
 					{
 						new SleepPattern(0.5d),
 						new RadialMovementPattern(this.Position, new Vector2(0, -100), -90.0d, 0.4d),
-						new BarragePattern(2.0f, 10, 101.25d, -56.25d),
+						new BarragePattern(2.0f, 6 + 2 * Repeats, 101.25d, -56.25d),
 						new TandemPattern( // This creates an ellipse
 							new RadialMovementPattern(this.Position, new Vector2(-50, 0), 180.0d, 0.6d),
 							new RadialMovementPattern(this.Position, new Vector2(-50, 0), 180.0d, 0.6d)
 						),
-						new BarragePattern(2.0f, 10, 78.75d, 56.25d),
+						new BarragePattern(2.0f, 6 + 2 * Repeats, 78.75d, 56.25d),
 						new RadialMovementPattern(this.Position, new Vector2(0, 100), 90.0d, 0.4d),
 
 					};
 				case 5:
 					return new IPattern[]
 					{
-						// I am, again, so sorry for this heavy nesting and usage of LambdaPatterns. 
+						// I am, again, so sorry for this heavy nesting.
 						new TandemPattern(
 							new SequencePattern(
-								new CircleLinearPattern(4.0f, 36.0d, 0.0d),
+								new CircleLinearPattern(4.0f, 36.0d / (Repeats + 1) , 0.0d),
 								new SleepPattern(0.75d),
-								new CircleLinearPattern(4.0f, 36.0d, 18.0d),
+								new CircleLinearPattern(4.0f, 36.0d / (Repeats + 1), 18.0d),
 								new SleepPattern(0.75d),
-								new CircleLinearPattern(4.0f, 36.0d, 0.0d),
+								new CircleLinearPattern(4.0f, 36.0d / (Repeats + 1), 0.0d),
 								new SleepPattern(0.75d),
-								new CircleLinearPattern(4.0f, 36.0d, 18.0d),
+								new CircleLinearPattern(4.0f, 36.0d / (Repeats + 1), 18.0d),
 								new SleepPattern(0.75d),
-								new CircleLinearPattern(4.0f, 36.0d, 0.0d),
+								new CircleLinearPattern(4.0f, 36.0d / (Repeats + 1), 0.0d),
 								new SleepPattern(0.75d),
-								new CircleLinearPattern(4.0f, 36.0d, 18.0d),
+								new CircleLinearPattern(4.0f, 36.0d / (Repeats + 1), 18.0d),
 								new SleepPattern(0.75d)
 							),
 							new SequencePattern( // it looks horrible, but works
@@ -300,7 +303,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 				case 11: // damages himself
 					return new IPattern[]
 					{
-						new SleepPattern(3f),
+						new SleepPattern(2.75f),
 						new LambdaPattern((host, time) =>
 						{
 
@@ -322,7 +325,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 								}
 							}
 						}),
-						new SleepPattern(1f),
+						new SleepPattern(1.25f),
 					};
 				default:
 					return new IPattern[0];
