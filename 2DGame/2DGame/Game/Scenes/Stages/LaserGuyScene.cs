@@ -280,8 +280,8 @@ namespace Intro2DGame.Game.Scenes.Stages
 					return new IPattern[]
 					{
 						new TandemPattern(
-							new SweepingLaserPattern(new Vector2(250, 0), 0.0d, 80.0d, 1.5f, 1f),
-							new SweepingLaserPattern(new Vector2(250, 0), 0.0d, -80.0d, 1.5f, 1f),
+							new SweepingLaserPattern(new Vector2(250, 0), 0.0d, 80.0d, 1.5f - 0.1f * this.Repeats, 1f),
+							new SweepingLaserPattern(new Vector2(250, 0), 0.0d, -80.0d, 1.5f - 0.1f * this.Repeats, 1f),
 							new SequencePattern(
 								new SleepPattern(0.25f),
 								new BarragePattern(2.0f, 10, 45d, 90d)
@@ -291,19 +291,19 @@ namespace Intro2DGame.Game.Scenes.Stages
 				case 10:
 					return new IPattern[]
 					{
-						new BarragePattern(2.0f, 10, 45d, 90d),
-						new BarragePattern(3.0f, 10, 45d, 90d),
-						new BarragePattern(4.0f, 10, 45d, 90d),
+						new BarragePattern(2.0f + 0.1f * this.Repeats, 10 + 2 * this.Repeats, 45d, 90d),
+						new BarragePattern(3.0f + 0.2f * this.Repeats, 10 + 3 * this.Repeats, 45d, 90d),
+						new BarragePattern(4.0f + 0.3f * this.Repeats, 10 + 2 * this.Repeats, 45d, 90d),
 						LinearMovementPattern.GenerateFromVector2(new Vector2(0, 100), SPEED),
-						new BarragePattern(2.0f, 10, 45d, 90d),
-						new BarragePattern(3.0f, 10, 45d, 90d),
-						new BarragePattern(4.0f, 10, 45d, 90d),
+						new BarragePattern(2.0f + 0.1f * this.Repeats, 10 + 2 * this.Repeats, 45d, 90d),
+						new BarragePattern(3.0f + 0.2f * this.Repeats, 10 + 3 * this.Repeats, 45d, 90d),
+						new BarragePattern(4.0f + 0.3f * this.Repeats, 10 + 2 * this.Repeats, 45d, 90d),
 						LinearMovementPattern.GenerateFromVector2(new Vector2(0, -100), SPEED),
 					};
 				case 11: // damages himself
 					return new IPattern[]
 					{
-						new SleepPattern(2.75f),
+						new SleepPattern(2.5f),
 						new LambdaPattern((host, time) =>
 						{
 
