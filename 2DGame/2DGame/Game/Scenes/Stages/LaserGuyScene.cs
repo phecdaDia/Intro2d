@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -34,9 +35,9 @@ namespace Intro2DGame.Game.Scenes.Stages
 		{
 			base.Update(gameTime);
 
-			var lg = SceneManager.GetSprites<LaserGuySprite>().First();
+			var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
 
-			if (lg.Health == 0 && !ShownDialog)
+			if ((lg?.Health ?? 0) == 0 && !ShownDialog)
 			{
 				SceneManager.AddScene(new DialogScene("*** PLACEHOLDER TEXT *** YOU ARE WINNER"));
 				ShownDialog = true;
@@ -54,15 +55,19 @@ namespace Intro2DGame.Game.Scenes.Stages
 		{
 
 			var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
-			var anchor = new Vector2(250, 150);
+			if (lg != null)
+			{
+				var anchor = new Vector2(250, 150);
 
-			var temp = 0.5f * (lg.Position - anchor);
-			var rotation = temp.ToAngle();
-			rotation += MathHelper.PiOver2 + MathHelper.Pi;
-			var scale = new Vector2(5, (lg.Position - anchor).Length());
+				var temp = 0.5f * (lg.Position - anchor);
+				var rotation = temp.ToAngle();
+				rotation += MathHelper.PiOver2 + MathHelper.Pi;
+				var scale = new Vector2(5, (lg.Position - anchor).Length());
+				spriteBatch.Draw(Game.WhitePixel, anchor, null, Color.DarkRed, (float)rotation, new Vector2(0.5f, 0), scale, SpriteEffects.None, 0.0f);
+			}
+
 
 			// REMOVE THIS ON RELEASE
-			spriteBatch.Draw(Game.WhitePixel, anchor, null, Color.DarkRed, (float) rotation, new Vector2(0.5f, 0), scale, SpriteEffects.None, 0.0f);
 
 			//FontManager.DrawString(spriteBatch, "example", new Vector2(510, 10), $"Gegner:{lg?.Health ?? 0}");
 			base.Draw(spriteBatch);
@@ -140,7 +145,7 @@ namespace Intro2DGame.Game.Scenes.Stages
 		private IPattern[] AddStates()
 		{
 
-			const float SPEED = 500;
+			float SPEED = 450;
 
 			switch (BulletState)
 			{
@@ -279,6 +284,45 @@ namespace Intro2DGame.Game.Scenes.Stages
 								new BarragePattern(2.0f, 10, 45d, 90d)
 							)
 						), 
+					};
+				case 10:
+					return new IPattern[]
+					{
+						new BarragePattern(2.0f, 10, 45d, 90d),
+						new BarragePattern(3.0f, 10, 45d, 90d),
+						new BarragePattern(4.0f, 10, 45d, 90d),
+						LinearMovementPattern.GenerateFromVector2(new Vector2(0, 100), SPEED),
+						new BarragePattern(2.0f, 10, 45d, 90d),
+						new BarragePattern(3.0f, 10, 45d, 90d),
+						new BarragePattern(4.0f, 10, 45d, 90d),
+						LinearMovementPattern.GenerateFromVector2(new Vector2(0, -100), SPEED),
+					};
+				case 11: // damages himself
+					return new IPattern[]
+					{
+						new SleepPattern(3f),
+						new LambdaPattern((host, time) =>
+						{
+
+							var lg = SceneManager.GetSprites<LaserGuySprite>().FirstOrDefault();
+							if (lg == null) return;
+
+							foreach (var spriteDictionaryKeys in SceneManager.GetAllSprites().Keys)
+							{
+								foreach (AbstractSprite sprite in SceneManager.GetAllSprites()[spriteDictionaryKeys])
+								{
+									if (!sprite.GetType().IsSubclassOf(typeof(AbstractOrb)))
+									{
+										break;
+									}
+
+									SceneManager.GetCurrentScene().BufferedAddSprite(new PlayerOrb(sprite.Position, lg.Position - sprite.Position));
+									sprite.Delete();
+
+								}
+							}
+						}),
+						new SleepPattern(1f),
 					};
 				default:
 					return new IPattern[0];

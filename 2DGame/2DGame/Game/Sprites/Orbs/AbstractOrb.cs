@@ -22,7 +22,7 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			// default values
 			Direction = direction;
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
-			Rotation = (float) Math.Atan2(direction.Y, direction.X);
+			Rotation = (float)Math.Atan2(direction.Y, direction.X);
 		}
 
 		protected AbstractOrb(string textureKey, Vector2 position, Vector2 direction, float delay, Point size) : base(
@@ -42,6 +42,8 @@ namespace Intro2DGame.Game.Sprites.Orbs
 			if (Direction.LengthSquared() > 0) Direction.Normalize();
 			Rotation = (float) Math.Atan2(direction.Y, direction.X);
 		}
+
+		protected AbstractOrb(string textureKey, Vector2 position) : base(textureKey, position) { }
 
 		protected override void AddFrames()
 		{

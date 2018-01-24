@@ -90,6 +90,7 @@
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\ImageManager.cs" />
     <Compile Include="Game\KeyboardManager.cs" />
+    <Compile Include="Game\Pattern\DamagePattern.cs" />
     <Compile Include="Game\Pattern\IPattern.cs" />
     <Compile Include="Game\Pattern\FuncPattern.cs" />
     <Compile Include="Game\Pattern\LambdaPattern.cs" />
